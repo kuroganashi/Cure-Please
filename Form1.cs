@@ -3046,44 +3046,40 @@
 
 			// LOAD AUTOMATIC SETTINGS
 			string path = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "Settings");
-			if (System.IO.File.Exists(path + "/loadSettings"))
+			if (true || System.IO.File.Exists(path + "/loadSettings"))
 			{
 				if (_ELITEAPIPL.Player.MainJob != 0)
 				{
 					if (_ELITEAPIPL.Player.SubJob != 0)
 					{
-						JobTitles mainJob = JobNames.Where(c => c.job_number == _ELITEAPIPL.Player.MainJob).FirstOrDefault();
-						JobTitles subJob = JobNames.Where(c => c.job_number == _ELITEAPIPL.Player.SubJob).FirstOrDefault();
+						var mainJob = JobNames.Single(c => c.job_number == _ELITEAPIPL.Player.MainJob);
+						var subJob = JobNames.Single(c => c.job_number == _ELITEAPIPL.Player.SubJob);
 
-						string filename = path + "\\" + _ELITEAPIPL.Player.Name + "_" + mainJob.job_name + "_" + subJob.job_name + ".xml";
-						string filename2 = path + "\\" + mainJob.job_name + "_" + subJob.job_name + ".xml";
+						var player = _ELITEAPIPL.Player.Name;
+						var main = mainJob.job_name;
+						var sub = subJob.job_name;
 
+						var f1 = Path.Combine(path, $"{player}_{main}_{sub}.xml");
+						var f2 = Path.Combine(path, $"{player}_{main}.xml");
+						var f3 = Path.Combine(path, $"{main}_{sub}.xml");
+						var f4 = Path.Combine(path, $"{main}.xml");
+						var target = "default.xml";
 
-						if (System.IO.File.Exists(filename))
+						if (File.Exists(f1)) target = f1;
+						else if (File.Exists(f2)) target = f2;
+						else if (File.Exists(f3)) target = f3;
+						else if (File.Exists(f4)) target = f4;
+
+						if (File.Exists(target))
 						{
 							Form2.MySettings config = new Form2.MySettings();
-
 							XmlSerializer mySerializer = new XmlSerializer(typeof(Form2.MySettings));
 
-							StreamReader reader = new StreamReader(filename);
-							config = (Form2.MySettings)mySerializer.Deserialize(reader);
+							using (var reader = new StreamReader(target))
+							{
+								config = (Form2.MySettings)mySerializer.Deserialize(reader);
+							}
 
-							reader.Close();
-							reader.Dispose();
-							Form2.updateForm(config);
-							Form2.button4_Click(sender, e);
-						}
-						else if (System.IO.File.Exists(filename2))
-						{
-							Form2.MySettings config = new Form2.MySettings();
-
-							XmlSerializer mySerializer = new XmlSerializer(typeof(Form2.MySettings));
-
-							StreamReader reader = new StreamReader(filename2);
-							config = (Form2.MySettings)mySerializer.Deserialize(reader);
-
-							reader.Close();
-							reader.Dispose();
 							Form2.updateForm(config);
 							Form2.button4_Click(sender, e);
 						}
