@@ -5097,10 +5097,19 @@
 
 		private bool castingPossible(byte partyMemberId)
 		{
-			if ((_ELITEAPIPL.Entity.GetEntity((int)_ELITEAPIMonitored.Party.GetPartyMembers()[partyMemberId].TargetIndex).Distance < 21) && (_ELITEAPIPL.Entity.GetEntity((int)_ELITEAPIMonitored.Party.GetPartyMembers()[partyMemberId].TargetIndex).Distance > 0) && (_ELITEAPIMonitored.Party.GetPartyMembers()[partyMemberId].CurrentHP > 0) || (_ELITEAPIPL.Party.GetPartyMember(0).ID == _ELITEAPIMonitored.Party.GetPartyMembers()[partyMemberId].ID) && (_ELITEAPIMonitored.Party.GetPartyMembers()[partyMemberId].CurrentHP > 0))
+			var member = _ELITEAPIMonitored.Party.GetPartyMembers()[partyMemberId];
+			var entity = _ELITEAPIPL.Entity.GetEntity((int)member.TargetIndex);
+
+			if (_ELITEAPIPL.Party.GetPartyMember(0).ID == member.ID)
 			{
 				return true;
 			}
+			
+			if (entity.Distance >= 0 && entity.Distance < 21 && member.CurrentHP > 0)
+			{
+				return true;
+			}
+
 			return false;
 		}
 
