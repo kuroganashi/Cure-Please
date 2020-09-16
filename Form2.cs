@@ -2303,7 +2303,7 @@
                 config.enableOutOfPartyHealing = true;
                 config.OvercureOnHighPriority = false;
 
-                config.EnableAddOn = false;
+                config.EnableAddOn = true;
 
                 config.sublimationMP = 100;
 
@@ -2324,7 +2324,7 @@
                 config.listeningPort = "19769";
 
                 config.enableFastCast_Mode = false;
-                config.trackCastingPackets = false;
+                config.trackCastingPackets = true;
 
                 // OTHERS
 
