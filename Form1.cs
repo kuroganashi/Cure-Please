@@ -9463,17 +9463,20 @@
 							}
 							else if (commands[2] == "finished")
 							{
-
 								Invoke((MethodInvoker)(async () =>
-					{
-						ProtectCasting.CancelAsync();
-						castingLockLabel.Text = "PACKET: Casting is soon to be AVAILABLE!";
-						await Task.Delay(TimeSpan.FromSeconds(3));
-						castingLockLabel.Text = "Casting is UNLOCKED";
-						currentAction.Text = string.Empty;
-						castingSpell = string.Empty;
-						CastingBackground_Check = false;
-					}));
+								{
+									ProtectCasting.CancelAsync();
+									castingLockLabel.Text = "PACKET: Casting is soon to be AVAILABLE!";
+								}));
+
+								Thread.Sleep(500);
+								Invoke((MethodInvoker)(async () =>
+								{
+									castingLockLabel.Text = "Casting is UNLOCKED";
+									currentAction.Text = string.Empty;
+									castingSpell = string.Empty;
+									CastingBackground_Check = false;
+								}));
 							}
 						}
 						else if (commands[1] == "confirmed")
