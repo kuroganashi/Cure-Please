@@ -3112,8 +3112,12 @@
 
 		private void LoadAddonAshita()
 		{
+			_ELITEAPIPL.ThirdParty.SendString("/addon unload CurePlease_addon");
+			Thread.Sleep(300);
+
 			_ELITEAPIPL.ThirdParty.SendString("/addon load CurePlease_addon");
 			Thread.Sleep(1500);
+			
 			_ELITEAPIPL.ThirdParty.SendString("/cpaddon settings " + endpoint.Address + " " + endpoint.Port);
 			Thread.Sleep(100);
 
@@ -3128,10 +3132,15 @@
 
 		private void LoadAddonWindower()
 		{
+			_ELITEAPIPL.ThirdParty.SendString("//lua unload CurePlease_addon");
+			Thread.Sleep(300);
+
 			_ELITEAPIPL.ThirdParty.SendString("//lua load CurePlease_addon");
 			Thread.Sleep(1500);
+			
 			_ELITEAPIPL.ThirdParty.SendString("//cpaddon settings " + endpoint.Address + " " + endpoint.Port);
 			Thread.Sleep(100);
+			
 			_ELITEAPIPL.ThirdParty.SendString("//cpaddon verify");
 			if (Form2.config.enableHotKeys)
 			{
