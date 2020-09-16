@@ -3421,15 +3421,15 @@
 
 		private bool partyMemberUpdateMethod(byte partyMemberId)
 		{
-			if (_ELITEAPIMonitored.Party.GetPartyMembers()[partyMemberId].Active >= 1)
-			{
-				if (_ELITEAPIPL.Player.ZoneId == _ELITEAPIMonitored.Party.GetPartyMembers()[partyMemberId].Zone)
-				{
-					return true;
-				}
+			var member = _ELITEAPIMonitored.Party.GetPartyMembers()[partyMemberId];
+			var inSameZone = _ELITEAPIPL.Player.ZoneId == member.Zone;
 
-				return false;
+			if (member.Active >= 1 && inSameZone)
+			{
+				var entity = _ELITEAPIPL.Entity.GetEntity((int)member.TargetIndex);
+				return entity.Distance >= 0 && entity.Distance < 21;
 			}
+
 			return false;
 		}
 
