@@ -6460,8 +6460,9 @@
 							string SpellCheckedResult = ReturnGeoSpell(Form2.config.EntrustedSpell_Spell, 1);
 							if (SpellCheckedResult == "SpellError_Cancel")
 							{
-								Form2.config.EnableGeoSpells = false;
-								MessageBox.Show("An error has occurred with Entrusted INDI spell casting, please report what spell was active at the time.");
+								//Form2.config.EnableGeoSpells = false;
+								//MessageBox.Show("An error has occurred with Entrusted INDI spell casting, please report what spell was active at the time.");
+								currentAction.Text = $"Error casting {Form2.config.EntrustedSpell_Spell} on {Form2.config.EntrustedSpell_Target}";
 							}
 							else if (SpellCheckedResult == "SpellRecast" || SpellCheckedResult == "SpellUnknown")
 							{
@@ -6486,8 +6487,9 @@
 
 							if (SpellCheckedResult == "SpellError_Cancel")
 							{
-								Form2.config.EnableGeoSpells = false;
-								MessageBox.Show("An error has occurred with INDI spell casting, please report what spell was active at the time.");
+								//Form2.config.EnableGeoSpells = false;
+								//MessageBox.Show("An error has occurred with INDI spell casting, please report what spell was active at the time.");
+								currentAction.Text = $"Error casting {Form2.config.IndiSpell_Spell}";
 							}
 							else if (SpellCheckedResult == "SpellRecast" || SpellCheckedResult == "SpellUnknown")
 							{
@@ -6513,8 +6515,9 @@
 
 							if (SpellCheckedResult == "SpellError_Cancel")
 							{
-								Form2.config.EnableGeoSpells = false;
-								MessageBox.Show("An error has occurred with GEO spell casting, please report what spell was active at the time.");
+								//Form2.config.EnableGeoSpells = false;
+								//MessageBox.Show("An error has occurred with GEO spell casting, please report what spell was active at the time.");
+								currentAction.Text = $"Error casting {Form2.config.GeoSpell_Spell}";
 							}
 							else if (SpellCheckedResult == "SpellRecast" || SpellCheckedResult == "SpellUnknown")
 							{
