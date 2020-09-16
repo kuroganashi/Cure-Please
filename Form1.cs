@@ -1543,11 +1543,6 @@
 
             currentAction.Text = string.Empty;
 
-            if (System.IO.File.Exists("debug"))
-            {
-                debug.Visible = true;
-            }
-
             JobNames.Add(new JobTitles
             {
                 job_number = 1,
