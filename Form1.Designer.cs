@@ -2382,10 +2382,6 @@ namespace CurePlease
 			this.ProtectCasting.WorkerSupportsCancellation = true;
 			this.ProtectCasting.DoWork += new System.ComponentModel.DoWorkEventHandler(this.ProtectCasting_DoWork);
 			// 
-			// JobAbility_Delay
-			// 
-			this.JobAbility_Delay.DoWork += new System.ComponentModel.DoWorkEventHandler(this.JobAbility_Delay_DoWork);
-			// 
 			// EclipticTimer
 			// 
 			this.EclipticTimer.Interval = 1000;

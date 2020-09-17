@@ -278,6 +278,7 @@
 
 		public int firstTime_Pause = 0;
 
+		private SemaphoreSlim casting = new SemaphoreSlim(1, 1);
 
 		public int GetAbilityRecast(string checked_abilityName)
 		{
@@ -5168,41 +5169,28 @@
 			}
 		}
 
-
+		private string spellCommand = "";
 		private void CastSpell(string partyMemberName, string spellName, [Optional] string OptionalExtras)
 		{
-			if (CastingBackground_Check != true)
+			var castingSpell = _ELITEAPIPL.Resources.GetSpell(spellName.Trim(), 0)?.Name[0];
+
+			if (string.IsNullOrWhiteSpace(castingSpell))
 			{
-
-				EliteAPI.ISpell magic = _ELITEAPIPL.Resources.GetSpell(spellName.Trim(), 0);
-
-				castingSpell = magic.Name[0];
-
-				_ELITEAPIPL.ThirdParty.SendString("/ma \"" + castingSpell + "\" " + partyMemberName);
-
-				if (OptionalExtras != null)
-				{
-					currentAction.Text = "Casting: " + castingSpell + " [" + OptionalExtras + "]";
-				}
-				else
-				{
-					currentAction.Text = "Casting: " + castingSpell;
-				}
-
-				CastingBackground_Check = true;
-
-				if (Form2.config.trackCastingPackets == true && Form2.config.EnableAddOn == true)
-				{
-					if (!ProtectCasting.IsBusy) { ProtectCasting.RunWorkerAsync(); }
-				}
-				else
-				{
-					castingLockLabel.Text = "Casting is LOCKED";
-					if (!ProtectCasting.IsBusy) { ProtectCasting.RunWorkerAsync(); }
-				}
-
+				currentAction.Text = $"Spell {spellName} not found.";
+				return;
 			}
 
+			if (!CastingBackground_Check && !JobAbilityLock_Check && !ProtectCasting.IsBusy)
+			{
+				spellCommand = string.Format(
+					"/ma \"{0}\" {1}", castingSpell, partyMemberName);
+
+				currentAction.Text = (OptionalExtras != null)
+					? "Casting: " + castingSpell + " [" + OptionalExtras + "]"
+					: "Casting: " + castingSpell;
+
+				ProtectCasting.RunWorkerAsync();
+			}
 		}
 
 		private void hastePlayer(byte partyMemberId)
@@ -7634,39 +7622,63 @@
 
 		private void Item_Wait(string ItemName)
 		{
-			if (CastingBackground_Check != true && JobAbilityLock_Check != true)
+			if (casting.Wait(1500))
 			{
-				Invoke((MethodInvoker)(async () =>
+				try
 				{
 					JobAbilityLock_Check = true;
-					castingLockLabel.Text = "Casting is LOCKED for ITEM Use.";
-					currentAction.Text = "Using an Item: " + ItemName;
+					Invoke((MethodInvoker)(() =>
+					{
+						castingLockLabel.Text = "Casting is LOCKED for ITEM Use.";
+						currentAction.Text = "Using an Item: " + ItemName;
+					}));
+
 					_ELITEAPIPL.ThirdParty.SendString("/item \"" + ItemName + "\" <me>");
-					await Task.Delay(TimeSpan.FromSeconds(5));
-					castingLockLabel.Text = "Casting is UNLOCKED";
-					currentAction.Text = string.Empty;
-					castingSpell = string.Empty;
+					Thread.Sleep(5000);
+
 					JobAbilityLock_Check = false;
-				}));
+					Invoke((MethodInvoker)(() =>
+					{
+						castingLockLabel.Text = "Casting is UNLOCKED";
+						currentAction.Text = string.Empty;
+					}));
+				}
+				finally
+				{
+					casting.Release();
+				}
 			}
 		}
 
 		private void JobAbility_Wait(string JobabilityDATA, string JobAbilityName)
 		{
-			if (CastingBackground_Check != true && JobAbilityLock_Check != true)
+			if (casting.Wait(1500))
 			{
-				Invoke((MethodInvoker)(async () =>
-	{
-		JobAbilityLock_Check = true;
-		castingLockLabel.Text = "Casting is LOCKED for a JA.";
-		currentAction.Text = "Using a Job Ability: " + JobabilityDATA;
-		_ELITEAPIPL.ThirdParty.SendString("/ja \"" + JobAbilityName + "\" <me>");
-		await Task.Delay(TimeSpan.FromSeconds(2));
-		castingLockLabel.Text = "Casting is UNLOCKED";
-		currentAction.Text = string.Empty;
-		castingSpell = string.Empty;
-		JobAbilityLock_Check = false;
-	}));
+				try
+				{
+					JobAbilityLock_Check = true;
+					Invoke((MethodInvoker)(() =>
+					{
+						castingLockLabel.Text = "Casting is LOCKED for a JA.";
+						currentAction.Text = "Using a Job Ability: " + JobabilityDATA;
+					}));
+
+					_ELITEAPIPL.ThirdParty.SendString("/ja \"" + JobAbilityName + "\" <me>");
+					Thread.Sleep(2000);
+
+					castingSpell = string.Empty;
+					JobAbilityLock_Check = false;
+					Invoke((MethodInvoker)(() =>
+					{
+						castingLockLabel.Text = "Casting is UNLOCKED";
+						currentAction.Text = string.Empty;
+					}));
+				}
+				finally
+				{
+					casting.Release();
+				}
+
 			}
 		}
 
@@ -9437,18 +9449,14 @@
 						received_data = Encoding.ASCII.GetString(receive_byte_array, 0, receive_byte_array.Length);
 						string[] commands = received_data.Split('_');
 
-						Debug.WriteLine($"received addon data: {received_data}");
 						if (commands[1] == "casting" && commands.Count() == 3 && Form2.config.trackCastingPackets == true)
 						{
 							if (commands[2] == "blocked")
 							{
 								Invoke((MethodInvoker)(() =>
-					{
-						CastingBackground_Check = true;
-						castingLockLabel.Text = "PACKET: Casting is LOCKED";
-					}));
-
-								if (!ProtectCasting.IsBusy) { ProtectCasting.RunWorkerAsync(); }
+								{
+									castingLockLabel.Text = "PACKET: Casting is LOCKED";
+								}));
 							}
 							else if (commands[2] == "interrupted")
 							{
@@ -9473,10 +9481,6 @@
 						}
 						else if (commands[1] == "command")
 						{
-
-
-
-							// MessageBox.Show(commands[2]);
 							if (commands[2] == "start" || commands[2] == "unpause")
 							{
 								Invoke((MethodInvoker)(() =>
@@ -9516,22 +9520,26 @@
 						}
 						else if (commands[1] == "buffs" && commands.Count() == 4)
 						{
-							lock (ActiveBuffs)
+							if (casting.Wait(5000))
 							{
-
-								ActiveBuffs.RemoveAll(buf => buf.CharacterName == commands[2]);
-
-								ActiveBuffs.Add(new BuffStorage
+								try
 								{
-									CharacterName = commands[2],
-									CharacterBuffs = commands[3]
-								});
+									ActiveBuffs.RemoveAll(buf => buf.CharacterName == commands[2]);
+									ActiveBuffs.Add(new BuffStorage
+									{
+										CharacterName = commands[2],
+										CharacterBuffs = commands[3]
+									});
+								}
+								finally
+								{
+									casting.Release();
+								}
 							}
-
 						}
 					}
 				}
-				catch (Exception error1)
+				catch (Exception)
 				{
 					//  Console.WriteLine(error1.ToString());
 				}
@@ -9628,82 +9636,53 @@
 			}
 		}
 
-		private void CastingCheck_BackgroundTask_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
-		{
-			if (_ELITEAPIMonitored != null && _ELITEAPIPL != null)
-			{
-				if (_ELITEAPIPL.Player.LoginStatus == (int)LoginStatus.Loading || _ELITEAPIMonitored.Player.LoginStatus == (int)LoginStatus.Loading)
-				{
-					Thread.Sleep(TimeSpan.FromSeconds(2));
-				}
-				Thread.Sleep(TimeSpan.FromSeconds(0.5));
-				var count = 0;
-				float lastPercent = 0;
-				var castPercent = _ELITEAPIPL.CastBar.Percent;
-				while (castPercent < 1 && CastingBackground_Check == true)
-				{
-
-
-					Thread.Sleep(TimeSpan.FromSeconds(0.1));
-					castPercent = _ELITEAPIPL.CastBar.Percent;
-					if (lastPercent != castPercent)
-					{
-						count = 0;
-						lastPercent = castPercent;
-					}
-					else if (count == 10)
-					{
-						break;
-					}
-					else
-					{
-						count++;
-						lastPercent = castPercent;
-					}
-				}
-				Thread.Sleep(TimeSpan.FromSeconds(2));
-				CastingBackground_Check = false;
-			}
-			else { return; }
-
-			Thread.Sleep(TimeSpan.FromMilliseconds(500));
-		}
-
 		private void ProtectCasting_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
 		{
-			int attempts = 0;
-			float percent = 0;
-
-			do
+			if (casting.Wait(1500))
 			{
-				attempts++;
-				Thread.Sleep(250);
-				percent = _ELITEAPIPL.CastBar.Percent;
-				if (percent > 0.5 && ProtectCasting.CancellationPending)
+				CastingBackground_Check = true;
+
+				try
 				{
-					break;
+					int attempts = 0;
+					float percent = 0;
+					float count = 0;
+
+					_ELITEAPIPL.ThirdParty.SendString(spellCommand);
+					Debug.WriteLine($"Casting: {spellCommand}");
+					Thread.Sleep(1500);
+
+					Invoke(new Action(() =>
+					{
+						castingLockLabel.Text = "Casting is LOCKED";
+					}));
+
+					do
+					{
+						Thread.Sleep(100);
+
+						attempts++;
+						count = _ELITEAPIPL.CastBar.Count;
+						percent = _ELITEAPIPL.CastBar.Percent;
+						Debug.WriteLine($"casting percent: {percent}; attempt {attempts}; count {count}");
+						if (ProtectCasting.CancellationPending) e.Cancel = true;
+					} while (percent < 1 && attempts < 120 && !e.Cancel);
+					if (e.Cancel) Thread.Sleep(2000);
 				}
-			} while (percent < 1 && attempts < 20);
+				finally
+				{
+					spellCommand = "";
+					casting.Release();
+					CastingBackground_Check = false;
+					Debug.WriteLine("Completed casting...");
 
-			castingLockLabel.Invoke(new Action(() => { castingLockLabel.Text = "Casting is UNLOCKED"; }));
-			CastingBackground_Check = false;
-			castingSpell = string.Empty;
-		}
-
-		private void JobAbility_Delay_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
-		{
-			Invoke((MethodInvoker)(() =>
-{
-	JobAbilityLock_Check = true;
-	castingLockLabel.Text = "Casting is LOCKED for a JA.";
-	currentAction.Text = "Using a Job Ability: " + JobAbilityCMD;
-	Thread.Sleep(TimeSpan.FromSeconds(2));
-	castingLockLabel.Text = "Casting is UNLOCKED";
-	currentAction.Text = string.Empty;
-	castingSpell = string.Empty;
-	// JobAbilityLock_Check = false;
-	JobAbilityCMD = String.Empty;
-}));
+					Invoke(new Action(() =>
+					{
+						castingLockLabel.Text = "Casting is UNLOCKED";
+						currentAction.Text = "";
+					}));
+				}
+			}
 		}
 
 		private void CustomCommand_Tracker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
