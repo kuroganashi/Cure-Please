@@ -3117,7 +3117,7 @@
 
 			_ELITEAPIPL.ThirdParty.SendString("/addon load CurePlease_addon");
 			Thread.Sleep(1500);
-			
+
 			_ELITEAPIPL.ThirdParty.SendString("/cpaddon settings " + endpoint.Address + " " + endpoint.Port);
 			Thread.Sleep(100);
 
@@ -3137,10 +3137,10 @@
 
 			_ELITEAPIPL.ThirdParty.SendString("//lua load CurePlease_addon");
 			Thread.Sleep(1500);
-			
+
 			_ELITEAPIPL.ThirdParty.SendString("//cpaddon settings " + endpoint.Address + " " + endpoint.Port);
 			Thread.Sleep(100);
-			
+
 			_ELITEAPIPL.ThirdParty.SendString("//cpaddon verify");
 			if (Form2.config.enableHotKeys)
 			{
@@ -5113,7 +5113,7 @@
 			{
 				return true;
 			}
-			
+
 			if (entity.Distance >= 0 && entity.Distance < 21 && member.CurrentHP > 0)
 			{
 				return true;
@@ -9452,30 +9452,18 @@
 							}
 							else if (commands[2] == "interrupted")
 							{
-								Invoke((MethodInvoker)(async () =>
-					{
-						ProtectCasting.CancelAsync();
-						castingLockLabel.Text = "PACKET: Casting is INTERRUPTED";
-						await Task.Delay(TimeSpan.FromSeconds(3));
-						castingLockLabel.Text = "Casting is UNLOCKED";
-						CastingBackground_Check = false;
-					}));
+								Invoke((MethodInvoker)(() =>
+								{
+									castingLockLabel.Text = "PACKET: Casting is INTERRUPTED";
+									ProtectCasting.CancelAsync();
+								}));
 							}
 							else if (commands[2] == "finished")
 							{
-								Invoke((MethodInvoker)(async () =>
+								Invoke((MethodInvoker)(() =>
 								{
-									ProtectCasting.CancelAsync();
 									castingLockLabel.Text = "PACKET: Casting is soon to be AVAILABLE!";
-								}));
-
-								Thread.Sleep(500);
-								Invoke((MethodInvoker)(async () =>
-								{
-									castingLockLabel.Text = "Casting is UNLOCKED";
-									currentAction.Text = string.Empty;
-									castingSpell = string.Empty;
-									CastingBackground_Check = false;
+									ProtectCasting.CancelAsync();
 								}));
 							}
 						}
@@ -9683,39 +9671,23 @@
 
 		private void ProtectCasting_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
 		{
-			Thread.Sleep(TimeSpan.FromSeconds(1.0));
-			int count = 0;
-			float lastPercent = 0;
-			float castPercent = _ELITEAPIPL.CastBar.Percent;
-			while (castPercent < 1)
-			{
-				Thread.Sleep(TimeSpan.FromSeconds(0.1));
-				castPercent = _ELITEAPIPL.CastBar.Percent;
-				if (lastPercent != castPercent)
-				{
-					count = 0;
-					lastPercent = castPercent;
-				}
-				else if (count == 10)
-				{
+			int attempts = 0;
+			float percent = 0;
 
+			do
+			{
+				attempts++;
+				Thread.Sleep(250);
+				percent = _ELITEAPIPL.CastBar.Percent;
+				if (percent > 0.5 && ProtectCasting.CancellationPending)
+				{
 					break;
 				}
-				else
-				{
-					count++;
-					lastPercent = castPercent;
-				}
-			}
-
-			Thread.Sleep(TimeSpan.FromSeconds(2.0));
-
-			castingSpell = string.Empty;
+			} while (percent < 1 && attempts < 20);
 
 			castingLockLabel.Invoke(new Action(() => { castingLockLabel.Text = "Casting is UNLOCKED"; }));
-			castingSpell = string.Empty;
-
 			CastingBackground_Check = false;
+			castingSpell = string.Empty;
 		}
 
 		private void JobAbility_Delay_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
