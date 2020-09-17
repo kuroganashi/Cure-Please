@@ -5215,19 +5215,17 @@
 
 			if (string.IsNullOrWhiteSpace(castingSpell))
 			{
-				currentAction.Text = $"Spell {spellName} not found.";
+				Invoke((MethodInvoker)(() =>
+				{
+					currentAction.Text = $"Spell {spellName} not found.";
+				}));
+
 				return;
 			}
 
 			if (!CastingBackground_Check && !JobAbilityLock_Check && !ProtectCasting.IsBusy)
 			{
-				spellCommand = string.Format(
-					"/ma \"{0}\" {1}", castingSpell, partyMemberName);
-
-				currentAction.Text = (OptionalExtras != null)
-					? "Casting: " + castingSpell + " [" + OptionalExtras + "]"
-					: "Casting: " + castingSpell;
-
+				spellCommand = string.Format("/ma \"{0}\" {1}", castingSpell, partyMemberName);				
 				ProtectCasting.RunWorkerAsync();
 			}
 		}
@@ -9687,14 +9685,15 @@
 					float percent = 0;
 					float count = 0;
 
-					_ELITEAPIPL.ThirdParty.SendString(spellCommand);
-					Debug.WriteLine($"Casting: {spellCommand}");
-					Thread.Sleep(1500);
-
 					Invoke(new Action(() =>
 					{
 						castingLockLabel.Text = "Casting is LOCKED";
+						currentAction.Text = spellCommand;
 					}));
+
+					_ELITEAPIPL.ThirdParty.SendString(spellCommand);
+					Debug.WriteLine($"Casting: {spellCommand}");
+					Thread.Sleep(1500);
 
 					do
 					{
