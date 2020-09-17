@@ -5225,7 +5225,7 @@
 
 			if (!CastingBackground_Check && !JobAbilityLock_Check && !ProtectCasting.IsBusy)
 			{
-				spellCommand = string.Format("/ma \"{0}\" {1}", castingSpell, partyMemberName);				
+				spellCommand = string.Format("/ma \"{0}\" {1}", castingSpell, partyMemberName);
 				ProtectCasting.RunWorkerAsync();
 			}
 		}
@@ -7701,7 +7701,7 @@
 					}));
 
 					_ELITEAPIPL.ThirdParty.SendString("/ja \"" + JobAbilityName + "\" <me>");
-					Thread.Sleep(2000);
+					Thread.Sleep(2500);
 
 					castingSpell = string.Empty;
 					JobAbilityLock_Check = false;
@@ -9473,119 +9473,119 @@
 
 		private void AddonReader_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
 		{
-			if (Form2.config.EnableAddOn == true && pauseActions == false && _ELITEAPIMonitored != null && _ELITEAPIPL != null)
+			while (true)
 			{
-				bool done = false;
-				string received_data;
-				byte[] receive_byte_array;
-				try
+				if (Form2.config.EnableAddOn == true && pauseActions == false && _ELITEAPIMonitored != null && _ELITEAPIPL != null)
 				{
-					while (!done)
+					string received_data;
+					byte[] receive_byte_array;
+					try
 					{
-						receive_byte_array = listener.Receive(ref endpoint);
-						received_data = Encoding.ASCII.GetString(receive_byte_array, 0, receive_byte_array.Length);
-						string[] commands = received_data.Split('_');
+						while (true)
+						{
+							receive_byte_array = listener.Receive(ref endpoint);
+							received_data = Encoding.ASCII.GetString(receive_byte_array, 0, receive_byte_array.Length);
+							string[] commands = received_data.Split('_');
 
-						if (commands[1] == "casting" && commands.Count() == 3 && Form2.config.trackCastingPackets == true)
-						{
-							if (commands[2] == "blocked")
+							if (commands[1] == "casting" && commands.Count() == 3 && Form2.config.trackCastingPackets == true)
 							{
-								Invoke((MethodInvoker)(() =>
+								if (commands[2] == "blocked")
 								{
-									castingLockLabel.Text = "PACKET: Casting is LOCKED";
-								}));
-							}
-							else if (commands[2] == "interrupted")
-							{
-								Invoke((MethodInvoker)(() =>
-								{
-									castingLockLabel.Text = "PACKET: Casting is INTERRUPTED";
-									ProtectCasting.CancelAsync();
-								}));
-							}
-							else if (commands[2] == "finished")
-							{
-								Invoke((MethodInvoker)(() =>
-								{
-									castingLockLabel.Text = "PACKET: Casting is soon to be AVAILABLE!";
-									ProtectCasting.CancelAsync();
-								}));
-							}
-						}
-						else if (commands[1] == "confirmed")
-						{
-							AddOnStatus.BackColor = Color.ForestGreen;
-						}
-						else if (commands[1] == "command")
-						{
-							if (commands[2] == "start" || commands[2] == "unpause")
-							{
-								Invoke((MethodInvoker)(() =>
-								{
-									pauseButton.Text = "Pause";
-									pauseButton.ForeColor = Color.Black;
-									actionTimer.Enabled = true;
-									pauseActions = false;
-									song_casting = 0;
-									ForceSongRecast = true;
-								}));
-							}
-							if (commands[2] == "stop" || commands[2] == "pause")
-							{
-								Invoke((MethodInvoker)(() =>
-								{
-
-									pauseButton.Text = "Paused!";
-									pauseButton.ForeColor = Color.Red;
-									actionTimer.Enabled = false;
-									ActiveBuffs.Clear();
-									pauseActions = true;
-									if (Form2.config.FFXIDefaultAutoFollow == false)
+									Invoke((MethodInvoker)(() =>
 									{
-										_ELITEAPIPL.AutoFollow.IsAutoFollowing = false;
-									}
-
-								}));
-							}
-							if (commands[2] == "toggle")
-							{
-								Invoke((MethodInvoker)(() =>
-								{
-									pauseButton.PerformClick();
-								}));
-							}
-						}
-						else if (commands[1] == "buffs" && commands.Count() == 4)
-						{
-							if (casting.Wait(5000))
-							{
-								try
-								{
-									ActiveBuffs.RemoveAll(buf => buf.CharacterName == commands[2]);
-									ActiveBuffs.Add(new BuffStorage
-									{
-										CharacterName = commands[2],
-										CharacterBuffs = commands[3]
-									});
+										castingLockLabel.Text = "PACKET: Casting is LOCKED";
+									}));
 								}
-								finally
+								else if (commands[2] == "interrupted")
 								{
-									casting.Release();
+									Invoke((MethodInvoker)(() =>
+									{
+										castingLockLabel.Text = "PACKET: Casting is INTERRUPTED";
+										ProtectCasting.CancelAsync();
+									}));
+								}
+								else if (commands[2] == "finished")
+								{
+									Invoke((MethodInvoker)(() =>
+									{
+										castingLockLabel.Text = "PACKET: Casting is soon to be AVAILABLE!";
+										ProtectCasting.CancelAsync();
+									}));
+								}
+							}
+							else if (commands[1] == "confirmed")
+							{
+								AddOnStatus.BackColor = Color.ForestGreen;
+							}
+							else if (commands[1] == "command")
+							{
+								if (commands[2] == "start" || commands[2] == "unpause")
+								{
+									Invoke((MethodInvoker)(() =>
+									{
+										pauseButton.Text = "Pause";
+										pauseButton.ForeColor = Color.Black;
+										actionTimer.Enabled = true;
+										pauseActions = false;
+										song_casting = 0;
+										ForceSongRecast = true;
+									}));
+								}
+								if (commands[2] == "stop" || commands[2] == "pause")
+								{
+									Invoke((MethodInvoker)(() =>
+									{
+
+										pauseButton.Text = "Paused!";
+										pauseButton.ForeColor = Color.Red;
+										actionTimer.Enabled = false;
+										ActiveBuffs.Clear();
+										pauseActions = true;
+										if (Form2.config.FFXIDefaultAutoFollow == false)
+										{
+											_ELITEAPIPL.AutoFollow.IsAutoFollowing = false;
+										}
+
+									}));
+								}
+								if (commands[2] == "toggle")
+								{
+									Invoke((MethodInvoker)(() =>
+									{
+										pauseButton.PerformClick();
+									}));
+								}
+							}
+							else if (commands[1] == "buffs" && commands.Count() == 4)
+							{
+								if (casting.Wait(5000))
+								{
+									try
+									{
+										ActiveBuffs.RemoveAll(buf => buf.CharacterName == commands[2]);
+										ActiveBuffs.Add(new BuffStorage
+										{
+											CharacterName = commands[2],
+											CharacterBuffs = commands[3]
+										});
+									}
+									finally
+									{
+										casting.Release();
+									}
 								}
 							}
 						}
 					}
-				}
-				catch (Exception)
-				{
-					//  Console.WriteLine(error1.ToString());
+					catch (Exception ex)
+					{
+						Debug.WriteLine("Error processing addon data.");
+						Debug.WriteLine(ex.ToString());
+					}
 				}
 
-				listener.Close();
-
+				Thread.Sleep(TimeSpan.FromSeconds(0.3));
 			}
-
-			Thread.Sleep(TimeSpan.FromSeconds(0.3));
 		}
 
 		private void AddonReader_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
@@ -9693,19 +9693,51 @@
 
 					_ELITEAPIPL.ThirdParty.SendString(spellCommand);
 					Debug.WriteLine($"Casting: {spellCommand}");
-					Thread.Sleep(1500);
+
+					// wait for client to start casting...
+					percent = _ELITEAPIPL.CastBar.Percent;
+					while (percent == 0 || percent >= 1)
+					{
+						Thread.Sleep(20);
+						percent = _ELITEAPIPL.CastBar.Percent;
+					}
+
+					// track casting duration
+					var timer = Stopwatch.StartNew();
 
 					do
 					{
-						Thread.Sleep(100);
-
 						attempts++;
-						count = _ELITEAPIPL.CastBar.Count;
 						percent = _ELITEAPIPL.CastBar.Percent;
-						Debug.WriteLine($"casting percent: {percent}; attempt {attempts}; count {count}");
-						if (ProtectCasting.CancellationPending) e.Cancel = true;
+						Debug.WriteLine($"casting percent: {percent}; attempt {attempts}");
+
+						if (ProtectCasting.CancellationPending)
+						{
+							// if we return too soon, the app will try to send another command
+							// before the cast / animation is complete resulting in the error 
+							// "Unable to cast spells at this time." in-game.
+							//
+							// To avoid this, we need to wait until at least some percent of
+							// the spell's unmodified cast duration has elapsed before moving
+							// on to the next command.
+							var elapsed = timer.ElapsedMilliseconds * 1f;
+							var expected = elapsed / percent;
+							var minWait = expected * 0.8;
+
+							if (elapsed <= minWait)
+							{
+								var delay = (int)(minWait - elapsed);
+								Debug.WriteLine("Spell finished earlier than expected.");
+								Debug.WriteLine($"Expected duration: {expected}; actual: {elapsed}");
+								Debug.WriteLine($"Waiting {delay} ms before continuing.");
+								Thread.Sleep(delay);
+							}
+
+							e.Cancel = true;
+						}
+
+						Thread.Sleep(100);
 					} while (percent < 1 && attempts < 120 && !e.Cancel);
-					if (e.Cancel) Thread.Sleep(2000);
 				}
 				finally
 				{
