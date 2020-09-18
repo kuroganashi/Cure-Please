@@ -5208,10 +5208,12 @@
 			}
 		}
 
+		private int spellCastTime = 0;
 		private string spellCommand = "";
 		private void CastSpell(string partyMemberName, string spellName, [Optional] string OptionalExtras)
 		{
-			var castingSpell = _ELITEAPIPL.Resources.GetSpell(spellName.Trim(), 0)?.Name[0];
+			var spell = _ELITEAPIPL.Resources.GetSpell(spellName.Trim(), 0);
+			var castingSpell = spell?.Name[0];
 
 			if (string.IsNullOrWhiteSpace(castingSpell))
 			{
@@ -5225,6 +5227,7 @@
 
 			if (!CastingBackground_Check && !JobAbilityLock_Check && !ProtectCasting.IsBusy)
 			{
+				spellCastTime = (int)spell.CastTime;
 				spellCommand = string.Format("/ma \"{0}\" {1}", castingSpell, partyMemberName);
 				ProtectCasting.RunWorkerAsync();
 			}
@@ -9498,19 +9501,25 @@
 								}
 								else if (commands[2] == "interrupted")
 								{
-									Invoke((MethodInvoker)(() =>
+									if (ProtectCasting.IsBusy)
 									{
-										castingLockLabel.Text = "PACKET: Casting is INTERRUPTED";
-										ProtectCasting.CancelAsync();
-									}));
+										Invoke((MethodInvoker)(() =>
+										{
+											castingLockLabel.Text = "PACKET: Casting is INTERRUPTED";
+											ProtectCasting.CancelAsync();
+										}));
+									}
 								}
 								else if (commands[2] == "finished")
 								{
-									Invoke((MethodInvoker)(() =>
+									if (ProtectCasting.IsBusy)
 									{
-										castingLockLabel.Text = "PACKET: Casting is soon to be AVAILABLE!";
-										ProtectCasting.CancelAsync();
-									}));
+										Invoke((MethodInvoker)(() =>
+										{
+											castingLockLabel.Text = "PACKET: Casting is soon to be AVAILABLE!";
+											ProtectCasting.CancelAsync();
+										}));
+									}
 								}
 							}
 							else if (commands[1] == "confirmed")
@@ -9691,22 +9700,29 @@
 					}));
 
 					_ELITEAPIPL.ThirdParty.SendString(spellCommand);
-					Debug.WriteLine($"Casting: {spellCommand}");
-					Thread.Sleep(1500);
+
+					while (
+						_ELITEAPIPL.CastBar.Percent == 0 || 
+						_ELITEAPIPL.CastBar.Percent == 1)
+					{
+						Debug.WriteLine("Waiting for casting to start...");
+						Thread.Sleep(50);
+					}
 
 					do
 					{
 						attempts++;
 						percent = _ELITEAPIPL.CastBar.Percent;
-						Debug.WriteLine($"casting percent: {percent}; attempt {attempts}");
-
+						Debug.WriteLine($"Casting percent: {percent}; attempt {attempts}");
 						Thread.Sleep(100);
+						
 						if (ProtectCasting.CancellationPending)
 						{
 							Thread.Sleep(3000);
-							e.Cancel = true;
+							break;
 						}
-					} while (percent < 1 && attempts < 120 && !e.Cancel);
+
+					} while (percent < 1 && attempts < 120);
 				}
 				finally
 				{
