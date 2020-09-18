@@ -9683,7 +9683,6 @@
 				{
 					int attempts = 0;
 					float percent = 0;
-					float count = 0;
 
 					Invoke(new Action(() =>
 					{
@@ -9693,17 +9692,7 @@
 
 					_ELITEAPIPL.ThirdParty.SendString(spellCommand);
 					Debug.WriteLine($"Casting: {spellCommand}");
-
-					// wait for client to start casting...
-					percent = _ELITEAPIPL.CastBar.Percent;
-					while (percent == 0 || percent >= 1)
-					{
-						Thread.Sleep(20);
-						percent = _ELITEAPIPL.CastBar.Percent;
-					}
-
-					// track casting duration
-					var timer = Stopwatch.StartNew();
+					Thread.Sleep(1500);
 
 					do
 					{
@@ -9711,32 +9700,12 @@
 						percent = _ELITEAPIPL.CastBar.Percent;
 						Debug.WriteLine($"casting percent: {percent}; attempt {attempts}");
 
+						Thread.Sleep(100);
 						if (ProtectCasting.CancellationPending)
 						{
-							// if we return too soon, the app will try to send another command
-							// before the cast / animation is complete resulting in the error 
-							// "Unable to cast spells at this time." in-game.
-							//
-							// To avoid this, we need to wait until at least some percent of
-							// the spell's unmodified cast duration has elapsed before moving
-							// on to the next command.
-							var elapsed = timer.ElapsedMilliseconds * 1f;
-							var expected = elapsed / percent;
-							var minWait = expected * 0.8;
-
-							if (elapsed <= minWait)
-							{
-								var delay = (int)(minWait - elapsed);
-								Debug.WriteLine("Spell finished earlier than expected.");
-								Debug.WriteLine($"Expected duration: {expected}; actual: {elapsed}");
-								Debug.WriteLine($"Waiting {delay} ms before continuing.");
-								Thread.Sleep(delay);
-							}
-
+							Thread.Sleep(3000);
 							e.Cancel = true;
 						}
-
-						Thread.Sleep(100);
 					} while (percent < 1 && attempts < 120 && !e.Cancel);
 				}
 				finally
