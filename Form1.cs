@@ -2024,10 +2024,10 @@
 		}
 
 		public bool IsStandingStill()
-    {
+		{
 			var elapsed = DateTime.Now.Subtract(lastTimePrimaryMoved);
 			return elapsed.TotalMilliseconds > 2000;
-    }
+		}
 
 		public bool CanCastSpell(string spellName)
 		{
@@ -4049,6 +4049,7 @@
 		}
 
 		private string spellCommand = "";
+		private float spellCastTime = 0f;
 		private async Task<bool> CastSpell(string partyMemberName, string spellName, [Optional] string OptionalExtras)
 		{
 			var spellInfo = instancePrimary.Resources.GetSpell(spellName.Trim(), 0);
@@ -4071,6 +4072,7 @@
 				if (castTokenSource == null)
 				{
 					castTokenSource = new CancellationTokenSource();
+					spellCastTime = Spells.GetCastTimeSeconds(spellName) * 1000;
 					spellCommand = $"/ma \"{actualSpellName}\" {partyMemberName}";
 					await CastSpellInternal(spellCommand, castTokenSource.Token);
 
@@ -6925,34 +6927,37 @@
 				// Alternately, we'll stop if the cancel token is set by the in-game addon
 				// due to fastcast / quick magic or the spell being interrupted.
 
+				var attempts = 0;
 				var percent = 0f;
-				for (var i = 0; i < 120; i++)
+
+				timer.Restart();
+				while (timer.ElapsedMilliseconds < 12000)
 				{
 					// Check casting percent...
 					percent = instancePrimary.CastBar.Percent;
-					Debug.WriteLine($"Casting percent: {percent}; attempt {i}");
-					await Task.Delay(100);
+					Debug.WriteLine($"Casting percent: {percent}; attempt {++attempts}");
+					await Task.Delay(200);
 
-					// The spell is done.
-					if (percent >= 1)
+					// Stop if spell casting is complete.
+					if (percent >= 1 && timer.ElapsedMilliseconds >= 3000)
 					{
 						break;
 					}
 
-					// The spell was interrupted or completed early.
+					// Avoid "unable to..." errors due to animation lag
 					if (cancellationToken.IsCancellationRequested)
 					{
-						await Task.Delay(3000);
-						break;
+						var minCastTime = spellCastTime * 0.85;
+						var minDelay = Math.Max(3250, minCastTime);
+						if (timer.ElapsedMilliseconds >= minDelay)
+						{
+							Debug.WriteLine("Spell cast finished early.");
+							Debug.WriteLine($"casting time: {minCastTime}");
+							Debug.WriteLine($"minimum delay: {minDelay}");
+							break;
+						}
 					}
 				}
-
-				// Due to lag, it is possible that the next spell may try to cast before the 
-				// game is actually ready to start casting. This small delay after the cast
-				// loop is an attempt to mitigate that.
-
-				await Task.Delay(500);
-
 			}
 			finally
 			{
@@ -8519,7 +8524,7 @@
 				SetLockLabel("Casting LOCKED");
 				SetCurrentAction($"Using ability: {name}");
 				await WaitForCastingToFinish();
-				await SendPrimaryCommand($"/ja \"{name}\" <me>", 2000);
+				await SendPrimaryCommand($"/ja \"{name}\" <me>", 3000);
 				SetLockLabel("Casting UNLOCKED");
 				SetCurrentAction(string.Empty);
 			}
