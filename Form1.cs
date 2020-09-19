@@ -264,6 +264,7 @@
 		private byte autoOptionsSelected;
 		private bool pauseActions;
 		private bool waitingForMp;
+		private bool healingForMp;
 		public int LUA_Plugin_Loaded = 0;
 		public int firstTime_Pause = 0;
 		private SemaphoreSlim casting = new SemaphoreSlim(1, 1);
@@ -6927,17 +6928,22 @@
 		{
 			if (plStatusCheck(StatusEffect.Silence) && Form2.config.plSilenceItemEnabled)
 			{
-				// Check to make sure we have echo drops
-				if ((GetInventoryItemCount(_ELITEAPIPL, GetItemId(plSilenceitemName)) > 0 || GetTempItemCount(_ELITEAPIPL, GetItemId(plSilenceitemName)) > 0))
+				var itemId = GetItemId(plSilenceitemName);
+				var inventoryCount = GetInventoryItemCount(_ELITEAPIPL, itemId);
+				var tempItemCount = GetTempItemCount(_ELITEAPIPL, itemId);
+				if (inventoryCount + tempItemCount > 0)
 				{
 					_ELITEAPIPL.ThirdParty.SendString(string.Format("/item \"{0}\" <me>", plSilenceitemName));
 					await Task.Delay(2000);
 				}
 			}
+
 			else if ((plStatusCheck(StatusEffect.Doom) && Form2.config.plDoomEnabled))
 			{
-				// Check to make sure we have holy water
-				if (GetInventoryItemCount(_ELITEAPIPL, GetItemId(plDoomItemName)) > 0 || GetTempItemCount(_ELITEAPIPL, GetItemId(plDoomItemName)) > 0)
+				var itemId = GetItemId(plDoomItemName);
+				var inventoryCount = GetInventoryItemCount(_ELITEAPIPL, itemId);
+				var tempItemCount = GetTempItemCount(_ELITEAPIPL, itemId);
+				if (inventoryCount + tempItemCount > 0)
 				{
 					_ELITEAPIPL.ThirdParty.SendString(string.Format("/item \"{0}\" <me>", plDoomItemName));
 					await Task.Delay(2000);
@@ -6947,7 +6953,8 @@
 
 		private void HandleLowMpSituations()
 		{
-			if (_ELITEAPIPL.Player.MP <= (int)Form2.config.mpMinCastValue && _ELITEAPIPL.Player.MP != 0)
+			if (_ELITEAPIPL.Player.MP <= (int)Form2.config.mpMinCastValue && 
+					!waitingForMp)
 			{
 				waitingForMp = true;
 				if (Form2.config.lowMPcheckBox && !waitingForMp && !Form2.config.healLowMP)
@@ -6957,7 +6964,8 @@
 			}
 
 			// tell PL on mp recovered
-			if (_ELITEAPIPL.Player.MP > (int)Form2.config.mpMinCastValue && _ELITEAPIPL.Player.MP != 0)
+			if (_ELITEAPIPL.Player.MP > (int)Form2.config.mpMinCastValue && 
+					waitingForMp)
 			{
 				waitingForMp = false;
 				if (Form2.config.lowMPcheckBox && waitingForMp && !Form2.config.healLowMP)
@@ -6967,13 +6975,13 @@
 			}
 
 			// heal on low mp
-			if (
-				Form2.config.healLowMP &&
-				_ELITEAPIPL.Player.MP <= Form2.config.healWhenMPBelow &&
-				_ELITEAPIPL.Player.Status == (uint)EntityStatus.Idle)
+			if (Form2.config.healLowMP &&
+					_ELITEAPIPL.Player.MP <= Form2.config.healWhenMPBelow &&
+					_ELITEAPIPL.Player.Status == (uint)EntityStatus.Idle &&
+					!healingForMp)
 			{
-				waitingForMp = true;
-				_ELITEAPIPL.ThirdParty.SendString("/heal");
+				healingForMp = true;
+				_ELITEAPIPL.ThirdParty.SendString("/heal on");
 
 				if (Form2.config.lowMPcheckBox)
 				{
@@ -6982,13 +6990,13 @@
 			}
 
 			// stand on mp recovered
-			if (
-				Form2.config.standAtMP && waitingForMp &&
-				_ELITEAPIPL.Player.MPP >= Form2.config.standAtMP_Percentage &&
-				_ELITEAPIPL.Player.Status == (uint)EntityStatus.Idle)
+			if (Form2.config.standAtMP && 
+					_ELITEAPIPL.Player.MPP >= Form2.config.standAtMP_Percentage &&
+					_ELITEAPIPL.Player.Status == (uint)EntityStatus.Idle &&
+					healingForMp)
 			{
-				waitingForMp = false;
-				_ELITEAPIPL.ThirdParty.SendString("/heal");
+				healingForMp = false;
+				_ELITEAPIPL.ThirdParty.SendString("/heal off");
 
 				if (Form2.config.lowMPcheckBox)
 				{
