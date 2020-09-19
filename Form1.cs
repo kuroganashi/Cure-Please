@@ -1990,7 +1990,7 @@
 		}
 
 		public static bool SpellReadyToCast(string spellName)
-    {
+		{
 			var trimmed = spellName.ToLower().Trim();
 			if (string.IsNullOrWhiteSpace(trimmed)) return false;
 			if (trimmed == "honor march") return true;
@@ -2009,7 +2009,7 @@
 		}
 
 		public static bool AbilityReadyToUse(string name)
-    {
+		{
 			int id = instancePrimary.Resources.GetAbility(name, 0).TimerID;
 			var IDs = instancePrimary.Recast.GetAbilityIds();
 			for (var x = 0; x < IDs.Count; x++)
@@ -2023,20 +2023,28 @@
 			return false;
 		}
 
-		public static bool CanCastSpell(string spellName)
+		public bool IsStandingStill()
+    {
+			var elapsed = DateTime.Now.Subtract(lastTimePrimaryMoved);
+			return elapsed.TotalMilliseconds > 2000;
+    }
+
+		public bool CanCastSpell(string spellName)
 		{
 			return
+				IsStandingStill() &&
 				HasRequiredJobLevel(spellName) &&
 				HasAcquiredSpell(spellName) &&
 				SpellReadyToCast(spellName);
 		}
 
-		public static bool CanUseJobAbility(string name)
-    {
-			return 
-				HasAbility(name) && 
+		public bool CanUseJobAbility(string name)
+		{
+			return
+				IsStandingStill() &&
+				HasAbility(name) &&
 				AbilityReadyToUse(name);
-    }
+		}
 
 		private bool CheckForDLLFiles()
 		{
@@ -2709,6 +2717,7 @@
 			}
 		}
 
+		private DateTime lastTimePrimaryMoved = DateTime.Now;
 		private void plPosition_Tick(object sender, EventArgs e)
 		{
 			if (instancePrimary == null || instanceMonitored == null)
@@ -2721,9 +2730,15 @@
 				return;
 			}
 
-			plX = instancePrimary.Player.X;
-			plY = instancePrimary.Player.Y;
-			plZ = instancePrimary.Player.Z;
+			var x = instancePrimary.Player.X;
+			var y = instancePrimary.Player.Y;
+			var z = instancePrimary.Player.Z;
+
+			if (plX != x || plY != y || plZ != z)
+			{
+				plX = x; plY = y; plZ = z;
+				lastTimePrimaryMoved = DateTime.Now;
+			}
 		}
 
 		private void ClearDebuff(string characterName, int debuffID)
