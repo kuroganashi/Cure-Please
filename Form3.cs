@@ -1,35 +1,35 @@
 ﻿namespace CurePlease
 {
-    using System.Windows.Forms;
+  using System.Windows.Forms;
 
-    public partial class Form3 : Form
+  public partial class Form3 : Form
+  {
+    public Form3()
     {
-        public Form3()
-        {
-            this.StartPosition = FormStartPosition.CenterScreen;
+      StartPosition = FormStartPosition.CenterScreen;
 
-            this.InitializeComponent();
+      InitializeComponent();
 
-            this.label2.Text = Application.ProductVersion;
-        }
-
-        #region "== Form About"
-
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            System.Diagnostics.Process.Start("https://github.com/atom0s/Cure-Please");
-        }
-
-        private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            System.Diagnostics.Process.Start("http://ext.elitemmonetwork.com/downloads/eliteapi/");
-        }
-
-        private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            System.Diagnostics.Process.Start("http://ext.elitemmonetwork.com/downloads/elitemmo_api/");
-        }
+      label2.Text = Application.ProductVersion;
     }
 
-    #endregion "== Form About"
+    #region "== Form About"
+
+    private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+    {
+      System.Diagnostics.Process.Start("https://github.com/atom0s/Cure-Please");
+    }
+
+    private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+    {
+      System.Diagnostics.Process.Start("http://ext.elitemmonetwork.com/downloads/eliteapi/");
+    }
+
+    private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+    {
+      System.Diagnostics.Process.Start("http://ext.elitemmonetwork.com/downloads/elitemmo_api/");
+    }
+  }
+
+  #endregion "== Form About"
 }
