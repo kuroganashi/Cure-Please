@@ -1749,13 +1749,10 @@
 			enableActions = true;
 
 			if (Form2.config.pauseOnStartBox)
-			{
-				pauseActions = true;
-				pauseButton.Text = "Loaded, Paused!";
-				pauseButton.ForeColor = Color.Red;
-				enableActions = false;
-			}
-			else
+      {
+        Pause("Loaded, paused...");
+      }
+      else
 			{
 				if (Form2.config.MinimiseonStart == true && WindowState != FormWindowState.Minimized)
 				{
@@ -1786,7 +1783,15 @@
 			}
 		}
 
-		private int GetInventoryItemCount(EliteAPI api, ushort itemid)
+    private void Pause(string label)
+    {
+      pauseActions = true;
+      enableActions = false;
+      pauseButton.Text = label;
+      pauseButton.ForeColor = Color.Red;
+    }
+
+    private int GetInventoryItemCount(EliteAPI api, ushort itemid)
 		{
 			var count = 0;
 			for (var x = 0; x <= 80; x++)
@@ -2279,10 +2284,7 @@
 					forceSongRecast = true;
 					if (pauseActions != true)
 					{
-						pauseButton.Text = "Zoned, paused.";
-						pauseButton.ForeColor = Color.Red;
-						pauseActions = true;
-						enableActions = false;
+						Pause("Zoned, paused...");
 					}
 				}
 				else
@@ -2292,12 +2294,9 @@
 
 					if (pauseActions != true)
 					{
-						pauseButton.Text = "Zoned, waiting.";
-						pauseButton.ForeColor = Color.Red;
-						await Task.Delay(100);
-						Thread.Sleep(17000);
-						pauseButton.Text = "Pause";
-						pauseButton.ForeColor = Color.Black;
+						Pause("Zoned, waiting...");
+						await Task.Delay(20000);
+						Unpause();
 					}
 				}
 				activeBuffs.Clear();
@@ -5202,11 +5201,8 @@
 
 			if (pauseActions == false)
 			{
-				pauseButton.Text = "Paused!";
-				pauseButton.ForeColor = Color.Red;
-				enableActions = false;
+				Pause("Paused!");
 				activeBuffs.Clear();
-				pauseActions = true;
 				if (Form2.config.FFXIDefaultAutoFollow == false)
 				{
 					instancePrimary.AutoFollow.IsAutoFollowing = false;
@@ -5214,11 +5210,7 @@
 			}
 			else
 			{
-				pauseButton.Text = "Pause";
-				pauseButton.ForeColor = Color.Black;
-				enableActions = true;
-				pauseActions = false;
-
+				Unpause();
 				if (Form2.config.MinimiseonStart == true && WindowState != FormWindowState.Minimized)
 				{
 					WindowState = FormWindowState.Minimized;
@@ -6121,13 +6113,10 @@
 						{
 							if ((instanceMonitored.ThirdParty.ConsoleGetArg(1) == "stop" || instanceMonitored.ThirdParty.ConsoleGetArg(1) == "pause") && instancePrimary.Player.Name == instanceMonitored.ThirdParty.ConsoleGetArg(2))
 							{
-								pauseButton.Text = "Paused!";
-								pauseButton.ForeColor = Color.Red;
-								enableActions = false;
-								activeBuffs.Clear();
-								pauseActions = true;
+								Pause("Paused!");
 								song_casting = 0;
 								forceSongRecast = true;
+								activeBuffs.Clear();
 								if (Form2.config.FFXIDefaultAutoFollow == false)
 								{
 									instancePrimary.AutoFollow.IsAutoFollowing = false;
@@ -6135,10 +6124,7 @@
 							}
 							else if ((instanceMonitored.ThirdParty.ConsoleGetArg(1) == "unpause" || instanceMonitored.ThirdParty.ConsoleGetArg(1) == "start") && instancePrimary.Player.Name.ToLower() == instanceMonitored.ThirdParty.ConsoleGetArg(2).ToLower())
 							{
-								pauseButton.Text = "Pause";
-								pauseButton.ForeColor = Color.Black;
-								enableActions = true;
-								pauseActions = false;
+								Unpause();
 								song_casting = 0;
 								forceSongRecast = true;
 							}
@@ -6155,13 +6141,10 @@
 						{
 							if (instanceMonitored.ThirdParty.ConsoleGetArg(1) == "stop" || instanceMonitored.ThirdParty.ConsoleGetArg(1) == "pause")
 							{
-								pauseButton.Text = "Paused!";
-								pauseButton.ForeColor = Color.Red;
-								enableActions = false;
-								activeBuffs.Clear();
-								pauseActions = true;
+								Pause("Paused!");
 								song_casting = 0;
 								forceSongRecast = true;
+								activeBuffs.Clear();
 								if (Form2.config.FFXIDefaultAutoFollow == false)
 								{
 									instancePrimary.AutoFollow.IsAutoFollowing = false;
@@ -6169,10 +6152,7 @@
 							}
 							else if (instanceMonitored.ThirdParty.ConsoleGetArg(1) == "unpause" || instanceMonitored.ThirdParty.ConsoleGetArg(1) == "start")
 							{
-								pauseButton.Text = "Pause";
-								pauseButton.ForeColor = Color.Black;
-								enableActions = true;
-								pauseActions = false;
+								Unpause();
 								song_casting = 0;
 								forceSongRecast = true;
 							}
@@ -6681,10 +6661,7 @@
 								{
 									Invoke((MethodInvoker)(() =>
 									{
-										pauseButton.Text = "Pause";
-										pauseButton.ForeColor = Color.Black;
-										enableActions = true;
-										pauseActions = false;
+										Unpause();
 										song_casting = 0;
 										forceSongRecast = true;
 									}));
@@ -6693,12 +6670,8 @@
 								{
 									Invoke((MethodInvoker)(() =>
 									{
-
-										pauseButton.Text = "Paused!";
-										pauseButton.ForeColor = Color.Red;
-										enableActions = false;
+										Pause("Paused!");
 										activeBuffs.Clear();
-										pauseActions = true;
 										if (Form2.config.FFXIDefaultAutoFollow == false)
 										{
 											instancePrimary.AutoFollow.IsAutoFollowing = false;
@@ -7277,10 +7250,7 @@
 			// IF ENABLED PAUSE ON KO
 			if (Form2.config.pauseOnKO && (instancePrimary.Player.Status == 2 || instancePrimary.Player.Status == 3))
 			{
-				pauseButton.Text = "Paused!";
-				pauseButton.ForeColor = Color.Red;
-				enableActions = false;
-				pauseActions = true;
+				Pause("Paused!");
 				activeBuffs.Clear();
 
 				if (Form2.config.FFXIDefaultAutoFollow == false)
@@ -7300,19 +7270,16 @@
 						(Form2.config.AcceptRaiseOnlyWhenNotInCombat && instanceMonitored.Player.Status != 1) || 
 						(Form2.config.AcceptRaiseOnlyWhenNotInCombat == false)
 					))
-				{
-					await Task.Delay(2000);
-					currentAction.Text = "Accepting Raise or Reraise.";
-					instancePrimary.ThirdParty.KeyPress(EliteMMO.API.Keys.NUMPADENTER);
-					currentAction.Text = string.Empty;
+        {
+          await Task.Delay(2000);
+          currentAction.Text = "Accepting Raise or Reraise.";
+          instancePrimary.ThirdParty.KeyPress(EliteMMO.API.Keys.NUMPADENTER);
+          currentAction.Text = string.Empty;
 
-					await Task.Delay(5000);
-					pauseButton.Text = "Pause";
-					pauseButton.ForeColor = Color.Black;
-					enableActions = true;
-					pauseActions = false;
-				}
-			}
+          await Task.Delay(5000);
+          Unpause();
+        }
+      }
 
 			var stunLocked =
 				plHasBuff(Buffs.terror) ||
@@ -8445,7 +8412,15 @@
 			}
 		}
 
-		private async Task UseItem(string name)
+    private void Unpause()
+    {
+      pauseButton.Text = "Pause";
+      pauseButton.ForeColor = Color.Black;
+      enableActions = true;
+      pauseActions = false;
+    }
+
+    private async Task UseItem(string name)
 		{
 			if (!(await casting.WaitAsync(15000)))
 			{
