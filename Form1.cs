@@ -2026,7 +2026,7 @@
 		public bool IsStandingStill()
 		{
 			var elapsed = DateTime.Now.Subtract(lastTimePrimaryMoved);
-			return elapsed.TotalMilliseconds > 2000;
+			return elapsed.TotalMilliseconds > 1000;
 		}
 
 		public bool CanCastSpell(string spellName)

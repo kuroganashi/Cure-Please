@@ -969,15 +969,10 @@ namespace CurePlease
 
 		public static float GetCastTimeSeconds(string name)
     {
-			foreach (var spell in spells)
-      {
-				if (spell.Name.ToLower() == name.ToLower())
-        {
-					return spell.CastTime;
-        }
-      }
+			var spell = spells.FirstOrDefault(x => 
+				x.Name.ToLower() == name.ToLower());
 
-			return 3f;
+			return spell?.CastTime ?? 3f;
     }
 	}
 
