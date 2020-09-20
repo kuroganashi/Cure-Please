@@ -89,12 +89,14 @@
 			public string Name { get; set; }
 		}
 
-		private static DateTime defaultDate = new DateTime(1970, 1, 1);
+		private static readonly DateTime defaultDate = new DateTime(1970, 1, 1);
 
 		private IPEndPoint endpoint;
 		private readonly UdpClient listener;
 		private Form settings;
 		private Form2 form2 = new CurePlease.Form2();
+		private string spellCommand = "";
+		private float spellCastTime = 0f;
 		private int currentSCHCharges = 0;
 		private string debug_MSG_show = string.Empty;
 		private int lastCommand = 0;
@@ -103,8 +105,6 @@
 		private int plBardCount = 0;
 		private bool forceSongRecast = false;
 		private string lastSongCastedName = string.Empty;
-		private uint indexPrimary = 0;
-		private uint indexMonitored = 0;
 		public bool targetEngaged = false;
 		public bool eclipticActive = false;
 		public bool castingLocked = false;
@@ -127,25 +127,15 @@
 		public int followWarning = 0;
 		public bool stuckWarning = false;
 		public int stuckCount = 0;
-		public int protectionCount = 0;
 		public int idFound = 0;
-
-		public float lastZ;
-		public float lastX;
-		public float lastY;
-
+		public float lastPlZ;
+		public float lastPlX;
+		public float lastPlY;
+		private DateTime currentTime = DateTime.UtcNow;
+		private DateTime lastTimePrimaryMoved = DateTime.Now;
 		public List<BuffStorage> activeBuffs = new List<BuffStorage>();
 		public List<SongData> bardSongs = new List<SongData>();
 		public List<GeoData> geoSpells = new List<GeoData>();
-		public List<int> known_song_buffs = new List<int>();
-
-		public List<string> tempItemZones = new List<string>
-		{
-			"Escha Ru'Aun", "Escha Zi'Tah", "Reisenjima", "Abyssea - La Theine", "Abyssea - Konschtat",
-			"Abyssea - Tahrongi", "Abyssea - Attohwa", "Abyssea - Misareaux", "Abyssea - Vunkerl",
-			"Abyssea - Altepa", "Abyssea - Uleguerand", "Abyssea - Grauberg", "Walk of Echoes"
-		};
-
 		public string wakeSleepSpellName = "Cure";
 		public string plSilenceitemName = "Echo Drops";
 		public string plDoomItemName = "Holy Water";
@@ -159,9 +149,15 @@
 		private bool healingForMp;
 		public int isAddonLoaded = 0;
 		public int firstTimePause = 0;
-		private readonly SemaphoreSlim casting = new SemaphoreSlim(1, 1);
 		private bool enableActions = false;
-		private DateTime currentTime = DateTime.UtcNow;
+		private readonly SemaphoreSlim casting = new SemaphoreSlim(1, 1);
+
+		public List<string> tempItemZones = new List<string>
+		{
+			"Escha Ru'Aun", "Escha Zi'Tah", "Reisenjima", "Abyssea - La Theine", "Abyssea - Konschtat",
+			"Abyssea - Tahrongi", "Abyssea - Attohwa", "Abyssea - Misareaux", "Abyssea - Vunkerl",
+			"Abyssea - Altepa", "Abyssea - Uleguerand", "Abyssea - Grauberg", "Walk of Echoes"
+		};
 
 		private bool[] autoHasteEnabled = Helpers.CreateAndFill<bool>(18, () => false);
 		private bool[] autoHaste_IIEnabled = Helpers.CreateAndFill<bool>(18, () => false);
@@ -234,19 +230,6 @@
 
 			currentAction.Text = string.Empty;
 			var position = 0;
-
-			// Buff lists
-			known_song_buffs.Add(197);
-			known_song_buffs.Add(198);
-			known_song_buffs.Add(195);
-			known_song_buffs.Add(199);
-			known_song_buffs.Add(200);
-			known_song_buffs.Add(215);
-			known_song_buffs.Add(196);
-			known_song_buffs.Add(214);
-			known_song_buffs.Add(216);
-			known_song_buffs.Add(218);
-			known_song_buffs.Add(222);
 
 			bardSongs.Add(new SongData
 			{
@@ -1895,10 +1878,10 @@
 			}
 		}
 
-		public static bool HasRequiredJobLevel(string SpellName)
+		public static bool HasRequiredJobLevel(string spellName)
 		{
 
-			var checked_spellName = SpellName.Trim().ToLower();
+			var checked_spellName = spellName.Trim().ToLower();
 
 			var magic = instancePrimary.Resources.GetSpell(checked_spellName, 0); // GRAB THE REQUESTED SPELL DATA
 
@@ -2065,7 +2048,7 @@
 			return true;
 		}
 
-		private string CureTiers(string cureSpell, bool HP)
+		private string CureTiers(string cureSpell, bool priority)
 		{
 			if (cureSpell.ToLower() == "cure vi")
 			{
@@ -2096,7 +2079,7 @@
 				{
 					return "Cure IV";
 				}
-				else if (CanCastSpell("Cure VI") && (Form2.config.Overcure && !Form2.config.OvercureOnHighPriority || Form2.config.OvercureOnHighPriority && HP))
+				else if (CanCastSpell("Cure VI") && (Form2.config.Overcure && !Form2.config.OvercureOnHighPriority || Form2.config.OvercureOnHighPriority && priority))
 				{
 					return "Cure VI";
 				}
@@ -2115,7 +2098,7 @@
 				{
 					return "Cure III";
 				}
-				else if (CanCastSpell("Cure V") && (Form2.config.Overcure && Form2.config.OvercureOnHighPriority != true || Form2.config.OvercureOnHighPriority && HP == true))
+				else if (CanCastSpell("Cure V") && (Form2.config.Overcure && Form2.config.OvercureOnHighPriority != true || Form2.config.OvercureOnHighPriority && priority == true))
 				{
 					return "Cure V";
 				}
@@ -2130,7 +2113,7 @@
 				{
 					return "Cure III";
 				}
-				else if (CanCastSpell("Cure IV") && (Form2.config.Overcure && Form2.config.OvercureOnHighPriority != true || Form2.config.OvercureOnHighPriority && HP == true))
+				else if (CanCastSpell("Cure IV") && (Form2.config.Overcure && Form2.config.OvercureOnHighPriority != true || Form2.config.OvercureOnHighPriority && priority == true))
 				{
 					return "Cure IV";
 				}
@@ -2153,7 +2136,7 @@
 				{
 					return "Cure";
 				}
-				else if (CanCastSpell("Cure III") && (Form2.config.Overcure && Form2.config.OvercureOnHighPriority != true || Form2.config.OvercureOnHighPriority && HP == true))
+				else if (CanCastSpell("Cure III") && (Form2.config.Overcure && Form2.config.OvercureOnHighPriority != true || Form2.config.OvercureOnHighPriority && priority == true))
 				{
 					return "Cure III";
 				}
@@ -2168,7 +2151,7 @@
 				{
 					return "Cure";
 				}
-				else if (CanCastSpell("Cure II") && (Form2.config.Overcure && Form2.config.OvercureOnHighPriority != true || Form2.config.OvercureOnHighPriority && HP == true))
+				else if (CanCastSpell("Cure II") && (Form2.config.Overcure && Form2.config.OvercureOnHighPriority != true || Form2.config.OvercureOnHighPriority && priority == true))
 				{
 					return "Cure II";
 				}
@@ -2696,28 +2679,27 @@
 			}
 		}
 
-		private void UpdateHPProgressBar(ProgressBar playerHP, int CurrentHPP)
+		private void UpdateHPProgressBar(ProgressBar hpProgressBar, int currentHpPercent)
 		{
-			playerHP.Value = CurrentHPP;
-			if (CurrentHPP >= 75)
+			hpProgressBar.Value = currentHpPercent;
+			if (currentHpPercent >= 75)
 			{
-				playerHP.ForeColor = Color.DarkGreen;
+				hpProgressBar.ForeColor = Color.DarkGreen;
 			}
-			else if (CurrentHPP > 50 && CurrentHPP < 75)
+			else if (currentHpPercent > 50 && currentHpPercent < 75)
 			{
-				playerHP.ForeColor = Color.Yellow;
+				hpProgressBar.ForeColor = Color.Yellow;
 			}
-			else if (CurrentHPP > 25 && CurrentHPP < 50)
+			else if (currentHpPercent > 25 && currentHpPercent < 50)
 			{
-				playerHP.ForeColor = Color.Orange;
+				hpProgressBar.ForeColor = Color.Orange;
 			}
-			else if (CurrentHPP < 25)
+			else if (currentHpPercent < 25)
 			{
-				playerHP.ForeColor = Color.Red;
+				hpProgressBar.ForeColor = Color.Red;
 			}
 		}
 
-		private DateTime lastTimePrimaryMoved = DateTime.Now;
 		private void plPosition_Tick(object sender, EventArgs e)
 		{
 			if (instancePrimary == null || instanceMonitored == null)
@@ -3508,7 +3490,7 @@
 								Form2.config.na_Slow &&
 								HasDebuff(memberBuffs, Buffs.slow))
 							{
-								await CastSpell(member.Name, "Erase", "Slow → " + member.Name);
+								await CastSpell(member.Name, "Erase");
 								ClearDebuff(member.Name, Buffs.slow);
 								break;
 							}
@@ -3518,7 +3500,7 @@
 								Form2.config.na_Bio &&
 								HasDebuff(memberBuffs, Buffs.Bio))
 							{
-								await CastSpell(member.Name, "Erase", "Bio → " + member.Name);
+								await CastSpell(member.Name, "Erase");
 								ClearDebuff(member.Name, Buffs.Bio);
 								break;
 							}
@@ -3528,7 +3510,7 @@
 								Form2.config.na_Bind &&
 								HasDebuff(memberBuffs, Buffs.bind))
 							{
-								await CastSpell(member.Name, "Erase", "Bind → " + member.Name);
+								await CastSpell(member.Name, "Erase");
 								ClearDebuff(member.Name, Buffs.bind);
 								break;
 							}
@@ -3538,7 +3520,7 @@
 								Form2.config.na_Weight &&
 								HasDebuff(memberBuffs, Buffs.weight))
 							{
-								await CastSpell(member.Name, "Erase", "Gravity → " + member.Name);
+								await CastSpell(member.Name, "Erase");
 								ClearDebuff(member.Name, Buffs.weight);
 								break;
 							}
@@ -3548,7 +3530,7 @@
 								Form2.config.na_AccuracyDown &&
 								HasDebuff(memberBuffs, Buffs.AccuracyDown))
 							{
-								await CastSpell(member.Name, "Erase", "Acc. Down → " + member.Name);
+								await CastSpell(member.Name, "Erase");
 								ClearDebuff(member.Name, Buffs.AccuracyDown);
 								break;
 							}
@@ -3558,7 +3540,7 @@
 								Form2.config.na_DefenseDown &&
 								HasDebuff(memberBuffs, Buffs.DefenseDown))
 							{
-								await CastSpell(member.Name, "Erase", "Def. Down → " + member.Name);
+								await CastSpell(member.Name, "Erase");
 								ClearDebuff(member.Name, Buffs.DefenseDown);
 								break;
 							}
@@ -3568,7 +3550,7 @@
 								Form2.config.na_MagicDefenseDown &&
 								HasDebuff(memberBuffs, Buffs.MagicDefDown))
 							{
-								await CastSpell(member.Name, "Erase", "Mag. Def. Down → " + member.Name);
+								await CastSpell(member.Name, "Erase");
 								ClearDebuff(member.Name, Buffs.MagicDefDown);
 								break;
 							}
@@ -3578,7 +3560,7 @@
 								Form2.config.na_AttackDown &&
 								HasDebuff(memberBuffs, Buffs.AttackDown))
 							{
-								await CastSpell(member.Name, "Erase", "Attk. Down → " + member.Name);
+								await CastSpell(member.Name, "Erase");
 								ClearDebuff(member.Name, Buffs.AttackDown);
 								break;
 							}
@@ -3588,7 +3570,7 @@
 								Form2.config.na_MaxHpDown &&
 								HasDebuff(memberBuffs, Buffs.MaxHPDown))
 							{
-								await CastSpell(member.Name, "Erase", "HP Down → " + member.Name);
+								await CastSpell(member.Name, "Erase");
 								ClearDebuff(member.Name, Buffs.MaxHPDown);
 								break;
 							}
@@ -3598,7 +3580,7 @@
 								Form2.config.na_VitDown &&
 								HasDebuff(memberBuffs, Buffs.VITDown))
 							{
-								await CastSpell(member.Name, "Erase", "VIT Down → " + member.Name);
+								await CastSpell(member.Name, "Erase");
 								ClearDebuff(member.Name, Buffs.VITDown);
 								break;
 							}
@@ -3608,7 +3590,7 @@
 								Form2.config.na_Threnody &&
 								HasDebuff(memberBuffs, Buffs.Threnody))
 							{
-								await CastSpell(member.Name, "Erase", "Threnody → " + member.Name);
+								await CastSpell(member.Name, "Erase");
 								ClearDebuff(member.Name, Buffs.Threnody);
 								break;
 							}
@@ -3618,7 +3600,7 @@
 								Form2.config.na_Shock &&
 								HasDebuff(memberBuffs, Buffs.Shock))
 							{
-								await CastSpell(member.Name, "Erase", "Shock → " + member.Name);
+								await CastSpell(member.Name, "Erase");
 								ClearDebuff(member.Name, 132);
 								break;
 							}
@@ -3628,7 +3610,7 @@
 								Form2.config.na_StrDown &&
 								HasDebuff(memberBuffs, Buffs.STRDown))
 							{
-								await CastSpell(member.Name, "Erase", "STR Down → " + member.Name);
+								await CastSpell(member.Name, "Erase");
 								ClearDebuff(member.Name, Buffs.STRDown);
 								break;
 							}
@@ -3638,7 +3620,7 @@
 								Form2.config.na_Requiem &&
 								HasDebuff(memberBuffs, Buffs.Requiem))
 							{
-								await CastSpell(member.Name, "Erase", "Requiem → " + member.Name);
+								await CastSpell(member.Name, "Erase");
 								ClearDebuff(member.Name, Buffs.Requiem);
 								break;
 							}
@@ -3648,7 +3630,7 @@
 								Form2.config.na_Rasp &&
 								HasDebuff(memberBuffs, Buffs.Rasp))
 							{
-								await CastSpell(member.Name, "Erase", "Rasp → " + member.Name);
+								await CastSpell(member.Name, "Erase");
 								ClearDebuff(member.Name, Buffs.Rasp);
 								break;
 							}
@@ -3658,7 +3640,7 @@
 								Form2.config.na_MaxTpDown &&
 								HasDebuff(memberBuffs, Buffs.MaxTPDown))
 							{
-								await CastSpell(member.Name, "Erase", "Max TP Down → " + member.Name);
+								await CastSpell(member.Name, "Erase");
 								ClearDebuff(member.Name, Buffs.MaxTPDown);
 								break;
 							}
@@ -3668,7 +3650,7 @@
 								Form2.config.na_MaxMpDown &&
 								HasDebuff(memberBuffs, Buffs.MaxMPDown))
 							{
-								await CastSpell(member.Name, "Erase", "Max MP Down → " + member.Name);
+								await CastSpell(member.Name, "Erase");
 								ClearDebuff(member.Name, Buffs.MaxMPDown);
 								break;
 							}
@@ -3678,7 +3660,7 @@
 								Form2.config.na_Addle &&
 								HasDebuff(memberBuffs, Buffs.addle))
 							{
-								await CastSpell(member.Name, "Erase", "Addle → " + member.Name);
+								await CastSpell(member.Name, "Erase");
 								ClearDebuff(member.Name, Buffs.addle);
 								break;
 							}
@@ -3688,7 +3670,7 @@
 								Form2.config.na_MagicAttackDown &&
 								HasDebuff(memberBuffs, Buffs.MagicAtkDown))
 							{
-								await CastSpell(member.Name, "Erase", "Mag. Atk. Down → " + member.Name);
+								await CastSpell(member.Name, "Erase");
 								ClearDebuff(member.Name, Buffs.MagicAtkDown);
 								break;
 							}
@@ -3698,7 +3680,7 @@
 								Form2.config.na_MagicAccDown &&
 								HasDebuff(memberBuffs, Buffs.MagicAccDown))
 							{
-								await CastSpell(member.Name, "Erase", "Mag. Acc. Down → " + member.Name);
+								await CastSpell(member.Name, "Erase");
 								ClearDebuff(member.Name, Buffs.MagicAccDown);
 								break;
 							}
@@ -3708,7 +3690,7 @@
 								Form2.config.na_MndDown &&
 								HasDebuff(memberBuffs, Buffs.MNDDown))
 							{
-								await CastSpell(member.Name, "Erase", "MND Down → " + member.Name);
+								await CastSpell(member.Name, "Erase");
 								ClearDebuff(member.Name, Buffs.MNDDown);
 								break;
 							}
@@ -3718,7 +3700,7 @@
 								Form2.config.na_IntDown &&
 								HasDebuff(memberBuffs, Buffs.INTDown))
 							{
-								await CastSpell(member.Name, "Erase", "INT Down → " + member.Name);
+								await CastSpell(member.Name, "Erase");
 								ClearDebuff(member.Name, Buffs.INTDown);
 								break;
 							}
@@ -3728,7 +3710,7 @@
 								Form2.config.na_Helix &&
 								HasDebuff(memberBuffs, Buffs.Helix))
 							{
-								await CastSpell(member.Name, "Erase", "Helix → " + member.Name);
+								await CastSpell(member.Name, "Erase");
 								ClearDebuff(member.Name, Buffs.Helix);
 								break;
 							}
@@ -3738,7 +3720,7 @@
 								Form2.config.na_Frost &&
 								HasDebuff(memberBuffs, Buffs.Frost))
 							{
-								await CastSpell(member.Name, "Erase", "Frost → " + member.Name);
+								await CastSpell(member.Name, "Erase");
 								ClearDebuff(member.Name, Buffs.Frost);
 								break;
 							}
@@ -3748,7 +3730,7 @@
 								Form2.config.na_EvasionDown &&
 								HasDebuff(memberBuffs, Buffs.EvasionDown))
 							{
-								await CastSpell(member.Name, "Erase", "Evasion Down → " + member.Name);
+								await CastSpell(member.Name, "Erase");
 								ClearDebuff(member.Name, Buffs.EvasionDown);
 								break;
 							}
@@ -3758,7 +3740,7 @@
 								Form2.config.na_Elegy &&
 								HasDebuff(memberBuffs, Buffs.Elegy))
 							{
-								await CastSpell(member.Name, "Erase", "Elegy → " + member.Name);
+								await CastSpell(member.Name, "Erase");
 								ClearDebuff(member.Name, Buffs.Elegy);
 								break;
 							}
@@ -3768,7 +3750,7 @@
 								Form2.config.na_Drown &&
 								HasDebuff(memberBuffs, Buffs.Drown))
 							{
-								await CastSpell(member.Name, "Erase", "Drown → " + member.Name);
+								await CastSpell(member.Name, "Erase");
 								ClearDebuff(member.Name, Buffs.Drown);
 								break;
 							}
@@ -3778,7 +3760,7 @@
 								Form2.config.na_Dia &&
 								HasDebuff(memberBuffs, Buffs.Dia))
 							{
-								await CastSpell(member.Name, "Erase", "Dia → " + member.Name);
+								await CastSpell(member.Name, "Erase");
 								ClearDebuff(member.Name, Buffs.Dia);
 								break;
 							}
@@ -3788,7 +3770,7 @@
 								Form2.config.na_DexDown &&
 								HasDebuff(memberBuffs, Buffs.DEXDown))
 							{
-								await CastSpell(member.Name, "Erase", "DEX Down → " + member.Name);
+								await CastSpell(member.Name, "Erase");
 								ClearDebuff(member.Name, Buffs.DEXDown);
 								break;
 							}
@@ -3798,7 +3780,7 @@
 								Form2.config.na_Choke &&
 								HasDebuff(memberBuffs, Buffs.Choke))
 							{
-								await CastSpell(member.Name, "Erase", "Choke → " + member.Name);
+								await CastSpell(member.Name, "Erase");
 								ClearDebuff(member.Name, Buffs.Choke);
 								break;
 							}
@@ -3808,7 +3790,7 @@
 								Form2.config.na_ChrDown &&
 								HasDebuff(memberBuffs, Buffs.CHRDown))
 							{
-								await CastSpell(member.Name, "Erase", "CHR Down → " + member.Name);
+								await CastSpell(member.Name, "Erase");
 								ClearDebuff(member.Name, Buffs.CHRDown);
 								break;
 							}
@@ -3818,7 +3800,7 @@
 								Form2.config.na_Burn &&
 								HasDebuff(memberBuffs, Buffs.Burn))
 							{
-								await CastSpell(member.Name, "Erase", "Burn → " + member.Name);
+								await CastSpell(member.Name, "Erase");
 								ClearDebuff(member.Name, Buffs.Burn);
 								break;
 							}
@@ -3828,7 +3810,7 @@
 								Form2.config.na_AgiDown &&
 								HasDebuff(memberBuffs, Buffs.AGIDown))
 							{
-								await CastSpell(member.Name, "Erase", "AGI Down → " + member.Name);
+								await CastSpell(member.Name, "Erase");
 								ClearDebuff(member.Name, Buffs.AGIDown);
 								break;
 							}
@@ -4048,9 +4030,7 @@
 			else return instanceMonitored.Player.GetPlayerInfo().Buffs.Contains(buffID);
 		}
 
-		private string spellCommand = "";
-		private float spellCastTime = 0f;
-		private async Task<bool> CastSpell(string partyMemberName, string spellName, [Optional] string OptionalExtras)
+		private async Task<bool> CastSpell(string partyMemberName, string spellName)
 		{
 			var spellInfo = instancePrimary.Resources.GetSpell(spellName.Trim(), 0);
 			var actualSpellName = spellInfo?.Name[0];
@@ -4074,7 +4054,7 @@
 					castTokenSource = new CancellationTokenSource();
 					spellCastTime = Spells.GetCastTimeSeconds(spellName) * 1000;
 					spellCommand = $"/ma \"{actualSpellName}\" {partyMemberName}";
-					await CastSpellInternal(spellCommand, castTokenSource.Token);
+					await CastSpellInternal(castTokenSource.Token);
 
 					// Once casting has completed, we must dispose of and nullify the
 					// cancellation token source so that the next spell cast can continue.
@@ -4229,23 +4209,6 @@
 			else
 			{
 				return false;
-			}
-		}
-
-		private void GrabPlayerMonitoredData()
-		{
-			for (var x = 0; x < 2048; x++)
-			{
-				var entity = instancePrimary.Entity.GetEntity(x);
-
-				if (entity.Name != null && entity.Name == instanceMonitored.Player.Name)
-				{
-					indexMonitored = entity.TargetID;
-				}
-				else if (entity.Name != null && entity.Name == instancePrimary.Player.Name)
-				{
-					indexPrimary = entity.TargetID;
-				}
 			}
 		}
 
@@ -5622,7 +5585,6 @@
 			}
 		}
 
-
 		private void Form1_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			notifyIcon1.Dispose();
@@ -5674,16 +5636,6 @@
 			{
 				return -1;
 			}
-		}
-
-		private void showErrorMessage(string ErrorMessage)
-		{
-			pauseActions = true;
-			pauseButton.Text = "Error!";
-			pauseButton.ForeColor = Color.Red;
-			enableActions = false;
-
-			MessageBox.Show(ErrorMessage);
 		}
 
 		public bool plMonitoredSameParty()
@@ -6455,9 +6407,6 @@
 			}
 		}
 
-
-
-
 		private void Follow_BGW_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
 		{
 
@@ -6566,9 +6515,9 @@
 												curePlease_autofollow = true;
 
 
-												lastX = instancePrimary.Player.X;
-												lastY = instancePrimary.Player.Y;
-												lastZ = instancePrimary.Player.Z;
+												lastPlX = instancePrimary.Player.X;
+												lastPlY = instancePrimary.Player.Y;
+												lastPlZ = instancePrimary.Player.Z;
 
 												Thread.Sleep(TimeSpan.FromSeconds(0.1));
 											}
@@ -6589,17 +6538,17 @@
 												curePlease_autofollow = true;
 
 
-												lastX = instancePrimary.Player.X;
-												lastY = instancePrimary.Player.Y;
-												lastZ = instancePrimary.Player.Z;
+												lastPlX = instancePrimary.Player.X;
+												lastPlY = instancePrimary.Player.Y;
+												lastPlZ = instancePrimary.Player.Z;
 
 												Thread.Sleep(TimeSpan.FromSeconds(0.1));
 											}
 
 											// STUCK CHECKER
-											var genX = lastX - instancePrimary.Player.X;
-											var genY = lastY - instancePrimary.Player.Y;
-											var genZ = lastZ - instancePrimary.Player.Z;
+											var genX = lastPlX - instancePrimary.Player.X;
+											var genY = lastPlY - instancePrimary.Player.Y;
+											var genZ = lastPlZ - instancePrimary.Player.Z;
 
 											var distance = Math.Sqrt(genX * genX + genY * genY + genZ * genZ);
 
@@ -6645,7 +6594,6 @@
 		{
 			Opacity = trackBar1.Value * 0.01;
 		}
-
 
 		private void OptionsButton_Click(object sender, EventArgs e)
 		{
@@ -6879,7 +6827,7 @@
 
 		private CancellationTokenSource castTokenSource;
 
-		private async Task CastSpellInternal(string command, CancellationToken cancellationToken)
+		private async Task CastSpellInternal(CancellationToken cancellationToken)
 		{
 			if (!(await casting.WaitAsync(15000)))
 			{
@@ -7082,7 +7030,6 @@
 				return;
 			}
 
-			GrabPlayerMonitoredData();
 			currentTime = DateTime.Now;
 
 			// Calculate time since haste was cast on particular player
@@ -8321,13 +8268,9 @@
 						}
 					}
 
-
-
-
-
-
-
-					var playerBuffOrder = instanceMonitored.Party.GetPartyMembers().OrderBy(p => p.MemberNumber).OrderBy(p => p.Active == 0).Where(p => p.Active == 1);
+					var playerBuffOrder = instanceMonitored.Party.GetPartyMembers()
+						.OrderBy(p => p.MemberNumber).OrderBy(p => p.Active == 0)
+						.Where(p => p.Active == 1);
 
 					string[] regen_spells = { "Regen", "Regen II", "Regen III", "Regen IV", "Regen V" };
 					string[] refresh_spells = { "Refresh", "Refresh II", "Refresh III" };

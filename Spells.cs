@@ -8,7 +8,7 @@ namespace CurePlease
 {
 	public static class Spells
 	{
-		private static SpellInfo[] spells = new[]
+		private static readonly SpellInfo[] spells = new[]
 		{
 			new SpellInfo("Cure", 2f, 8),
 			new SpellInfo("Cure II", 2.25f, 24),
