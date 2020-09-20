@@ -7292,13 +7292,25 @@
 			// IF YOU ARE DEAD BUT RERAISE IS AVAILABLE THEN ACCEPT RAISE
 			if (Form2.config.AcceptRaise == true && (instancePrimary.Player.Status == 2 || instancePrimary.Player.Status == 3))
 			{
-				if (instancePrimary.Menu.IsMenuOpen && instancePrimary.Menu.HelpName == "Revival" && instancePrimary.Menu.MenuIndex == 1 && ((Form2.config.AcceptRaiseOnlyWhenNotInCombat == true && instanceMonitored.Player.Status != 1) || Form2.config.AcceptRaiseOnlyWhenNotInCombat == false))
+				if (
+					instancePrimary.Menu.IsMenuOpen && 
+					instancePrimary.Menu.HelpName == "Revival" && 
+					instancePrimary.Menu.MenuIndex == 1 && 
+					(
+						(Form2.config.AcceptRaiseOnlyWhenNotInCombat && instanceMonitored.Player.Status != 1) || 
+						(Form2.config.AcceptRaiseOnlyWhenNotInCombat == false)
+					))
 				{
 					await Task.Delay(2000);
 					currentAction.Text = "Accepting Raise or Reraise.";
 					instancePrimary.ThirdParty.KeyPress(EliteMMO.API.Keys.NUMPADENTER);
-					await Task.Delay(5000);
 					currentAction.Text = string.Empty;
+
+					await Task.Delay(5000);
+					pauseButton.Text = "Pause";
+					pauseButton.ForeColor = Color.Black;
+					enableActions = true;
+					pauseActions = false;
 				}
 			}
 
