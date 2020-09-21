@@ -2916,177 +2916,177 @@
 					wakeSleepSpellName = "Curaga";
 				}
 
-				foreach (StatusEffect plEffect in instancePrimary.Player.Buffs)
+				foreach (var plEffect in instancePrimary.Player.Buffs)
 				{
-					if ((plEffect == StatusEffect.Doom) && (Form2.config.plDoom) && CanCastSpell("Cursna") && HasRequiredJobLevel("Cursna") == true)
+					if ((plEffect == Buffs.Doom) && (Form2.config.plDoom) && CanCastSpell("Cursna") && HasRequiredJobLevel("Cursna") == true)
 					{
 						await CastSpell(instancePrimary.Player.Name, "Cursna");
 					}
-					else if ((plEffect == StatusEffect.Paralysis) && (Form2.config.plParalysis) && CanCastSpell("Paralyna") && HasRequiredJobLevel("Paralyna") == true)
+					else if ((plEffect == Buffs.Paralysis) && (Form2.config.plParalysis) && CanCastSpell("Paralyna") && HasRequiredJobLevel("Paralyna") == true)
 					{
 						await CastSpell(instancePrimary.Player.Name, "Paralyna");
 					}
-					else if ((plEffect == StatusEffect.Amnesia) && (Form2.config.plAmnesia) && CanCastSpell("Esuna") && HasRequiredJobLevel("Esuna") == true && hasBuff(0, 418))
+					else if ((plEffect == Buffs.Amnesia) && (Form2.config.plAmnesia) && CanCastSpell("Esuna") && HasRequiredJobLevel("Esuna") == true && HasAllBuffs(0, Buffs.AfflatusMisery))
 					{
 						await CastSpell(instancePrimary.Player.Name, "Esuna");
 					}
-					else if ((plEffect == StatusEffect.Poison) && (Form2.config.plPoison) && CanCastSpell("Poisona") && HasRequiredJobLevel("Poisona") == true)
+					else if ((plEffect == Buffs.Poison) && (Form2.config.plPoison) && CanCastSpell("Poisona") && HasRequiredJobLevel("Poisona") == true)
 					{
 						await CastSpell(instancePrimary.Player.Name, "Poisona");
 					}
-					else if ((plEffect == StatusEffect.Attack_Down) && (Form2.config.plAttackDown))
+					else if ((plEffect == Buffs.AttackDown) && (Form2.config.plAttackDown))
 					{
 						await CastSpell(instancePrimary.Player.Name, "Erase");
 					}
-					else if ((plEffect == StatusEffect.Blindness) && (Form2.config.plBlindness) && CanCastSpell("Blindna") && HasRequiredJobLevel("Blindna") == true)
+					else if ((plEffect == Buffs.Blindness) && (Form2.config.plBlindness) && CanCastSpell("Blindna") && HasRequiredJobLevel("Blindna") == true)
 					{
 						await CastSpell(instancePrimary.Player.Name, "Blindna");
 					}
-					else if ((plEffect == StatusEffect.Bind) && (Form2.config.plBind) && (Form2.config.plAttackDown))
+					else if ((plEffect == Buffs.Bind) && (Form2.config.plBind) && (Form2.config.plAttackDown))
 					{
 						await CastSpell(instancePrimary.Player.Name, "Erase");
 					}
-					else if ((plEffect == StatusEffect.Weight) && (Form2.config.plWeight))
+					else if ((plEffect == Buffs.Weight) && (Form2.config.plWeight))
 					{
 						await CastSpell(instancePrimary.Player.Name, "Erase");
 					}
-					else if ((plEffect == StatusEffect.Slow) && (Form2.config.plSlow))
+					else if ((plEffect == Buffs.Slow) && (Form2.config.plSlow))
 					{
 						await CastSpell(instancePrimary.Player.Name, "Erase");
 					}
-					else if ((plEffect == StatusEffect.Curse) && (Form2.config.plCurse) && CanCastSpell("Cursna") && HasRequiredJobLevel("Cursna") == true)
+					else if ((plEffect == Buffs.Curse) && (Form2.config.plCurse) && CanCastSpell("Cursna") && HasRequiredJobLevel("Cursna") == true)
 					{
 						await CastSpell(instancePrimary.Player.Name, "Cursna");
 					}
-					else if ((plEffect == StatusEffect.Curse2) && (Form2.config.plCurse2) && CanCastSpell("Cursna") && HasRequiredJobLevel("Cursna") == true)
+					else if ((plEffect == Buffs.Curse2) && (Form2.config.plCurse2) && CanCastSpell("Cursna") && HasRequiredJobLevel("Cursna") == true)
 					{
 						await CastSpell(instancePrimary.Player.Name, "Cursna");
 					}
-					else if ((plEffect == StatusEffect.Addle) && (Form2.config.plAddle) && (Form2.config.plAttackDown))
+					else if ((plEffect == Buffs.Addle) && (Form2.config.plAddle) && (Form2.config.plAttackDown))
 					{
 						await CastSpell(instancePrimary.Player.Name, "Erase");
 					}
-					else if ((plEffect == StatusEffect.Bane) && (Form2.config.plBane) && CanCastSpell("Cursna") && HasRequiredJobLevel("Cursna") == true)
+					else if ((plEffect == Buffs.Bane) && (Form2.config.plBane) && CanCastSpell("Cursna") && HasRequiredJobLevel("Cursna") == true)
 					{
 						await CastSpell(instancePrimary.Player.Name, "Cursna");
 					}
-					else if ((plEffect == StatusEffect.Plague) && (Form2.config.plPlague) && CanCastSpell("Viruna") && HasRequiredJobLevel("Viruna") == true)
+					else if ((plEffect == Buffs.Plague) && (Form2.config.plPlague) && CanCastSpell("Viruna") && HasRequiredJobLevel("Viruna") == true)
 					{
 						await CastSpell(instancePrimary.Player.Name, "Viruna");
 					}
-					else if ((plEffect == StatusEffect.Disease) && (Form2.config.plDisease) && CanCastSpell("Viruna") && HasRequiredJobLevel("Viruna") == true)
+					else if ((plEffect == Buffs.Disease) && (Form2.config.plDisease) && CanCastSpell("Viruna") && HasRequiredJobLevel("Viruna") == true)
 					{
 						await CastSpell(instancePrimary.Player.Name, "Viruna");
 					}
-					else if ((plEffect == StatusEffect.Burn) && (Form2.config.plBurn) && (Form2.config.plAttackDown))
+					else if ((plEffect == Buffs.Burn) && (Form2.config.plBurn) && (Form2.config.plAttackDown))
 					{
 						await CastSpell(instancePrimary.Player.Name, "Erase");
 					}
-					else if ((plEffect == StatusEffect.Frost) && (Form2.config.plFrost) && (Form2.config.plAttackDown))
+					else if ((plEffect == Buffs.Frost) && (Form2.config.plFrost) && (Form2.config.plAttackDown))
 					{
 						await CastSpell(instancePrimary.Player.Name, "Erase");
 					}
-					else if ((plEffect == StatusEffect.Choke) && (Form2.config.plChoke) && (Form2.config.plAttackDown))
+					else if ((plEffect == Buffs.Choke) && (Form2.config.plChoke) && (Form2.config.plAttackDown))
 					{
 						await CastSpell(instancePrimary.Player.Name, "Erase");
 					}
-					else if ((plEffect == StatusEffect.Rasp) && (Form2.config.plRasp) && (Form2.config.plAttackDown))
+					else if ((plEffect == Buffs.Rasp) && (Form2.config.plRasp) && (Form2.config.plAttackDown))
 					{
 						await CastSpell(instancePrimary.Player.Name, "Erase");
 					}
-					else if ((plEffect == StatusEffect.Shock) && (Form2.config.plShock) && (Form2.config.plAttackDown))
+					else if ((plEffect == Buffs.Shock) && (Form2.config.plShock) && (Form2.config.plAttackDown))
 					{
 						await CastSpell(instancePrimary.Player.Name, "Erase");
 					}
-					else if ((plEffect == StatusEffect.Drown) && (Form2.config.plDrown) && (Form2.config.plAttackDown))
+					else if ((plEffect == Buffs.Drown) && (Form2.config.plDrown) && (Form2.config.plAttackDown))
 					{
 						await CastSpell(instancePrimary.Player.Name, "Erase");
 					}
-					else if ((plEffect == StatusEffect.Dia) && (Form2.config.plDia) && (Form2.config.plAttackDown))
+					else if ((plEffect == Buffs.Dia) && (Form2.config.plDia) && (Form2.config.plAttackDown))
 					{
 						await CastSpell(instancePrimary.Player.Name, "Erase");
 					}
-					else if ((plEffect == StatusEffect.Bio) && (Form2.config.plBio) && (Form2.config.plAttackDown))
+					else if ((plEffect == Buffs.Bio) && (Form2.config.plBio) && (Form2.config.plAttackDown))
 					{
 						await CastSpell(instancePrimary.Player.Name, "Erase");
 					}
-					else if ((plEffect == StatusEffect.STR_Down) && (Form2.config.plStrDown) && (Form2.config.plAttackDown))
+					else if ((plEffect == Buffs.STRDown) && (Form2.config.plStrDown) && (Form2.config.plAttackDown))
 					{
 						await CastSpell(instancePrimary.Player.Name, "Erase");
 					}
-					else if ((plEffect == StatusEffect.DEX_Down) && (Form2.config.plDexDown) && (Form2.config.plAttackDown))
+					else if ((plEffect == Buffs.DEXDown) && (Form2.config.plDexDown) && (Form2.config.plAttackDown))
 					{
 						await CastSpell(instancePrimary.Player.Name, "Erase");
 					}
-					else if ((plEffect == StatusEffect.VIT_Down) && (Form2.config.plVitDown) && (Form2.config.plAttackDown))
+					else if ((plEffect == Buffs.VITDown) && (Form2.config.plVitDown) && (Form2.config.plAttackDown))
 					{
 						await CastSpell(instancePrimary.Player.Name, "Erase");
 					}
-					else if ((plEffect == StatusEffect.AGI_Down) && (Form2.config.plAgiDown) && (Form2.config.plAttackDown))
+					else if ((plEffect == Buffs.AGIDown) && (Form2.config.plAgiDown) && (Form2.config.plAttackDown))
 					{
 						await CastSpell(instancePrimary.Player.Name, "Erase");
 					}
-					else if ((plEffect == StatusEffect.INT_Down) && (Form2.config.plIntDown) && (Form2.config.plAttackDown))
+					else if ((plEffect == Buffs.INTDown) && (Form2.config.plIntDown) && (Form2.config.plAttackDown))
 					{
 						await CastSpell(instancePrimary.Player.Name, "Erase");
 					}
-					else if ((plEffect == StatusEffect.MND_Down) && (Form2.config.plMndDown) && (Form2.config.plAttackDown))
+					else if ((plEffect == Buffs.MNDDown) && (Form2.config.plMndDown) && (Form2.config.plAttackDown))
 					{
 						await CastSpell(instancePrimary.Player.Name, "Erase");
 					}
-					else if ((plEffect == StatusEffect.CHR_Down) && (Form2.config.plChrDown) && (Form2.config.plAttackDown))
+					else if ((plEffect == Buffs.CHRDown) && (Form2.config.plChrDown) && (Form2.config.plAttackDown))
 					{
 						await CastSpell(instancePrimary.Player.Name, "Erase");
 					}
-					else if ((plEffect == StatusEffect.Max_HP_Down) && (Form2.config.plMaxHpDown) && (Form2.config.plAttackDown))
+					else if ((plEffect == Buffs.MaxHPDown) && (Form2.config.plMaxHpDown) && (Form2.config.plAttackDown))
 					{
 						await CastSpell(instancePrimary.Player.Name, "Erase");
 					}
-					else if ((plEffect == StatusEffect.Max_MP_Down) && (Form2.config.plMaxMpDown) && (Form2.config.plAttackDown))
+					else if ((plEffect == Buffs.MaxMPDown) && (Form2.config.plMaxMpDown) && (Form2.config.plAttackDown))
 					{
 						await CastSpell(instancePrimary.Player.Name, "Erase");
 					}
-					else if ((plEffect == StatusEffect.Accuracy_Down) && (Form2.config.plAccuracyDown) && (Form2.config.plAttackDown))
+					else if ((plEffect == Buffs.AccuracyDown) && (Form2.config.plAccuracyDown) && (Form2.config.plAttackDown))
 					{
 						await CastSpell(instancePrimary.Player.Name, "Erase");
 					}
-					else if ((plEffect == StatusEffect.Evasion_Down) && (Form2.config.plEvasionDown) && (Form2.config.plAttackDown))
+					else if ((plEffect == Buffs.EvasionDown) && (Form2.config.plEvasionDown) && (Form2.config.plAttackDown))
 					{
 						await CastSpell(instancePrimary.Player.Name, "Erase");
 					}
-					else if ((plEffect == StatusEffect.Defense_Down) && (Form2.config.plDefenseDown) && (Form2.config.plAttackDown))
+					else if ((plEffect == Buffs.DefenseDown) && (Form2.config.plDefenseDown) && (Form2.config.plAttackDown))
 					{
 						await CastSpell(instancePrimary.Player.Name, "Erase");
 					}
-					else if ((plEffect == StatusEffect.Flash) && (Form2.config.plFlash) && (Form2.config.plAttackDown))
+					else if ((plEffect == Buffs.Flash) && (Form2.config.plFlash) && (Form2.config.plAttackDown))
 					{
 						await CastSpell(instancePrimary.Player.Name, "Erase");
 					}
-					else if ((plEffect == StatusEffect.Magic_Acc_Down) && (Form2.config.plMagicAccDown) && (Form2.config.plAttackDown))
+					else if ((plEffect == Buffs.MagicAccDown) && (Form2.config.plMagicAccDown) && (Form2.config.plAttackDown))
 					{
 						await CastSpell(instancePrimary.Player.Name, "Erase");
 					}
-					else if ((plEffect == StatusEffect.Magic_Atk_Down) && (Form2.config.plMagicAtkDown) && (Form2.config.plAttackDown))
+					else if ((plEffect == Buffs.MagicAtkDown) && (Form2.config.plMagicAtkDown) && (Form2.config.plAttackDown))
 					{
 						await CastSpell(instancePrimary.Player.Name, "Erase");
 					}
-					else if ((plEffect == StatusEffect.Helix) && (Form2.config.plHelix) && (Form2.config.plAttackDown))
+					else if ((plEffect == Buffs.Helix) && (Form2.config.plHelix) && (Form2.config.plAttackDown))
 					{
 						await CastSpell(instancePrimary.Player.Name, "Erase");
 					}
-					else if ((plEffect == StatusEffect.Max_TP_Down) && (Form2.config.plMaxTpDown) && (Form2.config.plAttackDown))
+					else if ((plEffect == Buffs.MaxTPDown) && (Form2.config.plMaxTpDown) && (Form2.config.plAttackDown))
 					{
 						await CastSpell(instancePrimary.Player.Name, "Erase");
 					}
-					else if ((plEffect == StatusEffect.Requiem) && (Form2.config.plRequiem) && (Form2.config.plAttackDown))
+					else if ((plEffect == Buffs.Requiem) && (Form2.config.plRequiem) && (Form2.config.plAttackDown))
 					{
 						await CastSpell(instancePrimary.Player.Name, "Erase");
 					}
-					else if ((plEffect == StatusEffect.Elegy) && (Form2.config.plElegy) && (Form2.config.plAttackDown))
+					else if ((plEffect == Buffs.Elegy) && (Form2.config.plElegy) && (Form2.config.plAttackDown))
 					{
 						await CastSpell(instancePrimary.Player.Name, "Erase");
 					}
-					else if ((plEffect == StatusEffect.Threnody) && (Form2.config.plThrenody) && (Form2.config.plAttackDown))
+					else if ((plEffect == Buffs.Threnody) && (Form2.config.plThrenody) && (Form2.config.plAttackDown))
 					{
 						await CastSpell(instancePrimary.Player.Name, "Erase");
 					}
@@ -3096,193 +3096,193 @@
 			// Next, we check monitored player
 			if ((instancePrimary.Entity.GetEntity((int)instanceMonitored.Party.GetPartyMember(0).TargetIndex).Distance < 21) && (instancePrimary.Entity.GetEntity((int)instanceMonitored.Party.GetPartyMember(0).TargetIndex).Distance > 0) && (instanceMonitored.Player.HP > 0) && !IsHealing())
 			{
-				foreach (StatusEffect monitoredEffect in instanceMonitored.Player.Buffs)
+				foreach (short monitoredEffect in instanceMonitored.Player.Buffs)
 				{
-					if ((monitoredEffect == StatusEffect.Doom) && (Form2.config.monitoredDoom) && CanCastSpell("Cursna") && HasRequiredJobLevel("Cursna") == true)
+					if ((monitoredEffect == Buffs.Doom) && (Form2.config.monitoredDoom) && CanCastSpell("Cursna") && HasRequiredJobLevel("Cursna") == true)
 					{
 						await CastSpell(instanceMonitored.Player.Name, "Cursna");
 					}
-					else if ((monitoredEffect == StatusEffect.Sleep) && (Form2.config.monitoredSleep) && (Form2.config.wakeSleepEnabled))
+					else if ((monitoredEffect == Buffs.Sleep) && (Form2.config.monitoredSleep) && (Form2.config.wakeSleepEnabled))
 					{
 						await CastSpell(instanceMonitored.Player.Name, wakeSleepSpellName);
 					}
-					else if ((monitoredEffect == StatusEffect.Sleep2) && (Form2.config.monitoredSleep2) && (Form2.config.wakeSleepEnabled))
+					else if ((monitoredEffect == Buffs.Sleep2) && (Form2.config.monitoredSleep2) && (Form2.config.wakeSleepEnabled))
 					{
 						await CastSpell(instanceMonitored.Player.Name, wakeSleepSpellName);
 					}
-					else if ((monitoredEffect == StatusEffect.Silence) && (Form2.config.monitoredSilence) && CanCastSpell("Silena") && HasRequiredJobLevel("Silena") == true)
+					else if ((monitoredEffect == Buffs.Silence) && (Form2.config.monitoredSilence) && CanCastSpell("Silena") && HasRequiredJobLevel("Silena") == true)
 					{
 						await CastSpell(instanceMonitored.Player.Name, "Silena");
 					}
-					else if ((monitoredEffect == StatusEffect.Petrification) && (Form2.config.monitoredPetrification) && CanCastSpell("Stona") && HasRequiredJobLevel("Stona") == true)
+					else if ((monitoredEffect == Buffs.Petrification) && (Form2.config.monitoredPetrification) && CanCastSpell("Stona") && HasRequiredJobLevel("Stona") == true)
 					{
 						await CastSpell(instanceMonitored.Player.Name, "Stona");
 					}
-					else if ((monitoredEffect == StatusEffect.Paralysis) && (Form2.config.monitoredParalysis) && CanCastSpell("Paralyna") && HasRequiredJobLevel("Paralyna") == true)
+					else if ((monitoredEffect == Buffs.Paralysis) && (Form2.config.monitoredParalysis) && CanCastSpell("Paralyna") && HasRequiredJobLevel("Paralyna") == true)
 					{
 						await CastSpell(instanceMonitored.Player.Name, "Paralyna");
 					}
-					else if ((monitoredEffect == StatusEffect.Amnesia) && (Form2.config.monitoredAmnesia) && CanCastSpell("Esuna") && HasRequiredJobLevel("Esuna") == true && hasBuff(0, 418))
+					else if ((monitoredEffect == Buffs.Amnesia) && (Form2.config.monitoredAmnesia) && CanCastSpell("Esuna") && HasRequiredJobLevel("Esuna") == true && HasAllBuffs(0, Buffs.AfflatusMisery))
 					{
 						await CastSpell(instanceMonitored.Player.Name, "Esuna");
 					}
-					else if ((monitoredEffect == StatusEffect.Poison) && (Form2.config.monitoredPoison) && CanCastSpell("Poisona") && HasRequiredJobLevel("Erase") == true)
+					else if ((monitoredEffect == Buffs.Poison) && (Form2.config.monitoredPoison) && CanCastSpell("Poisona") && HasRequiredJobLevel("Erase") == true)
 					{
 						await CastSpell(instanceMonitored.Player.Name, "Poisona");
 					}
-					else if ((monitoredEffect == StatusEffect.Attack_Down) && (Form2.config.monitoredAttackDown) && plMonitoredSameParty() == true)
+					else if ((monitoredEffect == Buffs.AttackDown) && (Form2.config.monitoredAttackDown) && plMonitoredSameParty() == true)
 					{
 						await CastSpell(instanceMonitored.Player.Name, "Erase");
 					}
-					else if ((monitoredEffect == StatusEffect.Blindness) && (Form2.config.monitoredBlindness) && CanCastSpell("Blindna") && HasRequiredJobLevel("Blindna") == true)
+					else if ((monitoredEffect == Buffs.Blindness) && (Form2.config.monitoredBlindness) && CanCastSpell("Blindna") && HasRequiredJobLevel("Blindna") == true)
 					{
 						await CastSpell(instanceMonitored.Player.Name, "Blindna");
 					}
-					else if ((monitoredEffect == StatusEffect.Bind) && (Form2.config.monitoredBind) && plMonitoredSameParty() == true)
+					else if ((monitoredEffect == Buffs.Bind) && (Form2.config.monitoredBind) && plMonitoredSameParty() == true)
 					{
 						await CastSpell(instanceMonitored.Player.Name, "Erase");
 					}
-					else if ((monitoredEffect == StatusEffect.Weight) && (Form2.config.monitoredWeight) && plMonitoredSameParty() == true)
+					else if ((monitoredEffect == Buffs.Weight) && (Form2.config.monitoredWeight) && plMonitoredSameParty() == true)
 					{
 						await CastSpell(instanceMonitored.Player.Name, "Erase");
 					}
-					else if ((monitoredEffect == StatusEffect.Slow) && (Form2.config.monitoredSlow) && plMonitoredSameParty() == true)
+					else if ((monitoredEffect == Buffs.Slow) && (Form2.config.monitoredSlow) && plMonitoredSameParty() == true)
 					{
 						await CastSpell(instanceMonitored.Player.Name, "Erase");
 					}
-					else if ((monitoredEffect == StatusEffect.Curse) && (Form2.config.monitoredCurse) && CanCastSpell("Cursna") && HasRequiredJobLevel("Cursna") == true)
+					else if ((monitoredEffect == Buffs.Curse) && (Form2.config.monitoredCurse) && CanCastSpell("Cursna") && HasRequiredJobLevel("Cursna") == true)
 					{
 						await CastSpell(instanceMonitored.Player.Name, "Cursna");
 					}
-					else if ((monitoredEffect == StatusEffect.Curse2) && (Form2.config.monitoredCurse2) && CanCastSpell("Cursna") && HasRequiredJobLevel("Cursna") == true)
+					else if ((monitoredEffect == Buffs.Curse2) && (Form2.config.monitoredCurse2) && CanCastSpell("Cursna") && HasRequiredJobLevel("Cursna") == true)
 					{
 						await CastSpell(instanceMonitored.Player.Name, "Cursna");
 					}
-					else if ((monitoredEffect == StatusEffect.Addle) && (Form2.config.monitoredAddle) && plMonitoredSameParty() == true)
+					else if ((monitoredEffect == Buffs.Addle) && (Form2.config.monitoredAddle) && plMonitoredSameParty() == true)
 					{
 						await CastSpell(instanceMonitored.Player.Name, "Erase");
 					}
-					else if ((monitoredEffect == StatusEffect.Bane) && (Form2.config.monitoredBane) && CanCastSpell("Cursna") && HasRequiredJobLevel("Cursna") == true)
+					else if ((monitoredEffect == Buffs.Bane) && (Form2.config.monitoredBane) && CanCastSpell("Cursna") && HasRequiredJobLevel("Cursna") == true)
 					{
 						await CastSpell(instanceMonitored.Player.Name, "Cursna");
 					}
-					else if ((monitoredEffect == StatusEffect.Plague) && (Form2.config.monitoredPlague) && CanCastSpell("Viruna") && HasRequiredJobLevel("Viruna") == true)
+					else if ((monitoredEffect == Buffs.Plague) && (Form2.config.monitoredPlague) && CanCastSpell("Viruna") && HasRequiredJobLevel("Viruna") == true)
 					{
 						await CastSpell(instanceMonitored.Player.Name, "Viruna");
 					}
-					else if ((monitoredEffect == StatusEffect.Disease) && (Form2.config.monitoredDisease) && CanCastSpell("Viruna") && HasRequiredJobLevel("Viruna") == true)
+					else if ((monitoredEffect == Buffs.Disease) && (Form2.config.monitoredDisease) && CanCastSpell("Viruna") && HasRequiredJobLevel("Viruna") == true)
 					{
 						await CastSpell(instanceMonitored.Player.Name, "Viruna");
 					}
-					else if ((monitoredEffect == StatusEffect.Burn) && (Form2.config.monitoredBurn) && plMonitoredSameParty() == true)
+					else if ((monitoredEffect == Buffs.Burn) && (Form2.config.monitoredBurn) && plMonitoredSameParty() == true)
 					{
 						await CastSpell(instanceMonitored.Player.Name, "Erase");
 					}
-					else if ((monitoredEffect == StatusEffect.Frost) && (Form2.config.monitoredFrost) && plMonitoredSameParty() == true)
+					else if ((monitoredEffect == Buffs.Frost) && (Form2.config.monitoredFrost) && plMonitoredSameParty() == true)
 					{
 						await CastSpell(instanceMonitored.Player.Name, "Erase");
 					}
-					else if ((monitoredEffect == StatusEffect.Choke) && (Form2.config.monitoredChoke) && plMonitoredSameParty() == true)
+					else if ((monitoredEffect == Buffs.Choke) && (Form2.config.monitoredChoke) && plMonitoredSameParty() == true)
 					{
 						await CastSpell(instanceMonitored.Player.Name, "Erase");
 					}
-					else if ((monitoredEffect == StatusEffect.Rasp) && (Form2.config.monitoredRasp) && plMonitoredSameParty() == true)
+					else if ((monitoredEffect == Buffs.Rasp) && (Form2.config.monitoredRasp) && plMonitoredSameParty() == true)
 					{
 						await CastSpell(instanceMonitored.Player.Name, "Erase");
 					}
-					else if ((monitoredEffect == StatusEffect.Shock) && (Form2.config.monitoredShock) && plMonitoredSameParty() == true)
+					else if ((monitoredEffect == Buffs.Shock) && (Form2.config.monitoredShock) && plMonitoredSameParty() == true)
 					{
 						await CastSpell(instanceMonitored.Player.Name, "Erase");
 					}
-					else if ((monitoredEffect == StatusEffect.Drown) && (Form2.config.monitoredDrown) && plMonitoredSameParty() == true)
+					else if ((monitoredEffect == Buffs.Drown) && (Form2.config.monitoredDrown) && plMonitoredSameParty() == true)
 					{
 						await CastSpell(instanceMonitored.Player.Name, "Erase");
 					}
-					else if ((monitoredEffect == StatusEffect.Dia) && (Form2.config.monitoredDia) && plMonitoredSameParty() == true)
+					else if ((monitoredEffect == Buffs.Dia) && (Form2.config.monitoredDia) && plMonitoredSameParty() == true)
 					{
 						await CastSpell(instanceMonitored.Player.Name, "Erase");
 					}
-					else if ((monitoredEffect == StatusEffect.Bio) && (Form2.config.monitoredBio) && plMonitoredSameParty() == true)
+					else if ((monitoredEffect == Buffs.Bio) && (Form2.config.monitoredBio) && plMonitoredSameParty() == true)
 					{
 						await CastSpell(instanceMonitored.Player.Name, "Erase");
 					}
-					else if ((monitoredEffect == StatusEffect.STR_Down) && (Form2.config.monitoredStrDown) && plMonitoredSameParty() == true)
+					else if ((monitoredEffect == Buffs.STRDown) && (Form2.config.monitoredStrDown) && plMonitoredSameParty() == true)
 					{
 						await CastSpell(instanceMonitored.Player.Name, "Erase");
 					}
-					else if ((monitoredEffect == StatusEffect.DEX_Down) && (Form2.config.monitoredDexDown) && plMonitoredSameParty() == true)
+					else if ((monitoredEffect == Buffs.DEXDown) && (Form2.config.monitoredDexDown) && plMonitoredSameParty() == true)
 					{
 						await CastSpell(instanceMonitored.Player.Name, "Erase");
 					}
-					else if ((monitoredEffect == StatusEffect.VIT_Down) && (Form2.config.monitoredVitDown) && plMonitoredSameParty() == true)
+					else if ((monitoredEffect == Buffs.VITDown) && (Form2.config.monitoredVitDown) && plMonitoredSameParty() == true)
 					{
 						await CastSpell(instanceMonitored.Player.Name, "Erase");
 					}
-					else if ((monitoredEffect == StatusEffect.AGI_Down) && (Form2.config.monitoredAgiDown) && plMonitoredSameParty() == true)
+					else if ((monitoredEffect == Buffs.AGIDown) && (Form2.config.monitoredAgiDown) && plMonitoredSameParty() == true)
 					{
 						await CastSpell(instanceMonitored.Player.Name, "Erase");
 					}
-					else if ((monitoredEffect == StatusEffect.INT_Down) && (Form2.config.monitoredIntDown) && plMonitoredSameParty() == true)
+					else if ((monitoredEffect == Buffs.INTDown) && (Form2.config.monitoredIntDown) && plMonitoredSameParty() == true)
 					{
 						await CastSpell(instanceMonitored.Player.Name, "Erase");
 					}
-					else if ((monitoredEffect == StatusEffect.MND_Down) && (Form2.config.monitoredMndDown) && plMonitoredSameParty() == true)
+					else if ((monitoredEffect == Buffs.MNDDown) && (Form2.config.monitoredMndDown) && plMonitoredSameParty() == true)
 					{
 						await CastSpell(instanceMonitored.Player.Name, "Erase");
 					}
-					else if ((monitoredEffect == StatusEffect.CHR_Down) && (Form2.config.monitoredChrDown) && plMonitoredSameParty() == true)
+					else if ((monitoredEffect == Buffs.CHRDown) && (Form2.config.monitoredChrDown) && plMonitoredSameParty() == true)
 					{
 						await CastSpell(instanceMonitored.Player.Name, "Erase");
 					}
-					else if ((monitoredEffect == StatusEffect.Max_HP_Down) && (Form2.config.monitoredMaxHpDown) && plMonitoredSameParty() == true)
+					else if ((monitoredEffect == Buffs.MaxHPDown) && (Form2.config.monitoredMaxHpDown) && plMonitoredSameParty() == true)
 					{
 						await CastSpell(instanceMonitored.Player.Name, "Erase");
 					}
-					else if ((monitoredEffect == StatusEffect.Max_MP_Down) && (Form2.config.monitoredMaxMpDown) && plMonitoredSameParty() == true)
+					else if ((monitoredEffect == Buffs.MaxMPDown) && (Form2.config.monitoredMaxMpDown) && plMonitoredSameParty() == true)
 					{
 						await CastSpell(instanceMonitored.Player.Name, "Erase");
 					}
-					else if ((monitoredEffect == StatusEffect.Accuracy_Down) && (Form2.config.monitoredAccuracyDown) && plMonitoredSameParty() == true)
+					else if ((monitoredEffect == Buffs.AccuracyDown) && (Form2.config.monitoredAccuracyDown) && plMonitoredSameParty() == true)
 					{
 						await CastSpell(instanceMonitored.Player.Name, "Erase");
 					}
-					else if ((monitoredEffect == StatusEffect.Evasion_Down) && (Form2.config.monitoredEvasionDown) && plMonitoredSameParty() == true)
+					else if ((monitoredEffect == Buffs.EvasionDown) && (Form2.config.monitoredEvasionDown) && plMonitoredSameParty() == true)
 					{
 						await CastSpell(instanceMonitored.Player.Name, "Erase");
 					}
-					else if ((monitoredEffect == StatusEffect.Defense_Down) && (Form2.config.monitoredDefenseDown) && plMonitoredSameParty() == true)
+					else if ((monitoredEffect == Buffs.DefenseDown) && (Form2.config.monitoredDefenseDown) && plMonitoredSameParty() == true)
 					{
 						await CastSpell(instanceMonitored.Player.Name, "Erase");
 					}
-					else if ((monitoredEffect == StatusEffect.Flash) && (Form2.config.monitoredFlash) && plMonitoredSameParty() == true)
+					else if ((monitoredEffect == Buffs.Flash) && (Form2.config.monitoredFlash) && plMonitoredSameParty() == true)
 					{
 						await CastSpell(instanceMonitored.Player.Name, "Erase");
 					}
-					else if ((monitoredEffect == StatusEffect.Magic_Acc_Down) && (Form2.config.monitoredMagicAccDown) && plMonitoredSameParty() == true)
+					else if ((monitoredEffect == Buffs.MagicAccDown) && (Form2.config.monitoredMagicAccDown) && plMonitoredSameParty() == true)
 					{
 						await CastSpell(instanceMonitored.Player.Name, "Erase");
 					}
-					else if ((monitoredEffect == StatusEffect.Magic_Atk_Down) && (Form2.config.monitoredMagicAtkDown) && plMonitoredSameParty() == true)
+					else if ((monitoredEffect == Buffs.MagicAtkDown) && (Form2.config.monitoredMagicAtkDown) && plMonitoredSameParty() == true)
 					{
 						await CastSpell(instanceMonitored.Player.Name, "Erase");
 					}
-					else if ((monitoredEffect == StatusEffect.Helix) && (Form2.config.monitoredHelix) && plMonitoredSameParty() == true)
+					else if ((monitoredEffect == Buffs.Helix) && (Form2.config.monitoredHelix) && plMonitoredSameParty() == true)
 					{
 						await CastSpell(instanceMonitored.Player.Name, "Erase");
 					}
-					else if ((monitoredEffect == StatusEffect.Max_TP_Down) && (Form2.config.monitoredMaxTpDown) && plMonitoredSameParty() == true)
+					else if ((monitoredEffect == Buffs.MaxTPDown) && (Form2.config.monitoredMaxTpDown) && plMonitoredSameParty() == true)
 					{
 						await CastSpell(instanceMonitored.Player.Name, "Erase");
 					}
-					else if ((monitoredEffect == StatusEffect.Requiem) && (Form2.config.monitoredRequiem) && plMonitoredSameParty() == true)
+					else if ((monitoredEffect == Buffs.Requiem) && (Form2.config.monitoredRequiem) && plMonitoredSameParty() == true)
 					{
 						await CastSpell(instanceMonitored.Player.Name, "Erase");
 					}
-					else if ((monitoredEffect == StatusEffect.Elegy) && (Form2.config.monitoredElegy) && plMonitoredSameParty() == true)
+					else if ((monitoredEffect == Buffs.Elegy) && (Form2.config.monitoredElegy) && plMonitoredSameParty() == true)
 					{
 						await CastSpell(instanceMonitored.Player.Name, "Erase");
 					}
-					else if ((monitoredEffect == StatusEffect.Threnody) && (Form2.config.monitoredThrenody) && plMonitoredSameParty() == true)
+					else if ((monitoredEffect == Buffs.Threnody) && (Form2.config.monitoredThrenody) && plMonitoredSameParty() == true)
 					{
 						await CastSpell(instanceMonitored.Player.Name, "Erase");
 					}
@@ -3315,7 +3315,7 @@
 
 						Debug.WriteLine($"Resetting missing debuff timers for {lowerMemberName}");
 
-						if (!HasDebuff(memberBuffs, Buffs.slow) &&
+						if (!HasDebuff(memberBuffs, Buffs.Slow) &&
 								!HasDebuff(memberBuffs, Buffs.slow2) &&
 								!HasDebuff(memberBuffs, Buffs.Haste) &&
 								!HasDebuff(memberBuffs, Buffs.Haste2) &&
@@ -3396,10 +3396,10 @@
 							else if (
 								CanCastSpell("Cursna") &&
 								Form2.config.naCurse &&
-								HasDebuff(memberBuffs, Buffs.curse))
+								HasDebuff(memberBuffs, Buffs.Curse))
 							{
 								await CastSpell(member.Name, "Cursna");
-								ClearDebuff(member.Name, Buffs.curse);
+								ClearDebuff(member.Name, Buffs.Curse);
 								break;
 							}
 							else if (
@@ -3458,39 +3458,39 @@
 							else if (
 								CanCastSpell("Esuna") &&
 								Form2.config.Esuna &&
-								hasBuff(1, Buffs.AfflatusMisery) &&
-								HasDebuff(memberBuffs, Buffs.amnesia))
+								HasAnyBuff(0, Buffs.AfflatusMisery) &&
+								HasDebuff(memberBuffs, Buffs.Amnesia))
 							{
 								await CastSpell(member.Name, "Esuna");
-								ClearDebuff(member.Name, Buffs.amnesia);
+								ClearDebuff(member.Name, Buffs.Amnesia);
 								break;
 							}
 							else if (
 								CanCastSpell("Blindna") &&
 								Form2.config.naBlindness &&
-								HasDebuff(memberBuffs, Buffs.blindness))
+								HasDebuff(memberBuffs, Buffs.Blindness))
 							{
 								await CastSpell(member.Name, "Blindna");
-								ClearDebuff(member.Name, Buffs.blindness);
+								ClearDebuff(member.Name, Buffs.Blindness);
 								break;
 							}
 							else if (
 								CanCastSpell("Poisona") &&
 								Form2.config.naPoison &&
-								HasDebuff(memberBuffs, Buffs.poison))
+								HasDebuff(memberBuffs, Buffs.Poison))
 							{
 								await CastSpell(member.Name, "Poisona");
-								ClearDebuff(member.Name, Buffs.poison);
+								ClearDebuff(member.Name, Buffs.Poison);
 								break;
 							}
 							else if (
 								CanCastSpell("Erase") &&
 								Form2.config.naErase &&
 								Form2.config.na_Slow &&
-								HasDebuff(memberBuffs, Buffs.slow))
+								HasDebuff(memberBuffs, Buffs.Slow))
 							{
 								await CastSpell(member.Name, "Erase");
-								ClearDebuff(member.Name, Buffs.slow);
+								ClearDebuff(member.Name, Buffs.Slow);
 								break;
 							}
 							else if (
@@ -3507,20 +3507,20 @@
 								CanCastSpell("Erase") &&
 								Form2.config.naErase &&
 								Form2.config.na_Bind &&
-								HasDebuff(memberBuffs, Buffs.bind))
+								HasDebuff(memberBuffs, Buffs.Bind))
 							{
 								await CastSpell(member.Name, "Erase");
-								ClearDebuff(member.Name, Buffs.bind);
+								ClearDebuff(member.Name, Buffs.Bind);
 								break;
 							}
 							else if (
 								CanCastSpell("Erase") &&
 								Form2.config.naErase &&
 								Form2.config.na_Weight &&
-								HasDebuff(memberBuffs, Buffs.weight))
+								HasDebuff(memberBuffs, Buffs.Weight))
 							{
 								await CastSpell(member.Name, "Erase");
-								ClearDebuff(member.Name, Buffs.weight);
+								ClearDebuff(member.Name, Buffs.Weight);
 								break;
 							}
 							else if (
@@ -3657,10 +3657,10 @@
 								CanCastSpell("Erase") &&
 								Form2.config.naErase &&
 								Form2.config.na_Addle &&
-								HasDebuff(memberBuffs, Buffs.addle))
+								HasDebuff(memberBuffs, Buffs.Addle))
 							{
 								await CastSpell(member.Name, "Erase");
-								ClearDebuff(member.Name, Buffs.addle);
+								ClearDebuff(member.Name, Buffs.Addle);
 								break;
 							}
 							else if (
@@ -3864,9 +3864,9 @@
 
 					if (cureSpell != "false" && cureSpell != string.Empty)
 					{
-						if (cureSpell.StartsWith("Cure") && (plHasBuff(StatusEffect.Light_Arts) || plHasBuff(StatusEffect.Addendum_White)))
+						if (cureSpell.StartsWith("Cure") && HasAllBuffs(0, Buffs.AddendumWhite))
 						{
-							if (!plHasBuff(StatusEffect.Accession))
+							if (!HasAllBuffs(0, Buffs.Accession))
 							{
 
 								await UseJobAbility("Accession");
@@ -3898,12 +3898,11 @@
 
 					if (cureSpell != "false" && cureSpell != string.Empty)
 					{
-						if (cureSpell.StartsWith("Cure") && (plHasBuff(StatusEffect.Light_Arts) || plHasBuff(StatusEffect.Addendum_White)))
+						if (cureSpell.StartsWith("Cure") && HasAllBuffs(0, Buffs.AddendumWhite))
 						{
-							if (!plHasBuff(StatusEffect.Accession))
+							if (!HasAllBuffs(0, Buffs.Accession))
 							{
 								await UseJobAbility("Accession");
-								return;
 							}
 						}
 
@@ -3930,12 +3929,11 @@
 					}
 					if (cureSpell != "false" && cureSpell != string.Empty)
 					{
-						if (cureSpell.StartsWith("Cure") && (plHasBuff(StatusEffect.Light_Arts) || plHasBuff(StatusEffect.Addendum_White)))
+						if (cureSpell.StartsWith("Cure") && HasAllBuffs(0, Buffs.AddendumWhite))
 						{
-							if (!plHasBuff(StatusEffect.Accession))
+							if (!HasAllBuffs(0, Buffs.Accession))
 							{
 								await UseJobAbility("Accession");
-								return;
 							}
 						}
 
@@ -3963,9 +3961,9 @@
 
 					if (cureSpell != "false" && cureSpell != string.Empty)
 					{
-						if (cureSpell.StartsWith("Cure") && (plHasBuff(StatusEffect.Light_Arts) || plHasBuff(StatusEffect.Addendum_White)))
+						if (cureSpell.StartsWith("Cure") && HasAllBuffs(0, Buffs.AddendumWhite))
 						{
-							if (!plHasBuff(StatusEffect.Accession))
+							if (!HasAllBuffs(0, Buffs.Accession))
 							{
 								await UseJobAbility("Accession");
 								return;
@@ -4001,32 +3999,6 @@
 			}
 
 			return false;
-		}
-
-		private bool plHasBuff(StatusEffect requestedStatus)
-		{
-			return plHasBuff((short)requestedStatus);
-		}
-
-		private bool plHasBuff(short buffId)
-		{
-			return instancePrimary.Player.Buffs.Contains(buffId);
-		}
-
-		private bool monitoredStatusCheck(StatusEffect requestedStatus)
-		{
-			var statusFound = false;
-			foreach (var status in instanceMonitored.Player.Buffs.Cast<StatusEffect>().Where(status => requestedStatus == status))
-			{
-				statusFound = true;
-			}
-			return statusFound;
-		}
-
-		public bool hasBuff(short buffID, int checkedPlayer)
-		{
-			if (checkedPlayer == 0) return plHasBuff(buffID);
-			else return instanceMonitored.Player.GetPlayerInfo().Buffs.Contains(buffID);
 		}
 
 		private async Task<bool> CastSpell(string partyMemberName, string spellName)
@@ -4170,15 +4142,15 @@
 
 		private bool ActiveSpikes()
 		{
-			if ((Form2.config.plSpikes_Spell == 0) && plHasBuff(StatusEffect.Blaze_Spikes))
+			if ((Form2.config.plSpikes_Spell == 0) && HasAllBuffs(0, Buffs.BlazeSpikes))
 			{
 				return true;
 			}
-			else if ((Form2.config.plSpikes_Spell == 1) && plHasBuff(StatusEffect.Ice_Spikes))
+			else if ((Form2.config.plSpikes_Spell == 1) && HasAllBuffs(0, Buffs.IceSpikes))
 			{
 				return true;
 			}
-			else if ((Form2.config.plSpikes_Spell == 2) && plHasBuff(StatusEffect.Shock_Spikes))
+			else if ((Form2.config.plSpikes_Spell == 2) && HasAllBuffs(0, Buffs.ShockSpikes))
 			{
 				return true;
 			}
@@ -5423,7 +5395,7 @@
 					if (HasRequiredJobLevel("Reraise") == true && SpellReadyToCast("Reraise"))
 					{
 						// Check SCH possiblity
-						if (instancePrimary.Player.MainJob == 20 && instancePrimary.Player.SubJob != 3 && !hasBuff(401, 0))
+						if (instancePrimary.Player.MainJob == 20 && instancePrimary.Player.SubJob != 3 && !HasAllBuffs(0, Buffs.AddendumWhite))
 						{
 							return false;
 						}
@@ -5441,7 +5413,7 @@
 
 					if (HasRequiredJobLevel("Reraise II") == true && SpellReadyToCast("Reraise II"))
 					{
-						if (instancePrimary.Player.MainJob == 20 && !hasBuff(401, 0))
+						if (instancePrimary.Player.MainJob == 20 && !HasAllBuffs(0, Buffs.AddendumWhite))
 						{
 							return false;
 						}
@@ -5459,7 +5431,7 @@
 
 					if (HasRequiredJobLevel("Reraise III") == true && SpellReadyToCast("Reraise III"))
 					{
-						if (instancePrimary.Player.MainJob == 20 && !hasBuff(401, 0))
+						if (instancePrimary.Player.MainJob == 20 && !HasAllBuffs(0, Buffs.AddendumWhite))
 						{
 							return false;
 						}
@@ -5476,7 +5448,7 @@
 				case 4:
 					if (HasRequiredJobLevel("Reraise IV") == true && SpellReadyToCast("Reraise IV"))
 					{
-						if (instancePrimary.Player.MainJob == 20 && !hasBuff(401, 0))
+						if (instancePrimary.Player.MainJob == 20 && !HasAllBuffs(0, Buffs.AddendumWhite))
 						{
 							return false;
 						}
@@ -5726,7 +5698,7 @@
 
 				if (MainJob == 20 || SubJob == 20)
 				{
-					if (plHasBuff(StatusEffect.Light_Arts) || plHasBuff(StatusEffect.Addendum_White))
+					if (HasAllBuffs(0, Buffs.AddendumWhite))
 					{
 						var currentRecastTimer = GetAbilityRecastBySpellId(231);
 
@@ -7286,9 +7258,9 @@
 			}
 
 			var stunLocked =
-				plHasBuff(Buffs.terror) ||
-				plHasBuff(Buffs.Petrification) ||
-				plHasBuff(Buffs.stun);
+				HasAllBuffs(0, Buffs.Terror) ||
+				HasAllBuffs(0, Buffs.Petrification) ||
+				HasAllBuffs(0, Buffs.Stun);
 
 			if (stunLocked)
 			{
@@ -7464,30 +7436,30 @@
 
 				if (instancePrimary.Player.LoginStatus == (int)LoginStatus.LoggedIn && abilityLocked != true && castingLocked != true)
 				{
-					if ((Form2.config.Composure) && (!plHasBuff(StatusEffect.Composure)) && CanUseJobAbility("Composure"))
+					if ((Form2.config.Composure) && (!HasAllBuffs(0, Buffs.Composure)) && CanUseJobAbility("Composure"))
 					{
 
 						await UseJobAbility("Composure");
 					}
-					else if ((Form2.config.LightArts) && (!plHasBuff(StatusEffect.Light_Arts)) && (!plHasBuff(StatusEffect.Addendum_White)) && CanUseJobAbility("Light Arts"))
+					else if ((Form2.config.LightArts) && (!HasAllBuffs(0, Buffs.AddendumWhite)) && CanUseJobAbility("Light Arts"))
 					{
 						await UseJobAbility("Light Arts");
 					}
-					else if ((Form2.config.AddendumWhite) && (!plHasBuff(StatusEffect.Addendum_White)) && (plHasBuff(StatusEffect.Light_Arts)) && CanUseJobAbility("Stratagems"))
+					else if ((Form2.config.AddendumWhite) && (!HasAllBuffs(0, Buffs.AddendumWhite)) && CanUseJobAbility("Stratagems"))
 					{
 						await UseJobAbility("Addendum: White");
 					}
-					else if ((Form2.config.DarkArts) && (!plHasBuff(StatusEffect.Dark_Arts)) && (!plHasBuff(StatusEffect.Addendum_Black)) && CanUseJobAbility("Dark Arts"))
+					else if ((Form2.config.DarkArts) && (!HasAllBuffs(0, Buffs.DarkArts)) && (!HasAllBuffs(0, Buffs.AddendumBlack)) && CanUseJobAbility("Dark Arts"))
 					{
 						await UseJobAbility("Dark Arts");
 					}
-					else if ((Form2.config.AddendumBlack) && (plHasBuff(StatusEffect.Dark_Arts)) && (!plHasBuff(StatusEffect.Addendum_Black)) && CanUseJobAbility("Stratagems"))
+					else if ((Form2.config.AddendumBlack) && (HasAllBuffs(0, Buffs.DarkArts)) && (!HasAllBuffs(0, Buffs.AddendumBlack)) && CanUseJobAbility("Stratagems"))
 					{
 						await UseJobAbility("Addendum: Black");
 					}
-					else if ((Form2.config.plReraise) && (Form2.config.EnlightenmentReraise) && (!plHasBuff(StatusEffect.Reraise)) && instancePrimary.Player.MainJob == 20 && !hasBuff(401, 0) && CanUseJobAbility("Enlightenment"))
+					else if ((Form2.config.plReraise) && (Form2.config.EnlightenmentReraise) && (!HasAllBuffs(0, Buffs.Reraise)) && instancePrimary.Player.MainJob == 20 && !HasAllBuffs(0, Buffs.AddendumWhite) && CanUseJobAbility("Enlightenment"))
 					{
-						if (!plHasBuff(StatusEffect.Enlightenment) && CanUseJobAbility("Enlightenment"))
+						if (!HasAllBuffs(0, Buffs.Enlightenment) && CanUseJobAbility("Enlightenment"))
 						{
 							await UseJobAbility("Enlightenment");
 						}
@@ -7509,7 +7481,7 @@
 							await CastSpell("<me>", "Reraise III");
 						}
 					}
-					else if ((Form2.config.plReraise) && (!plHasBuff(StatusEffect.Reraise)) && CheckReraiseLevelPossession() == true)
+					else if ((Form2.config.plReraise) && (!HasAllBuffs(0, Buffs.Reraise)) && CheckReraiseLevelPossession() == true)
 					{
 						if ((Form2.config.plReraise_Level == 1) && instancePrimary.Player.MP > 150)
 						{
@@ -7528,18 +7500,23 @@
 							await CastSpell("<me>", "Reraise IV");
 						}
 					}
-					else if ((Form2.config.plUtsusemi) && (hasBuff(444, 0) != true && hasBuff(445, 0) != true && hasBuff(446, 0) != true))
+					else if ((Form2.config.plUtsusemi) && !HasAnyBuff(0, Buffs.CopyImage, Buffs.CopyImage2, Buffs.CopyImage3, Buffs.CopyImage4))
 					{
-						if (SpellReadyToCast("Utsusemi: Ni") && HasAcquiredSpell("Utsusemi: Ni") && HasRequiredJobLevel("Utsusemi: Ni") == true && GetInventoryItemCount(instancePrimary, GetItemId("Shihei")) > 0)
+						var hasShihei = GetInventoryItemCount(instancePrimary, GetItemId("Shihei")) > 0;
+
+						if (hasShihei)
 						{
-							await CastSpell("<me>", "Utsusemi: Ni");
-						}
-						else if (SpellReadyToCast("Utsusemi: Ichi") && HasAcquiredSpell("Utsusemi: Ichi") && HasRequiredJobLevel("Utsusemi: Ichi") == true && (hasBuff(62, 0) != true && hasBuff(444, 0) != true && hasBuff(445, 0) != true && hasBuff(446, 0) != true) && GetInventoryItemCount(instancePrimary, GetItemId("Shihei")) > 0)
-						{
-							await CastSpell("<me>", "Utsusemi: Ichi");
+							if (CanCastSpell("Utsusemi: Ni"))
+							{
+								await CastSpell("<me>", "Utsusemi: Ni");
+							}
+							else if (CanCastSpell("Utsusemi: Ichi"))
+							{
+								await CastSpell("<me>", "Utsusemi: Ichi");
+							}
 						}
 					}
-					else if ((Form2.config.plProtect) && (!plHasBuff(StatusEffect.Protect)))
+					else if ((Form2.config.plProtect) && (!HasAllBuffs(0, Buffs.Protect)))
 					{
 						var protectSpell = string.Empty;
 						if (Form2.config.autoProtect_Spell == 0)
@@ -7567,7 +7544,7 @@
 						{
 							if ((Form2.config.Accession && Form2.config.accessionProShell && instancePrimary.Party.GetPartyMembers().Count() > 2) && ((instancePrimary.Player.MainJob == 5 && instancePrimary.Player.SubJob == 20) || instancePrimary.Player.MainJob == 20) && currentSCHCharges >= 1 && (CanUseJobAbility("Accession")))
 							{
-								if (!plHasBuff(StatusEffect.Accession))
+								if (!HasAllBuffs(0, Buffs.Accession))
 								{
 									await UseJobAbility("Accession");
 									return;
@@ -7577,7 +7554,7 @@
 							await CastSpell("<me>", protectSpell);
 						}
 					}
-					else if ((Form2.config.plShell) && (!plHasBuff(StatusEffect.Shell)))
+					else if ((Form2.config.plShell) && (!HasAllBuffs(0, Buffs.Shell)))
 					{
 						var shellSpell = string.Empty;
 						if (Form2.config.autoShell_Spell == 0)
@@ -7605,7 +7582,7 @@
 						{
 							if ((Form2.config.Accession && Form2.config.accessionProShell && instancePrimary.Party.GetPartyMembers().Count() > 2) && ((instancePrimary.Player.MainJob == 5 && instancePrimary.Player.SubJob == 20) || instancePrimary.Player.MainJob == 20) && currentSCHCharges >= 1 && (CanUseJobAbility("Accession")))
 							{
-								if (!plHasBuff(StatusEffect.Accession))
+								if (!HasAllBuffs(0, Buffs.Accession))
 								{
 									await UseJobAbility("Accession");
 									return;
@@ -7615,45 +7592,45 @@
 							await CastSpell("<me>", shellSpell);
 						}
 					}
-					else if ((Form2.config.plBlink) && (!plHasBuff(StatusEffect.Blink)) && CanCastSpell("Blink"))
+					else if ((Form2.config.plBlink) && (!HasAllBuffs(0, Buffs.Blink)) && CanCastSpell("Blink"))
 					{
 
-						if (Form2.config.Accession && Form2.config.blinkAccession && currentSCHCharges > 0 && CanUseJobAbility("Accession") && !plHasBuff(StatusEffect.Accession))
+						if (Form2.config.Accession && Form2.config.blinkAccession && currentSCHCharges > 0 && CanUseJobAbility("Accession") && !HasAllBuffs(0, Buffs.Accession))
 						{
 							await UseJobAbility("Accession");
 						}
 
-						if (Form2.config.Perpetuance && Form2.config.blinkPerpetuance && currentSCHCharges > 0 && CanUseJobAbility("Perpetuance") && !plHasBuff(StatusEffect.Perpetuance))
+						if (Form2.config.Perpetuance && Form2.config.blinkPerpetuance && currentSCHCharges > 0 && CanUseJobAbility("Perpetuance") && !HasAllBuffs(0, Buffs.Perpetuance))
 						{
 							await UseJobAbility("Perpetuance");
 						}
 
 						await CastSpell("<me>", "Blink");
 					}
-					else if ((Form2.config.plPhalanx) && (!plHasBuff(StatusEffect.Phalanx)) && CanCastSpell("Phalanx") && HasRequiredJobLevel("Phalanx") == true)
+					else if ((Form2.config.plPhalanx) && (!HasAllBuffs(0, Buffs.Phalanx)) && CanCastSpell("Phalanx") && HasRequiredJobLevel("Phalanx") == true)
 					{
-						if (Form2.config.Accession && Form2.config.phalanxAccession && currentSCHCharges > 0 && CanUseJobAbility("Accession") && !plHasBuff(StatusEffect.Accession))
+						if (Form2.config.Accession && Form2.config.phalanxAccession && currentSCHCharges > 0 && CanUseJobAbility("Accession") && !HasAllBuffs(0, Buffs.Accession))
 						{
 							await UseJobAbility("Accession");
 						}
 
-						if (Form2.config.Perpetuance && Form2.config.phalanxPerpetuance && currentSCHCharges > 0 && CanUseJobAbility("Perpetuance") && !plHasBuff(StatusEffect.Perpetuance))
+						if (Form2.config.Perpetuance && Form2.config.phalanxPerpetuance && currentSCHCharges > 0 && CanUseJobAbility("Perpetuance") && !HasAllBuffs(0, Buffs.Perpetuance))
 						{
 							await UseJobAbility("Perpetuance");
 						}
 
 						await CastSpell("<me>", "Phalanx");
 					}
-					else if ((Form2.config.plRefresh) && (!plHasBuff(StatusEffect.Refresh)) && CheckRefreshLevelPossession())
+					else if ((Form2.config.plRefresh) && (!HasAllBuffs(0, Buffs.Refresh)) && CheckRefreshLevelPossession())
 					{
 						if ((Form2.config.plRefresh_Level == 1) && CanCastSpell("Refresh") && HasRequiredJobLevel("Refresh") == true)
 						{
-							if (Form2.config.Accession && Form2.config.refreshAccession && currentSCHCharges > 0 && CanUseJobAbility("Accession") && !plHasBuff(StatusEffect.Accession))
+							if (Form2.config.Accession && Form2.config.refreshAccession && currentSCHCharges > 0 && CanUseJobAbility("Accession") && !HasAllBuffs(0, Buffs.Accession))
 							{
 								await UseJobAbility("Accession");
 							}
 
-							if (Form2.config.Perpetuance && Form2.config.refreshPerpetuance && currentSCHCharges > 0 && CanUseJobAbility("Perpetuance") && !plHasBuff(StatusEffect.Perpetuance))
+							if (Form2.config.Perpetuance && Form2.config.refreshPerpetuance && currentSCHCharges > 0 && CanUseJobAbility("Perpetuance") && !HasAllBuffs(0, Buffs.Perpetuance))
 							{
 								await UseJobAbility("Perpetuance");
 							}
@@ -7669,15 +7646,15 @@
 							await CastSpell("<me>", "Refresh III");
 						}
 					}
-					else if ((Form2.config.plRegen) && (!plHasBuff(StatusEffect.Regen)) && CheckRegenLevelPossession() == true)
+					else if ((Form2.config.plRegen) && (!HasAllBuffs(0, Buffs.Regen)) && CheckRegenLevelPossession() == true)
 					{
-						if (Form2.config.Accession && Form2.config.regenAccession && currentSCHCharges > 0 && CanUseJobAbility("Accession") && !plHasBuff(StatusEffect.Accession))
+						if (Form2.config.Accession && Form2.config.regenAccession && currentSCHCharges > 0 && CanUseJobAbility("Accession") && !HasAllBuffs(0, Buffs.Accession))
 						{
 							await UseJobAbility("Accession");
 							return;
 						}
 
-						if (Form2.config.Perpetuance && Form2.config.regenPerpetuance && currentSCHCharges > 0 && CanUseJobAbility("Perpetuance") && !plHasBuff(StatusEffect.Perpetuance))
+						if (Form2.config.Perpetuance && Form2.config.regenPerpetuance && currentSCHCharges > 0 && CanUseJobAbility("Perpetuance") && !HasAllBuffs(0, Buffs.Perpetuance))
 						{
 							await UseJobAbility("Perpetuance");
 							return;
@@ -7704,64 +7681,64 @@
 							await CastSpell("<me>", "Regen V");
 						}
 					}
-					else if ((Form2.config.plAdloquium) && (!plHasBuff(StatusEffect.Regain)) && CanCastSpell("Adloquium") && HasRequiredJobLevel("Adloquium") == true)
+					else if ((Form2.config.plAdloquium) && (!HasAllBuffs(0, Buffs.Regain)) && CanCastSpell("Adloquium") && HasRequiredJobLevel("Adloquium") == true)
 					{
-						if (Form2.config.Accession && Form2.config.adloquiumAccession && currentSCHCharges > 0 && CanUseJobAbility("Accession") && !plHasBuff(StatusEffect.Accession))
+						if (Form2.config.Accession && Form2.config.adloquiumAccession && currentSCHCharges > 0 && CanUseJobAbility("Accession") && !HasAllBuffs(0, Buffs.Accession))
 						{
 							await UseJobAbility("Accession");
 						}
 
-						if (Form2.config.Perpetuance && Form2.config.adloquiumPerpetuance && currentSCHCharges > 0 && CanUseJobAbility("Perpetuance") && !plHasBuff(StatusEffect.Perpetuance))
+						if (Form2.config.Perpetuance && Form2.config.adloquiumPerpetuance && currentSCHCharges > 0 && CanUseJobAbility("Perpetuance") && !HasAllBuffs(0, Buffs.Perpetuance))
 						{
 							await UseJobAbility("Perpetuance");
 						}
 
 						await CastSpell("<me>", "Adloquium");
 					}
-					else if ((Form2.config.plStoneskin) && (!plHasBuff(StatusEffect.Stoneskin)) && CanCastSpell("Stoneskin") && HasRequiredJobLevel("Stoneskin") == true)
+					else if ((Form2.config.plStoneskin) && (!HasAllBuffs(0, Buffs.Stoneskin)) && CanCastSpell("Stoneskin") && HasRequiredJobLevel("Stoneskin") == true)
 					{
-						if (Form2.config.Accession && Form2.config.stoneskinAccession && currentSCHCharges > 0 && CanUseJobAbility("Accession") && !plHasBuff(StatusEffect.Accession))
+						if (Form2.config.Accession && Form2.config.stoneskinAccession && currentSCHCharges > 0 && CanUseJobAbility("Accession") && !HasAllBuffs(0, Buffs.Accession))
 						{
 							await UseJobAbility("Accession");
 						}
 
-						if (Form2.config.Perpetuance && Form2.config.stoneskinPerpetuance && currentSCHCharges > 0 && CanUseJobAbility("Perpetuance") && !plHasBuff(StatusEffect.Perpetuance))
+						if (Form2.config.Perpetuance && Form2.config.stoneskinPerpetuance && currentSCHCharges > 0 && CanUseJobAbility("Perpetuance") && !HasAllBuffs(0, Buffs.Perpetuance))
 						{
 							await UseJobAbility("Perpetuance");
 						}
 
 						await CastSpell("<me>", "Stoneskin");
 					}
-					else if ((Form2.config.plAquaveil) && (!plHasBuff(StatusEffect.Aquaveil)) && CanCastSpell("Aquaveil") && HasRequiredJobLevel("Aquaveil") == true)
+					else if ((Form2.config.plAquaveil) && (!HasAllBuffs(0, Buffs.Aquaveil)) && CanCastSpell("Aquaveil") && HasRequiredJobLevel("Aquaveil") == true)
 					{
-						if (Form2.config.Accession && Form2.config.aquaveilAccession && currentSCHCharges > 0 && CanUseJobAbility("Accession") && !plHasBuff(StatusEffect.Accession))
+						if (Form2.config.Accession && Form2.config.aquaveilAccession && currentSCHCharges > 0 && CanUseJobAbility("Accession") && !HasAllBuffs(0, Buffs.Accession))
 						{
 							await UseJobAbility("Accession");
 						}
 
-						if (Form2.config.Perpetuance && Form2.config.aquaveilPerpetuance && currentSCHCharges > 0 && CanUseJobAbility("Perpetuance") && plHasBuff(StatusEffect.Perpetuance))
+						if (Form2.config.Perpetuance && Form2.config.aquaveilPerpetuance && currentSCHCharges > 0 && CanUseJobAbility("Perpetuance") && HasAllBuffs(0, Buffs.Perpetuance))
 						{
 							await UseJobAbility("Perpetuance");
 						}
 
 						await CastSpell("<me>", "Aquaveil");
 					}
-					else if ((Form2.config.plShellra) && (!plHasBuff(StatusEffect.Shell)) && CheckShellraLevelPossession() == true)
+					else if ((Form2.config.plShellra) && (!HasAllBuffs(0, Buffs.Shell)) && CheckShellraLevelPossession() == true)
 					{
 						await CastSpell("<me>", GetShellraLevel(Form2.config.plShellra_Level));
 					}
-					else if ((Form2.config.plProtectra) && (!plHasBuff(StatusEffect.Protect)) && CheckProtectraLevelPossession() == true)
+					else if ((Form2.config.plProtectra) && (!HasAllBuffs(0, Buffs.Protect)) && CheckProtectraLevelPossession() == true)
 					{
 						await CastSpell("<me>", GetProtectraLevel(Form2.config.plProtectra_Level));
 					}
-					else if (Form2.config.plBarElement && !hasBuff(BarspellBuffID, 0) && CanCastSpell(BarspellName))
+					else if (Form2.config.plBarElement && !HasAllBuffs(0, BarspellBuffID) && CanCastSpell(BarspellName))
 					{
-						if (Form2.config.Accession && Form2.config.barspellAccession && currentSCHCharges > 0 && CanUseJobAbility("Accession") && BarSpell_AOE == false && !plHasBuff(StatusEffect.Accession))
+						if (Form2.config.Accession && Form2.config.barspellAccession && currentSCHCharges > 0 && CanUseJobAbility("Accession") && BarSpell_AOE == false && !HasAllBuffs(0, Buffs.Accession))
 						{
 							await UseJobAbility("Accession");
 						}
 
-						if (Form2.config.Perpetuance && Form2.config.barspellPerpetuance && currentSCHCharges > 0 && CanUseJobAbility("Perpetuance") && !plHasBuff(StatusEffect.Perpetuance))
+						if (Form2.config.Perpetuance && Form2.config.barspellPerpetuance && currentSCHCharges > 0 && CanUseJobAbility("Perpetuance") && !HasAllBuffs(0, Buffs.Perpetuance))
 						{
 							await UseJobAbility("Perpetuance");
 						}
@@ -7771,12 +7748,12 @@
 					else if (
 						CanCastSpell(BarstatusName) &&
 						Form2.config.plBarStatus &&
-						!hasBuff(BarstatusBuffID, 0))
+						!HasAllBuffs(0, BarstatusBuffID))
 					{
 						if (
 							Form2.config.Accession &&
 							Form2.config.barstatusAccession &&
-							!plHasBuff(StatusEffect.Accession) &&
+							!HasAllBuffs(0, Buffs.Accession) &&
 							CanUseJobAbility("Accession") &&
 							currentSCHCharges > 0 &&
 							!BarStatus_AOE)
@@ -7787,7 +7764,7 @@
 						if (
 							Form2.config.Perpetuance &&
 							Form2.config.barstatusPerpetuance &&
-							!plHasBuff(StatusEffect.Perpetuance) &&
+							!HasAllBuffs(0, Buffs.Perpetuance) &&
 							CanUseJobAbility("Perpetuance") &&
 							currentSCHCharges > 0)
 						{
@@ -7796,84 +7773,84 @@
 
 						await CastSpell("<me>", BarstatusName);
 					}
-					else if (Form2.config.plGainBoost && (Form2.config.plGainBoost_Spell == 0) && !plHasBuff(StatusEffect.STR_Boost2) && CanCastSpell("Gain-STR"))
+					else if (Form2.config.plGainBoost && (Form2.config.plGainBoost_Spell == 0) && !HasAllBuffs(0, Buffs.STRBoost2) && CanCastSpell("Gain-STR"))
 					{
 						await CastSpell("<me>", "Gain-STR");
 					}
-					else if (Form2.config.plGainBoost && (Form2.config.plGainBoost_Spell == 1) && !plHasBuff(StatusEffect.DEX_Boost2) && CanCastSpell("Gain-DEX"))
+					else if (Form2.config.plGainBoost && (Form2.config.plGainBoost_Spell == 1) && !HasAllBuffs(0, Buffs.DEXBoost2) && CanCastSpell("Gain-DEX"))
 					{
 						await CastSpell("<me>", "Gain-DEX");
 					}
-					else if (Form2.config.plGainBoost && (Form2.config.plGainBoost_Spell == 2) && !plHasBuff(StatusEffect.VIT_Boost2) && CanCastSpell("Gain-VIT"))
+					else if (Form2.config.plGainBoost && (Form2.config.plGainBoost_Spell == 2) && !HasAllBuffs(0, Buffs.VITBoost2) && CanCastSpell("Gain-VIT"))
 					{
 						await CastSpell("<me>", "Gain-VIT");
 					}
-					else if (Form2.config.plGainBoost && (Form2.config.plGainBoost_Spell == 3) && !plHasBuff(StatusEffect.AGI_Boost2) && CanCastSpell("Gain-AGI"))
+					else if (Form2.config.plGainBoost && (Form2.config.plGainBoost_Spell == 3) && !HasAllBuffs(0, Buffs.AGIBoost2) && CanCastSpell("Gain-AGI"))
 					{
 						await CastSpell("<me>", "Gain-AGI");
 					}
-					else if (Form2.config.plGainBoost && (Form2.config.plGainBoost_Spell == 4) && !plHasBuff(StatusEffect.INT_Boost2) && CanCastSpell("Gain-INT"))
+					else if (Form2.config.plGainBoost && (Form2.config.plGainBoost_Spell == 4) && !HasAllBuffs(0, Buffs.INTBoost2) && CanCastSpell("Gain-INT"))
 					{
 						await CastSpell("<me>", "Gain-INT");
 					}
-					else if (Form2.config.plGainBoost && (Form2.config.plGainBoost_Spell == 5) && !plHasBuff(StatusEffect.MND_Boost2) && CanCastSpell("Gain-MND"))
+					else if (Form2.config.plGainBoost && (Form2.config.plGainBoost_Spell == 5) && !HasAllBuffs(0, Buffs.MNDBoost2) && CanCastSpell("Gain-MND"))
 					{
 						await CastSpell("<me>", "Gain-MND");
 					}
-					else if (Form2.config.plGainBoost && (Form2.config.plGainBoost_Spell == 6) && !plHasBuff(StatusEffect.CHR_Boost2) && CanCastSpell("Gain-CHR"))
+					else if (Form2.config.plGainBoost && (Form2.config.plGainBoost_Spell == 6) && !HasAllBuffs(0, Buffs.CHRBoost2) && CanCastSpell("Gain-CHR"))
 					{
 						await CastSpell("<me>", "Gain-CHR");
 					}
-					else if (Form2.config.plGainBoost && (Form2.config.plGainBoost_Spell == 7) && !plHasBuff(StatusEffect.STR_Boost2) && CanCastSpell("Boost-STR"))
+					else if (Form2.config.plGainBoost && (Form2.config.plGainBoost_Spell == 7) && !HasAllBuffs(0, Buffs.STRBoost2) && CanCastSpell("Boost-STR"))
 					{
 						await CastSpell("<me>", "Boost-STR");
 					}
-					else if (Form2.config.plGainBoost && (Form2.config.plGainBoost_Spell == 8) && !plHasBuff(StatusEffect.DEX_Boost2) && CanCastSpell("Boost-DEX"))
+					else if (Form2.config.plGainBoost && (Form2.config.plGainBoost_Spell == 8) && !HasAllBuffs(0, Buffs.DEXBoost2) && CanCastSpell("Boost-DEX"))
 					{
 						await CastSpell("<me>", "Boost-DEX");
 					}
-					else if (Form2.config.plGainBoost && (Form2.config.plGainBoost_Spell == 9) && !plHasBuff(StatusEffect.VIT_Boost2) && CanCastSpell("Boost-VIT"))
+					else if (Form2.config.plGainBoost && (Form2.config.plGainBoost_Spell == 9) && !HasAllBuffs(0, Buffs.VITBoost2) && CanCastSpell("Boost-VIT"))
 					{
 						await CastSpell("<me>", "Boost-VIT");
 					}
-					else if (Form2.config.plGainBoost && (Form2.config.plGainBoost_Spell == 10) && !plHasBuff(StatusEffect.AGI_Boost2) && CanCastSpell("Boost-AGI"))
+					else if (Form2.config.plGainBoost && (Form2.config.plGainBoost_Spell == 10) && !HasAllBuffs(0, Buffs.AGIBoost2) && CanCastSpell("Boost-AGI"))
 					{
 						await CastSpell("<me>", "Boost-AGI");
 					}
-					else if (Form2.config.plGainBoost && (Form2.config.plGainBoost_Spell == 11) && !plHasBuff(StatusEffect.INT_Boost2) && CanCastSpell("Boost-INT"))
+					else if (Form2.config.plGainBoost && (Form2.config.plGainBoost_Spell == 11) && !HasAllBuffs(0, Buffs.INTBoost2) && CanCastSpell("Boost-INT"))
 					{
 						await CastSpell("<me>", "Boost-INT");
 					}
-					else if (Form2.config.plGainBoost && (Form2.config.plGainBoost_Spell == 12) && !plHasBuff(StatusEffect.MND_Boost2) && CanCastSpell("Boost-MND"))
+					else if (Form2.config.plGainBoost && (Form2.config.plGainBoost_Spell == 12) && !HasAllBuffs(0, Buffs.MNDBoost2) && CanCastSpell("Boost-MND"))
 					{
 						await CastSpell("<me>", "Boost-MND");
 					}
-					else if (Form2.config.plGainBoost && (Form2.config.plGainBoost_Spell == 13) && !plHasBuff(StatusEffect.CHR_Boost2) && CanCastSpell("Boost-CHR"))
+					else if (Form2.config.plGainBoost && (Form2.config.plGainBoost_Spell == 13) && !HasAllBuffs(0, Buffs.CHRBoost2) && CanCastSpell("Boost-CHR"))
 					{
 						await CastSpell("<me>", "Boost-CHR");
 					}
-					else if (Form2.config.plStormSpell && !hasBuff(stormspell.BuffId, 0) && CanCastSpell(stormspell.Name))
+					else if (Form2.config.plStormSpell && !HasAllBuffs(0, stormspell.BuffId) && CanCastSpell(stormspell.Name))
 					{
-						if (Form2.config.Accession && Form2.config.stormspellAccession && currentSCHCharges > 0 && CanUseJobAbility("Accession") && !plHasBuff(StatusEffect.Accession))
+						if (Form2.config.Accession && Form2.config.stormspellAccession && currentSCHCharges > 0 && CanUseJobAbility("Accession") && !HasAllBuffs(0, Buffs.Accession))
 						{
 							await UseJobAbility("Accession");
 						}
 
-						if (Form2.config.Perpetuance && Form2.config.stormspellPerpetuance && currentSCHCharges > 0 && CanUseJobAbility("Perpetuance") && !plHasBuff(StatusEffect.Perpetuance))
+						if (Form2.config.Perpetuance && Form2.config.stormspellPerpetuance && currentSCHCharges > 0 && CanUseJobAbility("Perpetuance") && !HasAllBuffs(0, Buffs.Perpetuance))
 						{
 							await UseJobAbility("Perpetuance");
 						}
 
 						await CastSpell("<me>", stormspell.Name);
 					}
-					else if ((Form2.config.plKlimaform) && !plHasBuff(StatusEffect.Klimaform))
+					else if ((Form2.config.plKlimaform) && !HasAllBuffs(0, Buffs.Klimaform))
 					{
 						if (CanCastSpell("Klimaform"))
 						{
 							await CastSpell("<me>", "Klimaform");
 						}
 					}
-					else if ((Form2.config.plTemper) && (!plHasBuff(StatusEffect.Multi_Strikes)))
+					else if ((Form2.config.plTemper) && (!HasAllBuffs(0, Buffs.MultiStrikes)))
 					{
 						if ((Form2.config.plTemper_Level == 1) && CanCastSpell("Temper"))
 						{
@@ -7884,7 +7861,7 @@
 							await CastSpell("<me>", "Temper II");
 						}
 					}
-					else if ((Form2.config.plHaste) && (!plHasBuff(StatusEffect.Haste)))
+					else if ((Form2.config.plHaste) && (!HasAllBuffs(0, Buffs.Haste)))
 					{
 						if ((Form2.config.plHaste_Level == 1) && CanCastSpell("Haste"))
 						{
@@ -7910,27 +7887,27 @@
 							await CastSpell("<me>", "Shock Spikes");
 						}
 					}
-					else if (Form2.config.plEnspell && !hasBuff(enspell.BuffId, 0) && CanCastSpell(enspell.Name))
+					else if (Form2.config.plEnspell && !HasAllBuffs(0, enspell.BuffId) && CanCastSpell(enspell.Name))
 					{
-						if (Form2.config.Accession && Form2.config.enspellAccession && currentSCHCharges > 0 && CanUseJobAbility("Accession") && enspell.Position < 6 && !plHasBuff(StatusEffect.Accession))
+						if (Form2.config.Accession && Form2.config.enspellAccession && currentSCHCharges > 0 && CanUseJobAbility("Accession") && enspell.Position < 6 && !HasAllBuffs(0, Buffs.Accession))
 						{
 							await UseJobAbility("Accession");
 						}
 
-						if (Form2.config.Perpetuance && Form2.config.enspellPerpetuance && currentSCHCharges > 0 && CanUseJobAbility("Perpetuance") && enspell.Position < 6 && !plHasBuff(StatusEffect.Perpetuance))
+						if (Form2.config.Perpetuance && Form2.config.enspellPerpetuance && currentSCHCharges > 0 && CanUseJobAbility("Perpetuance") && enspell.Position < 6 && !HasAllBuffs(0, Buffs.Perpetuance))
 						{
 							await UseJobAbility("Perpetuance");
 						}
 
 						await CastSpell("<me>", enspell.Name);
 					}
-					else if ((Form2.config.plAuspice) && (!plHasBuff(StatusEffect.Auspice)) && CanCastSpell("Auspice"))
+					else if ((Form2.config.plAuspice) && (!HasAllBuffs(0, Buffs.Auspice)) && CanCastSpell("Auspice"))
 					{
 						await CastSpell("<me>", "Auspice");
 					}
 
 					// ENTRUSTED INDI SPELL CASTING, WILL BE CAST SO LONG AS ENTRUST IS ACTIVE
-					else if ((Form2.config.EnableGeoSpells) && (plHasBuff((StatusEffect)584)) && !IsHealing())
+					else if ((Form2.config.EnableGeoSpells) && (HasAllBuffs(0, Buffs.Entrust)) && !IsHealing())
 					{
 						var SpellCheckedResult = ReturnGeoSpell(Form2.config.EntrustedSpell_Spell, 1);
 						if (SpellCheckedResult == "SpellError_Cancel")
@@ -7956,7 +7933,7 @@
 					}
 
 					// CAST NON ENTRUSTED INDI SPELL
-					else if (Form2.config.EnableGeoSpells && !hasBuff(612, 0) && !IsHealing() && (CheckEngagedStatus() == true || !Form2.config.IndiWhenEngaged))
+					else if (Form2.config.EnableGeoSpells && !HasAllBuffs(0, Buffs.ColureActive) && !IsHealing() && (CheckEngagedStatus() == true || !Form2.config.IndiWhenEngaged))
 					{
 						var SpellCheckedResult = ReturnGeoSpell(Form2.config.IndiSpell_Spell, 1);
 
@@ -8005,7 +7982,7 @@
 								if (Form2.config.LuopanSpell_Target == string.Empty)
 								{
 
-									if (hasBuff(516, 0)) // IF ECLIPTIC IS UP THEN ACTIVATE THE BOOL
+									if (HasAllBuffs(0, Buffs.EclipticAttrition)) // IF ECLIPTIC IS UP THEN ACTIVATE THE BOOL
 									{
 										eclipticActive = true;
 									}
@@ -8014,7 +7991,7 @@
 								}
 								else
 								{
-									if (hasBuff(516, 0)) // IF ECLIPTIC IS UP THEN ACTIVATE THE BOOL
+									if (HasAllBuffs(0, Buffs.EclipticAttrition)) // IF ECLIPTIC IS UP THEN ACTIVATE THE BOOL
 									{
 										eclipticActive = true;
 									}
@@ -8035,7 +8012,7 @@
 										instancePrimary.Target.SetTarget(GrabbedTargetID);
 										await Task.Delay(TimeSpan.FromSeconds(1));
 
-										if (hasBuff(516, 0)) // IF ECLIPTIC IS UP THEN ACTIVATE THE BOOL
+										if (HasAllBuffs(0, Buffs.EclipticAttrition)) // IF ECLIPTIC IS UP THEN ACTIVATE THE BOOL
 										{
 											eclipticActive = true;
 										}
@@ -8087,39 +8064,39 @@
 					}
 
 					// BARD SONGS
-					else if (Form2.config.enableSinging && !plHasBuff(StatusEffect.Silence) && (instancePrimary.Player.Status == 1 || instancePrimary.Player.Status == 0))
+					else if (Form2.config.enableSinging && !HasAllBuffs(0, Buffs.Silence) && (instancePrimary.Player.Status == 1 || instancePrimary.Player.Status == 0))
 					{
 						await Run_BardSongs();
 					}
 
 					// so PL job abilities are in order
-					if (!plHasBuff(StatusEffect.Amnesia) && (instancePrimary.Player.Status == 1 || instancePrimary.Player.Status == 0))
+					if (!HasAllBuffs(0, Buffs.Amnesia) && (instancePrimary.Player.Status == 1 || instancePrimary.Player.Status == 0))
 					{
-						if ((Form2.config.AfflatusSolace) && (!plHasBuff(StatusEffect.Afflatus_Solace)) && CanUseJobAbility("Afflatus Solace"))
+						if ((Form2.config.AfflatusSolace) && (!HasAllBuffs(0, Buffs.AfflatusSolace)) && CanUseJobAbility("Afflatus Solace"))
 						{
 							await UseJobAbility("Afflatus Solace");
 						}
-						else if ((Form2.config.AfflatusMisery) && (!plHasBuff(StatusEffect.Afflatus_Misery)) && CanUseJobAbility("Afflatus Misery"))
+						else if ((Form2.config.AfflatusMisery) && (!HasAllBuffs(0, Buffs.AfflatusMisery)) && CanUseJobAbility("Afflatus Misery"))
 						{
 							await UseJobAbility("Afflatus Misery");
 						}
-						else if ((Form2.config.Composure) && (!plHasBuff(StatusEffect.Composure)) && CanUseJobAbility("Composure"))
+						else if ((Form2.config.Composure) && (!HasAllBuffs(0, Buffs.Composure)) && CanUseJobAbility("Composure"))
 						{
 							await UseJobAbility("Composure");
 						}
-						else if ((Form2.config.LightArts) && (!plHasBuff(StatusEffect.Light_Arts)) && (!plHasBuff(StatusEffect.Addendum_White)) && CanUseJobAbility("Light Arts"))
+						else if ((Form2.config.LightArts) && (!HasAllBuffs(0, Buffs.LightArts)) && (!HasAllBuffs(0, Buffs.AddendumWhite)) && CanUseJobAbility("Light Arts"))
 						{
 							await UseJobAbility("Light Arts");
 						}
-						else if ((Form2.config.AddendumWhite) && (!plHasBuff(StatusEffect.Addendum_White)) && CanUseJobAbility("Stratagems"))
+						else if ((Form2.config.AddendumWhite) && (!HasAllBuffs(0, Buffs.AddendumWhite)) && CanUseJobAbility("Stratagems"))
 						{
 							await UseJobAbility("Addendum: White");
 						}
-						else if ((Form2.config.Sublimation) && (!plHasBuff(StatusEffect.Sublimation_Activated)) && (!plHasBuff(StatusEffect.Sublimation_Complete)) && (!plHasBuff(StatusEffect.Refresh)) && CanUseJobAbility("Sublimation"))
+						else if ((Form2.config.Sublimation) && !HasAnyBuff(0, Buffs.SublimationActivated, Buffs.SublimationComplete, Buffs.Refresh) && CanUseJobAbility("Sublimation"))
 						{
 							await UseJobAbility("Sublimation");
 						}
-						else if ((Form2.config.Sublimation) && ((instancePrimary.Player.MPMax - instancePrimary.Player.MP) > Form2.config.sublimationMP) && (plHasBuff(StatusEffect.Sublimation_Complete)) && CanUseJobAbility("Sublimation"))
+						else if ((Form2.config.Sublimation) && ((instancePrimary.Player.MPMax - instancePrimary.Player.MP) > Form2.config.sublimationMP) && (HasAllBuffs(0, Buffs.SublimationComplete)) && CanUseJobAbility("Sublimation"))
 						{
 							await UseJobAbility("Sublimation");
 						}
@@ -8127,7 +8104,7 @@
 						{
 							await UseJobAbility("Divine Caress");
 						}
-						else if (Form2.config.Entrust && !plHasBuff((StatusEffect)584) && CheckEngagedStatus() == true && CanUseJobAbility("Entrust"))
+						else if (Form2.config.Entrust && !HasAllBuffs(0, Buffs.Entrust) && CheckEngagedStatus() == true && CanUseJobAbility("Entrust"))
 						{
 							await UseJobAbility("Entrust");
 						}
@@ -8135,7 +8112,7 @@
 						{
 							await UseJobAbility("Dematerialize");
 						}
-						else if (Form2.config.EclipticAttrition && CheckEngagedStatus() == true && instancePrimary.Player.Pet.HealthPercent >= 90 && CanUseJobAbility("Ecliptic Attrition") && (hasBuff(516, 2) != true) && eclipticActive != true)
+						else if (Form2.config.EclipticAttrition && CheckEngagedStatus() == true && instancePrimary.Player.Pet.HealthPercent >= 90 && CanUseJobAbility("Ecliptic Attrition") && !HasAllBuffs(0, Buffs.EclipticAttrition) && eclipticActive != true)
 						{
 							await UseJobAbility("Ecliptic Attrition");
 						}
@@ -8270,47 +8247,47 @@
 						// PL BASED BUFFS
 						if (instancePrimary.Player.Name == charDATA.Name)
 						{
-							if (autoHasteEnabled[charDATA.MemberNumber] && SpellReadyToCast("Haste") && HasAcquiredSpell("Haste") && HasRequiredJobLevel("Haste") == true && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && !plHasBuff(StatusEffect.Haste) && !plHasBuff(StatusEffect.Slow))
+							if (autoHasteEnabled[charDATA.MemberNumber] && SpellReadyToCast("Haste") && HasAcquiredSpell("Haste") && HasRequiredJobLevel("Haste") == true && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && !HasAnyBuff(0, Buffs.Haste, Buffs.Haste2, Buffs.Slow, Buffs.slow2))
 							{
 								await hastePlayer(charDATA.MemberNumber);
 							}
-							if (autoHaste_IIEnabled[charDATA.MemberNumber] && SpellReadyToCast("Haste II") && HasAcquiredSpell("Haste II") && HasRequiredJobLevel("Haste II") == true && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && !plHasBuff(StatusEffect.Haste) && !plHasBuff(StatusEffect.Slow))
+							if (autoHaste_IIEnabled[charDATA.MemberNumber] && SpellReadyToCast("Haste II") && HasAcquiredSpell("Haste II") && HasRequiredJobLevel("Haste II") == true && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && !HasAnyBuff(0, Buffs.Haste, Buffs.Haste2, Buffs.Slow, Buffs.slow2))
 							{
 								await haste_IIPlayer(charDATA.MemberNumber);
 							}
-							if (autoAdloquium_Enabled[charDATA.MemberNumber] && SpellReadyToCast("Adloquium") && HasAcquiredSpell("Adloquium") && HasRequiredJobLevel("Adloquium") == true && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && !hasBuff(170, 0))
+							if (autoAdloquium_Enabled[charDATA.MemberNumber] && SpellReadyToCast("Adloquium") && HasAcquiredSpell("Adloquium") && HasRequiredJobLevel("Adloquium") == true && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && !HasAnyBuff(0, Buffs.Regain))
 							{
 								await AdloquiumPlayer(charDATA.MemberNumber);
 							}
-							if (autoFlurryEnabled[charDATA.MemberNumber] && SpellReadyToCast("Flurry") && HasAcquiredSpell("Flurry") && HasRequiredJobLevel("Flurry") == true && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && !hasBuff(581, 0) && !plHasBuff(StatusEffect.Slow))
+							if (autoFlurryEnabled[charDATA.MemberNumber] && SpellReadyToCast("Flurry") && HasAcquiredSpell("Flurry") && HasRequiredJobLevel("Flurry") == true && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && !HasAnyBuff(0, Buffs.Flurry, Buffs.Flurry2, Buffs.Slow, Buffs.slow2))
 							{
 								await FlurryPlayer(charDATA.MemberNumber);
 							}
-							if (autoFlurry_IIEnabled[charDATA.MemberNumber] && SpellReadyToCast("Flurry II") && HasAcquiredSpell("Flurry II") && HasRequiredJobLevel("Flurry II") == true && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && !hasBuff(581, 0) && !plHasBuff(StatusEffect.Slow))
+							if (autoFlurry_IIEnabled[charDATA.MemberNumber] && SpellReadyToCast("Flurry II") && HasAcquiredSpell("Flurry II") && HasRequiredJobLevel("Flurry II") == true && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && !HasAnyBuff(0, Buffs.Flurry, Buffs.Flurry2, Buffs.Slow, Buffs.slow2))
 							{
 								await Flurry_IIPlayer(charDATA.MemberNumber);
 							}
-							if (autoShell_Enabled[charDATA.MemberNumber] && SpellReadyToCast(shell_spells[Form2.config.autoShell_Spell]) && HasAcquiredSpell(shell_spells[Form2.config.autoShell_Spell]) && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && !IsHealing() && !plHasBuff(StatusEffect.Shell))
+							if (autoShell_Enabled[charDATA.MemberNumber] && SpellReadyToCast(shell_spells[Form2.config.autoShell_Spell]) && HasAcquiredSpell(shell_spells[Form2.config.autoShell_Spell]) && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && !IsHealing() && !HasAnyBuff(0, Buffs.Shell))
 							{
 								await shellPlayer(charDATA.MemberNumber);
 							}
-							if (autoProtect_Enabled[charDATA.MemberNumber] && SpellReadyToCast(protect_spells[Form2.config.autoProtect_Spell]) && HasAcquiredSpell(protect_spells[Form2.config.autoProtect_Spell]) && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && !IsHealing() && !plHasBuff(StatusEffect.Protect))
+							if (autoProtect_Enabled[charDATA.MemberNumber] && SpellReadyToCast(protect_spells[Form2.config.autoProtect_Spell]) && HasAcquiredSpell(protect_spells[Form2.config.autoProtect_Spell]) && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && !IsHealing() && !HasAnyBuff(0, Buffs.Protect))
 							{
 								await protectPlayer(charDATA.MemberNumber);
 							}
-							if ((autoPhalanx_IIEnabled[charDATA.MemberNumber]) && CanCastSpell("Phalanx II") && (instancePrimary.Player.MP > Form2.config.mpMinCastValue) && (castingPossible(charDATA.MemberNumber)) && !IsHealing() && !plHasBuff(StatusEffect.Phalanx))
+							if ((autoPhalanx_IIEnabled[charDATA.MemberNumber]) && CanCastSpell("Phalanx II") && (instancePrimary.Player.MP > Form2.config.mpMinCastValue) && (castingPossible(charDATA.MemberNumber)) && !IsHealing() && !HasAnyBuff(0, Buffs.Phalanx))
 							{
 								await Phalanx_IIPlayer(charDATA.MemberNumber);
 							}
-							if ((autoRegen_Enabled[charDATA.MemberNumber]) && (CanCastSpell(regen_spells[Form2.config.autoRegen_Spell])) && (instancePrimary.Player.MP > Form2.config.mpMinCastValue) && (castingPossible(charDATA.MemberNumber)) && !IsHealing() && !plHasBuff(StatusEffect.Regen))
+							if ((autoRegen_Enabled[charDATA.MemberNumber]) && (CanCastSpell(regen_spells[Form2.config.autoRegen_Spell])) && (instancePrimary.Player.MP > Form2.config.mpMinCastValue) && (castingPossible(charDATA.MemberNumber)) && !IsHealing() && !HasAnyBuff(0, Buffs.Regen, Buffs.Regen2))
 							{
 								await Regen_Player(charDATA.MemberNumber);
 							}
-							if ((autoRefreshEnabled[charDATA.MemberNumber]) && (CanCastSpell(refresh_spells[Form2.config.autoRefresh_Spell])) && (instancePrimary.Player.MP > Form2.config.mpMinCastValue) && (castingPossible(charDATA.MemberNumber)) && !IsHealing() && !plHasBuff(StatusEffect.Refresh))
+							if ((autoRefreshEnabled[charDATA.MemberNumber]) && (CanCastSpell(refresh_spells[Form2.config.autoRefresh_Spell])) && (instancePrimary.Player.MP > Form2.config.mpMinCastValue) && (castingPossible(charDATA.MemberNumber)) && !IsHealing() && !HasAnyBuff(0, Buffs.Refresh, Buffs.Refresh2))
 							{
 								await Refresh_Player(charDATA.MemberNumber);
 							}
-							if (CheckIfAutoStormspellEnabled(charDATA.MemberNumber) && (instancePrimary.Player.MP > Form2.config.mpMinCastValue) && (castingPossible(charDATA.MemberNumber)) && !IsHealing() && !hasBuff(PTstormspell.BuffId, 0) && SpellReadyToCast(PTstormspell.Name) && HasAcquiredSpell(PTstormspell.Name) && HasRequiredJobLevel(PTstormspell.Name) == true)
+							if (CheckIfAutoStormspellEnabled(charDATA.MemberNumber) && (instancePrimary.Player.MP > Form2.config.mpMinCastValue) && (castingPossible(charDATA.MemberNumber)) && CanCastSpell(PTstormspell.Name) && !IsHealing() && !HasAnyBuff(0, PTstormspell.BuffId))
 							{
 								await StormSpellPlayer(charDATA.MemberNumber, PTstormspell.Name);
 							}
@@ -8318,47 +8295,47 @@
 						// MONITORED PLAYER BASED BUFFS
 						else if (instanceMonitored.Player.Name == charDATA.Name)
 						{
-							if (autoHasteEnabled[charDATA.MemberNumber] && SpellReadyToCast("Haste") && HasAcquiredSpell("Haste") && HasRequiredJobLevel("Haste") == true && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && !hasBuff(Buffs.Haste, 1) && !hasBuff(Buffs.Haste2, 1) && !hasBuff(Buffs.slow, 1) && !hasBuff(Buffs.slow2, 1))
+							if (autoHasteEnabled[charDATA.MemberNumber] && CanCastSpell("Haste") && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && !HasAnyBuff(1, Buffs.Haste, Buffs.Haste2, Buffs.Slow, Buffs.slow2))
 							{
 								await hastePlayer(charDATA.MemberNumber);
 							}
-							if (autoHaste_IIEnabled[charDATA.MemberNumber] && SpellReadyToCast("Haste II") && HasAcquiredSpell("Haste II") && HasRequiredJobLevel("Haste II") == true && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && !hasBuff(Buffs.Haste, 1) && !hasBuff(Buffs.Haste2, 1) && !hasBuff(Buffs.slow, 1) && !hasBuff(Buffs.slow2, 1))
+							if (autoHaste_IIEnabled[charDATA.MemberNumber] && CanCastSpell("Haste II") && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && !HasAnyBuff(1, Buffs.Haste, Buffs.Haste2, Buffs.Slow, Buffs.slow2))
 							{
 								await haste_IIPlayer(charDATA.MemberNumber);
 							}
-							if (autoAdloquium_Enabled[charDATA.MemberNumber] && SpellReadyToCast("Adloquium") && HasAcquiredSpell("Adloquium") && HasRequiredJobLevel("Adloquium") == true && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && !hasBuff(Buffs.Regain, 1))
+							if (autoAdloquium_Enabled[charDATA.MemberNumber] && CanCastSpell("Adloquium") && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && !HasAnyBuff(1, Buffs.Regain))
 							{
 								await AdloquiumPlayer(charDATA.MemberNumber);
 							}
-							if (autoFlurryEnabled[charDATA.MemberNumber] && SpellReadyToCast("Flurry") && HasAcquiredSpell("Flurry") && HasRequiredJobLevel("Flurry") == true && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && !hasBuff(Buffs.Flurry, 1) && !hasBuff(Buffs.Flurry2, 1) && !hasBuff(Buffs.slow, 1) && !hasBuff(Buffs.slow2, 1))
+							if (autoFlurryEnabled[charDATA.MemberNumber] && CanCastSpell("Flurry") && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && !HasAnyBuff(1, Buffs.Flurry, Buffs.Flurry2, Buffs.Slow, Buffs.slow2))
 							{
 								await FlurryPlayer(charDATA.MemberNumber);
 							}
-							if (autoFlurry_IIEnabled[charDATA.MemberNumber] && SpellReadyToCast("Flurry II") && HasAcquiredSpell("Flurry II") && HasRequiredJobLevel("Flurry II") == true && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && !hasBuff(Buffs.Flurry, 1) && !hasBuff(Buffs.Flurry2, 1) && !hasBuff(Buffs.slow, 1) && !hasBuff(Buffs.slow2, 1))
+							if (autoFlurry_IIEnabled[charDATA.MemberNumber] && CanCastSpell("Flurry II") && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && !HasAnyBuff(1, Buffs.Flurry, Buffs.Flurry2, Buffs.Slow, Buffs.slow2))
 							{
 								await Flurry_IIPlayer(charDATA.MemberNumber);
 							}
-							if (autoShell_Enabled[charDATA.MemberNumber] && SpellReadyToCast(shell_spells[Form2.config.autoShell_Spell]) && HasAcquiredSpell(shell_spells[Form2.config.autoShell_Spell]) && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && !IsHealing() && !hasBuff(Buffs.Shell, 1))
+							if (autoShell_Enabled[charDATA.MemberNumber] && CanCastSpell(shell_spells[Form2.config.autoShell_Spell]) && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && !IsHealing() && !HasAnyBuff(1, Buffs.Shell))
 							{
 								await shellPlayer(charDATA.MemberNumber);
 							}
-							if (autoProtect_Enabled[charDATA.MemberNumber] && SpellReadyToCast(protect_spells[Form2.config.autoProtect_Spell]) && HasAcquiredSpell(protect_spells[Form2.config.autoProtect_Spell]) && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && !IsHealing() && !hasBuff(Buffs.Protect, 1))
+							if (autoProtect_Enabled[charDATA.MemberNumber] && CanCastSpell(protect_spells[Form2.config.autoProtect_Spell]) && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && !IsHealing() && !HasAnyBuff(1, Buffs.Protect))
 							{
 								await protectPlayer(charDATA.MemberNumber);
 							}
-							if ((autoPhalanx_IIEnabled[charDATA.MemberNumber]) && CanCastSpell("Phalanx II") && (instancePrimary.Player.MP > Form2.config.mpMinCastValue) && (castingPossible(charDATA.MemberNumber)) && !IsHealing() && !hasBuff(Buffs.Phalanx, 1))
+							if ((autoPhalanx_IIEnabled[charDATA.MemberNumber]) && CanCastSpell("Phalanx II") && (instancePrimary.Player.MP > Form2.config.mpMinCastValue) && (castingPossible(charDATA.MemberNumber)) && !IsHealing() && !HasAnyBuff(1, Buffs.Phalanx))
 							{
 								await Phalanx_IIPlayer(charDATA.MemberNumber);
 							}
-							if ((autoRegen_Enabled[charDATA.MemberNumber]) && CanCastSpell(regen_spells[Form2.config.autoRegen_Spell]) && (instancePrimary.Player.MP > Form2.config.mpMinCastValue) && (castingPossible(charDATA.MemberNumber)) && !IsHealing() && !hasBuff(Buffs.Regen, 1) && !hasBuff(Buffs.Regen2, 1))
+							if ((autoRegen_Enabled[charDATA.MemberNumber]) && CanCastSpell(regen_spells[Form2.config.autoRegen_Spell]) && (instancePrimary.Player.MP > Form2.config.mpMinCastValue) && (castingPossible(charDATA.MemberNumber)) && !IsHealing() && !HasAnyBuff(1, Buffs.Regen, Buffs.Regen2))
 							{
 								await Regen_Player(charDATA.MemberNumber);
 							}
-							if ((autoRefreshEnabled[charDATA.MemberNumber]) && (CanCastSpell(refresh_spells[Form2.config.autoRefresh_Spell])) && (instancePrimary.Player.MP > Form2.config.mpMinCastValue) && (castingPossible(charDATA.MemberNumber)) && !IsHealing() && !hasBuff(Buffs.Refresh, 1) && !hasBuff(Buffs.Refresh2, 1))
+							if ((autoRefreshEnabled[charDATA.MemberNumber]) && (CanCastSpell(refresh_spells[Form2.config.autoRefresh_Spell])) && (instancePrimary.Player.MP > Form2.config.mpMinCastValue) && (castingPossible(charDATA.MemberNumber)) && !IsHealing() && !HasAnyBuff(1, Buffs.Refresh, Buffs.Refresh2))
 							{
 								await Refresh_Player(charDATA.MemberNumber);
 							}
-							if (CheckIfAutoStormspellEnabled(charDATA.MemberNumber) && (instancePrimary.Player.MP > Form2.config.mpMinCastValue) && (castingPossible(charDATA.MemberNumber)) && !IsHealing() && SpellReadyToCast(PTstormspell.Name) && HasAcquiredSpell(PTstormspell.Name) && HasRequiredJobLevel(PTstormspell.Name) && !hasBuff(PTstormspell.BuffId, 1))
+							if (CheckIfAutoStormspellEnabled(charDATA.MemberNumber) && (instancePrimary.Player.MP > Form2.config.mpMinCastValue) && (castingPossible(charDATA.MemberNumber)) && !IsHealing() && CanCastSpell(PTstormspell.Name) && !HasAnyBuff(1, PTstormspell.BuffId))
 							{
 								await StormSpellPlayer(charDATA.MemberNumber, PTstormspell.Name);
 							}
@@ -8413,6 +8390,37 @@
 					}
 				}
 			}
+		}
+
+		private bool HasAnyBuff(int player, params short[] buffs)
+		{
+			EliteAPI inst = instancePrimary;
+			if (player == 1) inst = instanceMonitored;
+			foreach (var buff in buffs)
+      {
+				if (inst.Player.Buffs.Contains(buff))
+        {
+					return true;
+        }
+      }
+
+			return false;
+		}
+
+		private bool HasAllBuffs(int player, params short[] buffs)
+		{
+			var found = 0;
+			EliteAPI inst = instancePrimary;
+			if (player == 1) inst = instanceMonitored;
+			foreach (var buff in buffs)
+      {
+				if (inst.Player.Buffs.Contains(buff))
+        {
+					found++;
+        }
+      }
+
+			return found == buffs.Length;
 		}
 
 		private bool IsHealing()
@@ -8474,11 +8482,11 @@
 
 		private async Task ApplyPrecastAbilities(int songsActive)
 		{
-			if (Form2.config.DivineSeal && instancePrimary.Player.MPP <= 11 && CanUseJobAbility("Divine Seal") && !instancePrimary.Player.Buffs.Contains((short)StatusEffect.Weakness))
+			if (Form2.config.DivineSeal && instancePrimary.Player.MPP <= 11 && CanUseJobAbility("Divine Seal") && !instancePrimary.Player.Buffs.Contains((short)Buffs.Weakness))
 			{
 				await UseJobAbility("Divine Seal");
 			}
-			else if (Form2.config.RadialArcana && (instancePrimary.Player.MP <= Form2.config.RadialArcanaMP) && CanUseJobAbility("Radial Arcana") && !instancePrimary.Player.Buffs.Contains((short)StatusEffect.Weakness))
+			else if (Form2.config.RadialArcana && (instancePrimary.Player.MP <= Form2.config.RadialArcanaMP) && CanUseJobAbility("Radial Arcana") && !instancePrimary.Player.Buffs.Contains((short)Buffs.Weakness))
 			{
 				// Check if a pet is already active
 				if (instancePrimary.Player.Pet.HealthPercent >= 1 && instancePrimary.Player.Pet.Distance <= 9)
@@ -8562,7 +8570,7 @@
 
 		private async Task RemoveCriticalDebuffsFromPL()
 		{
-			if (plHasBuff(StatusEffect.Silence) && Form2.config.plSilenceItemEnabled)
+			if (HasAllBuffs(0, Buffs.Silence) && Form2.config.plSilenceItemEnabled)
 			{
 				var itemId = GetItemId(plSilenceitemName);
 				var inventoryCount = GetInventoryItemCount(instancePrimary, itemId);
@@ -8573,7 +8581,7 @@
 				}
 			}
 
-			else if ((plHasBuff(StatusEffect.Doom) && Form2.config.plDoomEnabled))
+			else if ((HasAllBuffs(0, Buffs.Doom) && Form2.config.plDoomEnabled))
 			{
 				var itemId = GetItemId(plDoomItemName);
 				var inventoryCount = GetInventoryItemCount(instancePrimary, itemId);
@@ -8589,7 +8597,7 @@
 		{
 			if (Form2.config.Convert &&
 					CanUseJobAbility("Convert") &&
-					!plHasBuff(Buffs.weakness) &&
+					!HasAllBuffs(0, Buffs.Weakness) &&
 					instancePrimary.Player.MP <= Form2.config.convertMP)
 			{
 				await UseJobAbility("Convert");
