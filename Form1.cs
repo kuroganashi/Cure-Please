@@ -1757,10 +1757,13 @@
 
 		private void Pause(string label)
 		{
-			pauseActions = true;
-			enableActions = false;
-			pauseButton.Text = label;
-			pauseButton.ForeColor = Color.Red;
+			Invoke((MethodInvoker)(() =>
+			{
+				pauseActions = true;
+				enableActions = false;
+				pauseButton.Text = label;
+				pauseButton.ForeColor = Color.Red;
+			}));
 		}
 
 		private int GetInventoryItemCount(EliteAPI api, ushort itemid)
@@ -2696,32 +2699,21 @@
 
 		private void ClearDebuff(string characterName, short debuffID)
 		{
-			if (casting.Wait(1000))
+			try
 			{
-				try
+				var charBuffs = activeBuffs.FirstOrDefault(x => 
+					x.CharacterName.ToLower() == characterName.ToLower());
+
+				if (charBuffs != null && charBuffs.CharacterBuffs != null)
 				{
-					foreach (var ailment in activeBuffs)
-					{
-						if (ailment.CharacterName.ToLower() == characterName.ToLower())
-						{
-							//MessageBox.Show("Found Match: " + ailment.CharacterName.ToLower()+" => "+characterName.ToLower());
-
-							// Build a new list, find cast debuff and remove it.
-							var named_Debuffs = ailment.CharacterBuffs.Split(',').ToList();
-							named_Debuffs.Remove(debuffID.ToString());
-
-							// Now rebuild the list and replace previous one
-							var stringList = string.Join(",", named_Debuffs);
-
-							var i = activeBuffs.FindIndex(x => x.CharacterName.ToLower() == characterName.ToLower());
-							activeBuffs[i].CharacterBuffs = stringList;
-						}
-					}
+					var currentBuffs = charBuffs.CharacterBuffs.Split(',');
+					var modifiedBuffs = currentBuffs.Where(x => x != debuffID.ToString());
+					charBuffs.CharacterBuffs = string.Join(",", modifiedBuffs);
 				}
-				finally
-				{
-					casting.Release();
-				}
+			}
+			catch (InvalidOperationException)
+			{
+				// list was modified somewhere else
 			}
 		}
 
@@ -2767,7 +2759,6 @@
 				}
 				else if (Form2.config.cure3enabled && HP_Loss >= Form2.config.cure3amount && instancePrimary.Player.MP > 46 && HasAcquiredSpell("Cure III") && HasRequiredJobLevel("Cure III") == true)
 				{
-					if (Form2.config.PrioritiseOverLowerTier == true) { await RunDebuffChecker(); }
 					var cureSpell = CureTiers("Cure III", HP);
 					if (cureSpell != "false")
 					{
@@ -2779,7 +2770,6 @@
 				}
 				else if (Form2.config.cure2enabled && HP_Loss >= Form2.config.cure2amount && instancePrimary.Player.MP > 24 && HasAcquiredSpell("Cure II") && HasRequiredJobLevel("Cure II") == true)
 				{
-					if (Form2.config.PrioritiseOverLowerTier == true) { await RunDebuffChecker(); }
 					var cureSpell = CureTiers("Cure II", HP);
 					if (cureSpell != "false")
 					{
@@ -2791,7 +2781,6 @@
 				}
 				else if (Form2.config.cure1enabled && HP_Loss >= Form2.config.cure1amount && instancePrimary.Player.MP > 8 && HasAcquiredSpell("Cure") && HasRequiredJobLevel("Cure") == true)
 				{
-					if (Form2.config.PrioritiseOverLowerTier == true) { await RunDebuffChecker(); }
 					var cureSpell = CureTiers("Cure", HP);
 					if (cureSpell != "false")
 					{
@@ -2848,7 +2837,6 @@
 				}
 				else if (Form2.config.cure3enabled && HP_Loss >= Form2.config.cure3amount && instancePrimary.Player.MP > 46 && HasAcquiredSpell("Cure III") && HasRequiredJobLevel("Cure III") == true)
 				{
-					if (Form2.config.PrioritiseOverLowerTier == true) { await RunDebuffChecker(); }
 					var cureSpell = CureTiers("Cure III", HP);
 					if (cureSpell != "false")
 					{
@@ -2860,7 +2848,6 @@
 				}
 				else if (Form2.config.cure2enabled && HP_Loss >= Form2.config.cure2amount && instancePrimary.Player.MP > 24 && HasAcquiredSpell("Cure II") && HasRequiredJobLevel("Cure II") == true)
 				{
-					if (Form2.config.PrioritiseOverLowerTier == true) { await RunDebuffChecker(); }
 					var cureSpell = CureTiers("Cure II", HP);
 					if (cureSpell != "false")
 					{
@@ -2872,7 +2859,6 @@
 				}
 				else if (Form2.config.cure1enabled && HP_Loss >= Form2.config.cure1amount && instancePrimary.Player.MP > 8 && HasAcquiredSpell("Cure") && HasRequiredJobLevel("Cure") == true)
 				{
-					if (Form2.config.PrioritiseOverLowerTier == true) { await RunDebuffChecker(); }
 					var cureSpell = CureTiers("Cure", HP);
 					if (cureSpell != "false")
 					{
@@ -6010,22 +5996,22 @@
 				// All spells take at least 3 seconds...
 				while (timer.ElapsedMilliseconds < 3500)
 				{
+					Debug.WriteLine("Waiting a minimum of 3.5 seconds...");
 					await Task.Delay(100);
 				}
 
-				spellCommand = "";
-				Debug.WriteLine("Completed casting...");
-
+				return true;
+			}
+			finally
+			{
 				Invoke(new Action(() =>
 				{
 					castingLockLabel.Text = "Casting is UNLOCKED";
 					currentAction.Text = "";
 				}));
 
-				return true;
-			}
-			finally
-			{
+				spellCommand = "";
+				Debug.WriteLine("Completed casting...");
 				await Task.Delay(500);
 				casting.Release();
 			}
@@ -6460,7 +6446,7 @@
 			{
 				var needsCuraga = instanceMonitored.Party.GetPartyMembers()
 					.Where(x => GetMemberPartyNumber(x.MemberNumber) == plParty)
-					.Where(x => x.CurrentHP > 0 && x.CurrentHPP <= Form2.config.curagaCurePercentage)
+					.Where(x => x.Active > 0 && x.CurrentHP > 0 && x.CurrentHPP <= Form2.config.curagaCurePercentage)
 					.OrderBy(x => x.CurrentHPP);
 
 				if (needsCuraga.Count() >= Form2.config.curagaRequiredMembers)
@@ -6476,20 +6462,23 @@
 				}
 			}
 
-			var needsCure = instanceMonitored.Party.GetPartyMembers().Where(p => p.Active > 0).OrderBy(p => p.CurrentHPP);
+			var needsCure = instanceMonitored.Party.GetPartyMembers().Where(p => p.Active > 0 && p.CurrentHP > 0).OrderBy(p => p.CurrentHPP);
 			var monitoredCures = needsCure.Where(x => x.Name.ToLower() == instanceMonitored.Player.Name.ToLower());
 			var priorityCures = needsCure.Where(x => highPriorityBoxes[x.MemberNumber].Checked);
 
 			var nextCureTarget =
 				priorityCures.FirstOrDefault(x => x.CurrentHPP <= Form2.config.priorityCurePercentage) ??
 				monitoredCures.FirstOrDefault(x => x.CurrentHPP <= Form2.config.monitoredCurePercentage) ??
-				needsCure.FirstOrDefault(x => x.CurrentHPP <= Form2.config.curePercentage);
+				needsCure.FirstOrDefault(x => x.CurrentHPP <= Form2.config.curePercentage) ??
+				needsCure.FirstOrDefault(x => x.CurrentHPP < 100);
 
 			if (nextCureTarget != null)
 			{
-				// check debuffs if everyone is 90%+
-				if (nextCureTarget.CurrentHPP > 90)
+				Debug.WriteLine($"Next cure: {nextCureTarget.Name}; hpp: {nextCureTarget.CurrentHPP}");
+
+				if (nextCureTarget.CurrentHPP > 90 && Form2.config.PrioritiseOverLowerTier)
 				{
+					Debug.WriteLine("Executing debuffs before low tier cures.");
 					if (await RunDebuffChecker())
 					{
 						return;
@@ -7497,10 +7486,13 @@
 
 		private void Unpause()
 		{
-			pauseButton.Text = "Pause";
-			pauseButton.ForeColor = Color.Black;
-			enableActions = true;
-			pauseActions = false;
+			Invoke((MethodInvoker)(() =>
+			{
+				pauseButton.Text = "Pause";
+				pauseButton.ForeColor = Color.Black;
+				enableActions = true;
+				pauseActions = false;
+			}));
 		}
 
 		private async Task<bool> UseItem(string name)
