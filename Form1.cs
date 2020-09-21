@@ -2718,10 +2718,10 @@
 						}
 					}
 				}
-        finally
-        {
+				finally
+				{
 					casting.Release();
-        }
+				}
 			}
 		}
 
@@ -3120,9 +3120,9 @@
 			// skip debuff if cannot cast on specified member
 			var partyOnlySpells = new string[] { "Erase", "Esuna" };
 			if (!isSameParty && partyOnlySpells.Contains(spellName))
-      {
+			{
 				return false;
-      }
+			}
 
 			var debuffString = debuffId.ToString();
 			if (isEnabled && CanCastSpell(spellName) && debuffs.Contains(debuffString))
@@ -6476,17 +6476,18 @@
 				}
 			}
 
-			var needsCure = instanceMonitored.Party.GetPartyMembers().OrderByDescending(p => p.CurrentHPP);
+			var needsCure = instanceMonitored.Party.GetPartyMembers().Where(p => p.Active > 0).OrderBy(p => p.CurrentHPP);
 			var monitoredCures = needsCure.Where(x => x.Name.ToLower() == instanceMonitored.Player.Name.ToLower());
 			var priorityCures = needsCure.Where(x => highPriorityBoxes[x.MemberNumber].Checked);
 
 			var nextCureTarget =
-				monitoredCures.FirstOrDefault() ??
-				priorityCures.FirstOrDefault() ??
-				needsCure.FirstOrDefault();
+				priorityCures.FirstOrDefault(x => x.CurrentHPP <= Form2.config.priorityCurePercentage) ??
+				monitoredCures.FirstOrDefault(x => x.CurrentHPP <= Form2.config.monitoredCurePercentage) ??
+				needsCure.FirstOrDefault(x => x.CurrentHPP <= Form2.config.curePercentage);
 
 			if (nextCureTarget != null)
 			{
+				// check debuffs if everyone is 90%+
 				if (nextCureTarget.CurrentHPP > 90)
 				{
 					if (await RunDebuffChecker())
@@ -7252,30 +7253,24 @@
 					}
 					else if ((Form2.config.Devotion) && CanUseJobAbility("Devotion") && instancePrimary.Player.HPP > 80 && (!Form2.config.DevotionWhenEngaged || (instanceMonitored.Player.Status == 1)))
 					{
-						// First Generate the current party number, this will be used
-						// regardless of the type
-						var memberOF = GetPlPartyNumber();
-
 						// Now generate the party
-						var cParty = instanceMonitored.Party.GetPartyMembers().Where(p => p.Active != 0 && p.Zone == instancePrimary.Player.ZoneId);
+						var party = instanceMonitored.Party.GetPartyMembers()
+							.Where(p => p.Active > 0 && p.Zone == instancePrimary.Player.ZoneId);
 
-						// Make sure member number is not 0 (null) or 4 (void)
-						if (memberOF != 0 && memberOF != 4)
+						if (plParty > 0)
 						{
-							// Run through Each party member as we're looking for either a specifc name or if set otherwise anyone with the MP criteria in the current party.
-							foreach (var pData in cParty)
+							foreach (var member in party)
 							{
-								// If party of party v1
-								if (memberOF == 1 && pData.MemberNumber >= 0 && pData.MemberNumber <= 5)
+								if (plParty == GetMemberPartyNumber(member.MemberNumber))
 								{
-									if (!string.IsNullOrEmpty(pData.Name) && pData.Name != instancePrimary.Player.Name)
+									if (member.Name != instancePrimary.Player.Name)
 									{
 										if ((Form2.config.DevotionTargetType == 0))
 										{
-											if (pData.Name == Form2.config.DevotionTargetName)
+											if (member.Name == Form2.config.DevotionTargetName)
 											{
-												var playerInfo = instancePrimary.Entity.GetEntity((int)pData.TargetIndex);
-												if (playerInfo.Distance < 10 && playerInfo.Distance > 0 && pData.CurrentMP <= Form2.config.DevotionMP && pData.CurrentMPP <= 30)
+												var playerInfo = instancePrimary.Entity.GetEntity((int)member.TargetIndex);
+												if (playerInfo.Distance < 10 && playerInfo.Distance > 0 && member.CurrentMP <= Form2.config.DevotionMP && member.CurrentMPP <= 30)
 												{
 													instancePrimary.ThirdParty.SendString("/ja \"Devotion\" " + Form2.config.DevotionTargetName);
 													Thread.Sleep(TimeSpan.FromSeconds(2));
@@ -7286,71 +7281,10 @@
 										}
 										else
 										{
-											var playerInfo = instancePrimary.Entity.GetEntity((int)pData.TargetIndex);
-
-											if ((pData.CurrentMP <= Form2.config.DevotionMP) && (playerInfo.Distance < 10) && pData.CurrentMPP <= 30)
+											var playerInfo = instancePrimary.Entity.GetEntity((int)member.TargetIndex);
+											if ((member.CurrentMP <= Form2.config.DevotionMP) && (playerInfo.Distance < 10) && member.CurrentMPP <= 30)
 											{
-												instancePrimary.ThirdParty.SendString("/ja \"Devotion\" " + pData.Name);
-												await Task.Delay(2500);
-												return;
-											}
-										}
-									}
-								} // If part of party 2
-								else if (memberOF == 2 && pData.MemberNumber >= 6 && pData.MemberNumber <= 11)
-								{
-									if (!string.IsNullOrEmpty(pData.Name) && pData.Name != instancePrimary.Player.Name)
-									{
-										if ((Form2.config.DevotionTargetType == 0))
-										{
-											if (pData.Name == Form2.config.DevotionTargetName)
-											{
-												var playerInfo = instancePrimary.Entity.GetEntity((int)pData.TargetIndex);
-												if (playerInfo.Distance < 10 && playerInfo.Distance > 0 && pData.CurrentMP <= Form2.config.DevotionMP)
-												{
-													instancePrimary.ThirdParty.SendString("/ja \"Devotion\" " + Form2.config.DevotionTargetName);
-													await Task.Delay(2500);
-													return;
-												}
-											}
-										}
-										else
-										{
-											var playerInfo = instancePrimary.Entity.GetEntity((int)pData.TargetIndex);
-
-											if ((pData.CurrentMP <= Form2.config.DevotionMP) && (playerInfo.Distance < 10) && pData.CurrentMPP <= 50)
-											{
-												instancePrimary.ThirdParty.SendString("/ja \"Devotion\" " + pData.Name);
-												await Task.Delay(2500);
-												return;
-											}
-										}
-									}
-								} // If part of party 3
-								else if (memberOF == 3 && pData.MemberNumber >= 12 && pData.MemberNumber <= 17)
-								{
-									if (!string.IsNullOrEmpty(pData.Name) && pData.Name != instancePrimary.Player.Name)
-									{
-										if ((Form2.config.DevotionTargetType == 0))
-										{
-											if (pData.Name == Form2.config.DevotionTargetName)
-											{
-												var playerInfo = instancePrimary.Entity.GetEntity((int)pData.TargetIndex);
-												if (playerInfo.Distance < 10 && playerInfo.Distance > 0 && pData.CurrentMP <= Form2.config.DevotionMP)
-												{
-													instancePrimary.ThirdParty.SendString("/ja \"Devotion\" " + Form2.config.DevotionTargetName);
-													await Task.Delay(2500);
-													return;
-												}
-											}
-										}
-										else
-										{
-											var playerInfo = instancePrimary.Entity.GetEntity((int)pData.TargetIndex);
-
-											if ((pData.CurrentMP <= Form2.config.DevotionMP) && (playerInfo.Distance < 10) && pData.CurrentMPP <= 50)
-											{
-												instancePrimary.ThirdParty.SendString("/ja \"Devotion\" " + pData.Name);
+												instancePrimary.ThirdParty.SendString("/ja \"Devotion\" " + member.Name);
 												await Task.Delay(2500);
 												return;
 											}
@@ -7362,9 +7296,9 @@
 					}
 				}
 
-				var playerBuffOrder = instanceMonitored.Party.GetPartyMembers()
-					.OrderBy(p => p.MemberNumber).OrderBy(p => p.Active == 0)
-					.Where(p => p.Active == 1);
+				var playerBuffOrder = instanceMonitored.Party
+					.GetPartyMembers().Where(p => p.Active == 1)
+					.OrderBy(p => p.MemberNumber);
 
 				string[] regen_spells = { "Regen", "Regen II", "Regen III", "Regen IV", "Regen V" };
 				string[] refresh_spells = { "Refresh", "Refresh II", "Refresh III" };
