@@ -1749,10 +1749,10 @@
 			enableActions = true;
 
 			if (Form2.config.pauseOnStartBox)
-      {
-        Pause("Loaded, paused...");
-      }
-      else
+			{
+				Pause("Loaded, paused...");
+			}
+			else
 			{
 				if (Form2.config.MinimiseonStart == true && WindowState != FormWindowState.Minimized)
 				{
@@ -1783,15 +1783,15 @@
 			}
 		}
 
-    private void Pause(string label)
-    {
-      pauseActions = true;
-      enableActions = false;
-      pauseButton.Text = label;
-      pauseButton.ForeColor = Color.Red;
-    }
+		private void Pause(string label)
+		{
+			pauseActions = true;
+			enableActions = false;
+			pauseButton.Text = label;
+			pauseButton.ForeColor = Color.Red;
+		}
 
-    private int GetInventoryItemCount(EliteAPI api, ushort itemid)
+		private int GetInventoryItemCount(EliteAPI api, ushort itemid)
 		{
 			var count = 0;
 			for (var x = 0; x <= 80; x++)
@@ -2871,7 +2871,7 @@
 		private async Task RunDebuffChecker()
 		{
 			// PL and Monitored Player Debuff Removal Starting with PL
-			if (instancePrimary.Player.Status != 33)
+			if (instancePrimary.Player.Status != (uint)EntityStatus.Healing)
 			{
 				if (Form2.config.plSilenceItem == 0)
 				{
@@ -3094,7 +3094,7 @@
 			}
 
 			// Next, we check monitored player
-			if ((instancePrimary.Entity.GetEntity((int)instanceMonitored.Party.GetPartyMember(0).TargetIndex).Distance < 21) && (instancePrimary.Entity.GetEntity((int)instanceMonitored.Party.GetPartyMember(0).TargetIndex).Distance > 0) && (instanceMonitored.Player.HP > 0) && instancePrimary.Player.Status != 33)
+			if ((instancePrimary.Entity.GetEntity((int)instanceMonitored.Party.GetPartyMember(0).TargetIndex).Distance < 21) && (instancePrimary.Entity.GetEntity((int)instanceMonitored.Party.GetPartyMember(0).TargetIndex).Distance > 0) && (instanceMonitored.Player.HP > 0) && !IsHealing())
 			{
 				foreach (StatusEffect monitoredEffect in instanceMonitored.Player.Buffs)
 				{
@@ -4077,6 +4077,7 @@
 			if (await CastSpell(instanceMonitored.Party.GetPartyMembers()[partyMemberId].Name, "Haste"))
 			{
 				playerHaste[partyMemberId] = DateTime.Now;
+				playerHaste_II[partyMemberId] = DateTime.Now;
 			}
 		}
 
@@ -4084,6 +4085,7 @@
 		{
 			if (await CastSpell(instanceMonitored.Party.GetPartyMembers()[partyMemberId].Name, "Haste II"))
 			{
+				playerHaste[partyMemberId] = DateTime.Now;
 				playerHaste_II[partyMemberId] = DateTime.Now;
 			}
 		}
@@ -4101,6 +4103,7 @@
 			if (await CastSpell(instanceMonitored.Party.GetPartyMembers()[partyMemberId].Name, "Flurry"))
 			{
 				playerFlurry[partyMemberId] = DateTime.Now;
+				playerFlurry_II[partyMemberId] = DateTime.Now;
 			}
 		}
 
@@ -4108,6 +4111,7 @@
 		{
 			if (await CastSpell(instanceMonitored.Party.GetPartyMembers()[partyMemberId].Name, "Flurry II"))
 			{
+				playerFlurry[partyMemberId] = DateTime.Now;
 				playerFlurry_II[partyMemberId] = DateTime.Now;
 			}
 		}
@@ -6179,7 +6183,7 @@
 				b == 195 || b == 196 || b == 197 || b == 198 || b == 199 || b == 200 ||
 				b == 201 || b == 214 || b == 215 || b == 216 || b == 218 || b == 219 || b == 222).Count();
 
-			if ((Form2.config.enableSinging) && instancePrimary.Player.Status != 33)
+			if ((Form2.config.enableSinging) && !IsHealing())
 			{
 
 				debug_MSG_show = "ORDER: " + song_casting;
@@ -7263,23 +7267,23 @@
 			if (Form2.config.AcceptRaise == true && (instancePrimary.Player.Status == 2 || instancePrimary.Player.Status == 3))
 			{
 				if (
-					instancePrimary.Menu.IsMenuOpen && 
-					instancePrimary.Menu.HelpName == "Revival" && 
-					instancePrimary.Menu.MenuIndex == 1 && 
+					instancePrimary.Menu.IsMenuOpen &&
+					instancePrimary.Menu.HelpName == "Revival" &&
+					instancePrimary.Menu.MenuIndex == 1 &&
 					(
-						(Form2.config.AcceptRaiseOnlyWhenNotInCombat && instanceMonitored.Player.Status != 1) || 
+						(Form2.config.AcceptRaiseOnlyWhenNotInCombat && instanceMonitored.Player.Status != 1) ||
 						(Form2.config.AcceptRaiseOnlyWhenNotInCombat == false)
 					))
-        {
-          await Task.Delay(2000);
-          currentAction.Text = "Accepting Raise or Reraise.";
-          instancePrimary.ThirdParty.KeyPress(EliteMMO.API.Keys.NUMPADENTER);
-          currentAction.Text = string.Empty;
+				{
+					await Task.Delay(2000);
+					currentAction.Text = "Accepting Raise or Reraise.";
+					instancePrimary.ThirdParty.KeyPress(EliteMMO.API.Keys.NUMPADENTER);
+					currentAction.Text = string.Empty;
 
-          await Task.Delay(5000);
-          Unpause();
-        }
-      }
+					await Task.Delay(5000);
+					Unpause();
+				}
+			}
 
 			var stunLocked =
 				plHasBuff(Buffs.terror) ||
@@ -7926,7 +7930,7 @@
 					}
 
 					// ENTRUSTED INDI SPELL CASTING, WILL BE CAST SO LONG AS ENTRUST IS ACTIVE
-					else if ((Form2.config.EnableGeoSpells) && (plHasBuff((StatusEffect)584)) && instancePrimary.Player.Status != 33)
+					else if ((Form2.config.EnableGeoSpells) && (plHasBuff((StatusEffect)584)) && !IsHealing())
 					{
 						var SpellCheckedResult = ReturnGeoSpell(Form2.config.EntrustedSpell_Spell, 1);
 						if (SpellCheckedResult == "SpellError_Cancel")
@@ -7952,7 +7956,7 @@
 					}
 
 					// CAST NON ENTRUSTED INDI SPELL
-					else if (Form2.config.EnableGeoSpells && !hasBuff(612, 0) && instancePrimary.Player.Status != 33 && (CheckEngagedStatus() == true || !Form2.config.IndiWhenEngaged))
+					else if (Form2.config.EnableGeoSpells && !hasBuff(612, 0) && !IsHealing() && (CheckEngagedStatus() == true || !Form2.config.IndiWhenEngaged))
 					{
 						var SpellCheckedResult = ReturnGeoSpell(Form2.config.IndiSpell_Spell, 1);
 
@@ -8266,7 +8270,6 @@
 						// PL BASED BUFFS
 						if (instancePrimary.Player.Name == charDATA.Name)
 						{
-
 							if (autoHasteEnabled[charDATA.MemberNumber] && SpellReadyToCast("Haste") && HasAcquiredSpell("Haste") && HasRequiredJobLevel("Haste") == true && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && !plHasBuff(StatusEffect.Haste) && !plHasBuff(StatusEffect.Slow))
 							{
 								await hastePlayer(charDATA.MemberNumber);
@@ -8287,27 +8290,27 @@
 							{
 								await Flurry_IIPlayer(charDATA.MemberNumber);
 							}
-							if (autoShell_Enabled[charDATA.MemberNumber] && SpellReadyToCast(shell_spells[Form2.config.autoShell_Spell]) && HasAcquiredSpell(shell_spells[Form2.config.autoShell_Spell]) && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && instancePrimary.Player.Status != 33 && !plHasBuff(StatusEffect.Shell))
+							if (autoShell_Enabled[charDATA.MemberNumber] && SpellReadyToCast(shell_spells[Form2.config.autoShell_Spell]) && HasAcquiredSpell(shell_spells[Form2.config.autoShell_Spell]) && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && !IsHealing() && !plHasBuff(StatusEffect.Shell))
 							{
 								await shellPlayer(charDATA.MemberNumber);
 							}
-							if (autoProtect_Enabled[charDATA.MemberNumber] && SpellReadyToCast(protect_spells[Form2.config.autoProtect_Spell]) && HasAcquiredSpell(protect_spells[Form2.config.autoProtect_Spell]) && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && instancePrimary.Player.Status != 33 && !plHasBuff(StatusEffect.Protect))
+							if (autoProtect_Enabled[charDATA.MemberNumber] && SpellReadyToCast(protect_spells[Form2.config.autoProtect_Spell]) && HasAcquiredSpell(protect_spells[Form2.config.autoProtect_Spell]) && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && !IsHealing() && !plHasBuff(StatusEffect.Protect))
 							{
 								await protectPlayer(charDATA.MemberNumber);
 							}
-							if ((autoPhalanx_IIEnabled[charDATA.MemberNumber]) && CanCastSpell("Phalanx II") && (instancePrimary.Player.MP > Form2.config.mpMinCastValue) && (castingPossible(charDATA.MemberNumber)) && instancePrimary.Player.Status != 33 && !plHasBuff(StatusEffect.Phalanx))
+							if ((autoPhalanx_IIEnabled[charDATA.MemberNumber]) && CanCastSpell("Phalanx II") && (instancePrimary.Player.MP > Form2.config.mpMinCastValue) && (castingPossible(charDATA.MemberNumber)) && !IsHealing() && !plHasBuff(StatusEffect.Phalanx))
 							{
 								await Phalanx_IIPlayer(charDATA.MemberNumber);
 							}
-							if ((autoRegen_Enabled[charDATA.MemberNumber]) && (CanCastSpell(regen_spells[Form2.config.autoRegen_Spell])) && (instancePrimary.Player.MP > Form2.config.mpMinCastValue) && (castingPossible(charDATA.MemberNumber)) && instancePrimary.Player.Status != 33 && !plHasBuff(StatusEffect.Regen))
+							if ((autoRegen_Enabled[charDATA.MemberNumber]) && (CanCastSpell(regen_spells[Form2.config.autoRegen_Spell])) && (instancePrimary.Player.MP > Form2.config.mpMinCastValue) && (castingPossible(charDATA.MemberNumber)) && !IsHealing() && !plHasBuff(StatusEffect.Regen))
 							{
 								await Regen_Player(charDATA.MemberNumber);
 							}
-							if ((autoRefreshEnabled[charDATA.MemberNumber]) && (CanCastSpell(refresh_spells[Form2.config.autoRefresh_Spell])) && (instancePrimary.Player.MP > Form2.config.mpMinCastValue) && (castingPossible(charDATA.MemberNumber)) && instancePrimary.Player.Status != 33 && !plHasBuff(StatusEffect.Refresh))
+							if ((autoRefreshEnabled[charDATA.MemberNumber]) && (CanCastSpell(refresh_spells[Form2.config.autoRefresh_Spell])) && (instancePrimary.Player.MP > Form2.config.mpMinCastValue) && (castingPossible(charDATA.MemberNumber)) && !IsHealing() && !plHasBuff(StatusEffect.Refresh))
 							{
 								await Refresh_Player(charDATA.MemberNumber);
 							}
-							if (CheckIfAutoStormspellEnabled(charDATA.MemberNumber) && (instancePrimary.Player.MP > Form2.config.mpMinCastValue) && (castingPossible(charDATA.MemberNumber)) && instancePrimary.Player.Status != 33 && !hasBuff(PTstormspell.BuffId, 0) && SpellReadyToCast(PTstormspell.Name) && HasAcquiredSpell(PTstormspell.Name) && HasRequiredJobLevel(PTstormspell.Name) == true)
+							if (CheckIfAutoStormspellEnabled(charDATA.MemberNumber) && (instancePrimary.Player.MP > Form2.config.mpMinCastValue) && (castingPossible(charDATA.MemberNumber)) && !IsHealing() && !hasBuff(PTstormspell.BuffId, 0) && SpellReadyToCast(PTstormspell.Name) && HasAcquiredSpell(PTstormspell.Name) && HasRequiredJobLevel(PTstormspell.Name) == true)
 							{
 								await StormSpellPlayer(charDATA.MemberNumber, PTstormspell.Name);
 							}
@@ -8315,47 +8318,47 @@
 						// MONITORED PLAYER BASED BUFFS
 						else if (instanceMonitored.Player.Name == charDATA.Name)
 						{
-							if (autoHasteEnabled[charDATA.MemberNumber] && SpellReadyToCast("Haste") && HasAcquiredSpell("Haste") && HasRequiredJobLevel("Haste") == true && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && !monitoredStatusCheck(StatusEffect.Haste) && !monitoredStatusCheck(StatusEffect.Slow))
+							if (autoHasteEnabled[charDATA.MemberNumber] && SpellReadyToCast("Haste") && HasAcquiredSpell("Haste") && HasRequiredJobLevel("Haste") == true && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && !hasBuff(Buffs.Haste, 1) && !hasBuff(Buffs.Haste2, 1) && !hasBuff(Buffs.slow, 1) && !hasBuff(Buffs.slow2, 1))
 							{
 								await hastePlayer(charDATA.MemberNumber);
 							}
-							if (autoHaste_IIEnabled[charDATA.MemberNumber] && SpellReadyToCast("Haste II") && HasAcquiredSpell("Haste II") && HasRequiredJobLevel("Haste II") == true && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && !monitoredStatusCheck(StatusEffect.Haste) && !monitoredStatusCheck(StatusEffect.Slow))
+							if (autoHaste_IIEnabled[charDATA.MemberNumber] && SpellReadyToCast("Haste II") && HasAcquiredSpell("Haste II") && HasRequiredJobLevel("Haste II") == true && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && !hasBuff(Buffs.Haste, 1) && !hasBuff(Buffs.Haste2, 1) && !hasBuff(Buffs.slow, 1) && !hasBuff(Buffs.slow2, 1))
 							{
 								await haste_IIPlayer(charDATA.MemberNumber);
 							}
-							if (autoAdloquium_Enabled[charDATA.MemberNumber] && SpellReadyToCast("Adloquium") && HasAcquiredSpell("Adloquium") && HasRequiredJobLevel("Adloquium") == true && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && !hasBuff(170, 1))
+							if (autoAdloquium_Enabled[charDATA.MemberNumber] && SpellReadyToCast("Adloquium") && HasAcquiredSpell("Adloquium") && HasRequiredJobLevel("Adloquium") == true && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && !hasBuff(Buffs.Regain, 1))
 							{
 								await AdloquiumPlayer(charDATA.MemberNumber);
 							}
-							if (autoFlurryEnabled[charDATA.MemberNumber] && SpellReadyToCast("Flurry") && HasAcquiredSpell("Flurry") && HasRequiredJobLevel("Flurry") == true && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && !hasBuff(581, 1) && !monitoredStatusCheck(StatusEffect.Slow))
+							if (autoFlurryEnabled[charDATA.MemberNumber] && SpellReadyToCast("Flurry") && HasAcquiredSpell("Flurry") && HasRequiredJobLevel("Flurry") == true && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && !hasBuff(Buffs.Flurry, 1) && !hasBuff(Buffs.Flurry2, 1) && !hasBuff(Buffs.slow, 1) && !hasBuff(Buffs.slow2, 1))
 							{
 								await FlurryPlayer(charDATA.MemberNumber);
 							}
-							if (autoFlurry_IIEnabled[charDATA.MemberNumber] && SpellReadyToCast("Flurry II") && HasAcquiredSpell("Flurry II") && HasRequiredJobLevel("Flurry II") == true && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && !hasBuff(581, 1) && !monitoredStatusCheck(StatusEffect.Slow))
+							if (autoFlurry_IIEnabled[charDATA.MemberNumber] && SpellReadyToCast("Flurry II") && HasAcquiredSpell("Flurry II") && HasRequiredJobLevel("Flurry II") == true && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && !hasBuff(Buffs.Flurry, 1) && !hasBuff(Buffs.Flurry2, 1) && !hasBuff(Buffs.slow, 1) && !hasBuff(Buffs.slow2, 1))
 							{
 								await Flurry_IIPlayer(charDATA.MemberNumber);
 							}
-							if (autoShell_Enabled[charDATA.MemberNumber] && SpellReadyToCast(shell_spells[Form2.config.autoShell_Spell]) && HasAcquiredSpell(shell_spells[Form2.config.autoShell_Spell]) && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && instancePrimary.Player.Status != 33 && !monitoredStatusCheck(StatusEffect.Shell))
+							if (autoShell_Enabled[charDATA.MemberNumber] && SpellReadyToCast(shell_spells[Form2.config.autoShell_Spell]) && HasAcquiredSpell(shell_spells[Form2.config.autoShell_Spell]) && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && !IsHealing() && !hasBuff(Buffs.Shell, 1))
 							{
 								await shellPlayer(charDATA.MemberNumber);
 							}
-							if (autoProtect_Enabled[charDATA.MemberNumber] && SpellReadyToCast(protect_spells[Form2.config.autoProtect_Spell]) && HasAcquiredSpell(protect_spells[Form2.config.autoProtect_Spell]) && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && instancePrimary.Player.Status != 33 && !monitoredStatusCheck(StatusEffect.Protect))
+							if (autoProtect_Enabled[charDATA.MemberNumber] && SpellReadyToCast(protect_spells[Form2.config.autoProtect_Spell]) && HasAcquiredSpell(protect_spells[Form2.config.autoProtect_Spell]) && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && !IsHealing() && !hasBuff(Buffs.Protect, 1))
 							{
 								await protectPlayer(charDATA.MemberNumber);
 							}
-							if ((autoPhalanx_IIEnabled[charDATA.MemberNumber]) && CanCastSpell("Phalanx II") && (instancePrimary.Player.MP > Form2.config.mpMinCastValue) && (castingPossible(charDATA.MemberNumber)) && instancePrimary.Player.Status != 33 && !monitoredStatusCheck(StatusEffect.Phalanx))
+							if ((autoPhalanx_IIEnabled[charDATA.MemberNumber]) && CanCastSpell("Phalanx II") && (instancePrimary.Player.MP > Form2.config.mpMinCastValue) && (castingPossible(charDATA.MemberNumber)) && !IsHealing() && !hasBuff(Buffs.Phalanx, 1))
 							{
 								await Phalanx_IIPlayer(charDATA.MemberNumber);
 							}
-							if ((autoRegen_Enabled[charDATA.MemberNumber]) && CanCastSpell(regen_spells[Form2.config.autoRegen_Spell]) && (instancePrimary.Player.MP > Form2.config.mpMinCastValue) && (castingPossible(charDATA.MemberNumber)) && instancePrimary.Player.Status != 33 && !monitoredStatusCheck(StatusEffect.Regen))
+							if ((autoRegen_Enabled[charDATA.MemberNumber]) && CanCastSpell(regen_spells[Form2.config.autoRegen_Spell]) && (instancePrimary.Player.MP > Form2.config.mpMinCastValue) && (castingPossible(charDATA.MemberNumber)) && !IsHealing() && !hasBuff(Buffs.Regen, 1) && !hasBuff(Buffs.Regen2, 1))
 							{
 								await Regen_Player(charDATA.MemberNumber);
 							}
-							if ((autoRefreshEnabled[charDATA.MemberNumber]) && (CanCastSpell(refresh_spells[Form2.config.autoRefresh_Spell])) && (instancePrimary.Player.MP > Form2.config.mpMinCastValue) && (castingPossible(charDATA.MemberNumber)) && instancePrimary.Player.Status != 33 && !monitoredStatusCheck(StatusEffect.Refresh))
+							if ((autoRefreshEnabled[charDATA.MemberNumber]) && (CanCastSpell(refresh_spells[Form2.config.autoRefresh_Spell])) && (instancePrimary.Player.MP > Form2.config.mpMinCastValue) && (castingPossible(charDATA.MemberNumber)) && !IsHealing() && !hasBuff(Buffs.Refresh, 1) && !hasBuff(Buffs.Refresh2, 1))
 							{
 								await Refresh_Player(charDATA.MemberNumber);
 							}
-							if (CheckIfAutoStormspellEnabled(charDATA.MemberNumber) && (instancePrimary.Player.MP > Form2.config.mpMinCastValue) && (castingPossible(charDATA.MemberNumber)) && instancePrimary.Player.Status != 33 && !hasBuff(PTstormspell.BuffId, 1) && SpellReadyToCast(PTstormspell.Name) && HasAcquiredSpell(PTstormspell.Name) && HasRequiredJobLevel(PTstormspell.Name) == true)
+							if (CheckIfAutoStormspellEnabled(charDATA.MemberNumber) && (instancePrimary.Player.MP > Form2.config.mpMinCastValue) && (castingPossible(charDATA.MemberNumber)) && !IsHealing() && SpellReadyToCast(PTstormspell.Name) && HasAcquiredSpell(PTstormspell.Name) && HasRequiredJobLevel(PTstormspell.Name) && !hasBuff(PTstormspell.BuffId, 1))
 							{
 								await StormSpellPlayer(charDATA.MemberNumber, PTstormspell.Name);
 							}
@@ -8378,31 +8381,31 @@
 							{
 								await FlurryPlayer(charDATA.MemberNumber);
 							}
-							if (autoFlurry_IIEnabled[charDATA.MemberNumber] && SpellReadyToCast("Flurry II") && HasAcquiredSpell("Flurry II") && HasRequiredJobLevel("Flurry II") == true && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && playerHasteSpan[charDATA.MemberNumber].Minutes >= Form2.config.autoHasteMinutes)
+							if (autoFlurry_IIEnabled[charDATA.MemberNumber] && SpellReadyToCast("Flurry II") && HasAcquiredSpell("Flurry II") && HasRequiredJobLevel("Flurry II") == true && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && playerFlurry_IISpan[charDATA.MemberNumber].Minutes >= Form2.config.autoHasteMinutes)
 							{
 								await Flurry_IIPlayer(charDATA.MemberNumber);
 							}
-							if (autoShell_Enabled[charDATA.MemberNumber] && SpellReadyToCast(shell_spells[Form2.config.autoShell_Spell]) && HasAcquiredSpell(shell_spells[Form2.config.autoShell_Spell]) && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && instancePrimary.Player.Status != 33 && playerShell_Span[charDATA.MemberNumber].Minutes >= Form2.config.autoShellMinutes)
+							if (autoShell_Enabled[charDATA.MemberNumber] && SpellReadyToCast(shell_spells[Form2.config.autoShell_Spell]) && HasAcquiredSpell(shell_spells[Form2.config.autoShell_Spell]) && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && !IsHealing() && playerShell_Span[charDATA.MemberNumber].Minutes >= Form2.config.autoShellMinutes)
 							{
 								await shellPlayer(charDATA.MemberNumber);
 							}
-							if (autoProtect_Enabled[charDATA.MemberNumber] && SpellReadyToCast(protect_spells[Form2.config.autoProtect_Spell]) && HasAcquiredSpell(protect_spells[Form2.config.autoProtect_Spell]) && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && instancePrimary.Player.Status != 33 && playerProtect_Span[charDATA.MemberNumber].Minutes >= Form2.config.autoProtect_Minutes)
+							if (autoProtect_Enabled[charDATA.MemberNumber] && SpellReadyToCast(protect_spells[Form2.config.autoProtect_Spell]) && HasAcquiredSpell(protect_spells[Form2.config.autoProtect_Spell]) && instancePrimary.Player.MP > Form2.config.mpMinCastValue && castingPossible(charDATA.MemberNumber) && !IsHealing() && playerProtect_Span[charDATA.MemberNumber].Minutes >= Form2.config.autoProtect_Minutes)
 							{
 								await protectPlayer(charDATA.MemberNumber);
 							}
-							if ((autoPhalanx_IIEnabled[charDATA.MemberNumber]) && CanCastSpell("Phalanx II") && (instancePrimary.Player.MP > Form2.config.mpMinCastValue) && (castingPossible(charDATA.MemberNumber)) && instancePrimary.Player.Status != 33 && playerPhalanx_IISpan[charDATA.MemberNumber].Minutes >= Form2.config.autoPhalanxIIMinutes)
+							if ((autoPhalanx_IIEnabled[charDATA.MemberNumber]) && CanCastSpell("Phalanx II") && (instancePrimary.Player.MP > Form2.config.mpMinCastValue) && (castingPossible(charDATA.MemberNumber)) && !IsHealing() && playerPhalanx_IISpan[charDATA.MemberNumber].Minutes >= Form2.config.autoPhalanxIIMinutes)
 							{
 								await Phalanx_IIPlayer(charDATA.MemberNumber);
 							}
-							if ((autoRegen_Enabled[charDATA.MemberNumber]) && CanCastSpell(regen_spells[Form2.config.autoRegen_Spell]) && (instancePrimary.Player.MP > Form2.config.mpMinCastValue) && (castingPossible(charDATA.MemberNumber)) && instancePrimary.Player.Status != 33 && playerRegen_Span[charDATA.MemberNumber].Minutes >= Form2.config.autoRegen_Minutes)
+							if ((autoRegen_Enabled[charDATA.MemberNumber]) && CanCastSpell(regen_spells[Form2.config.autoRegen_Spell]) && (instancePrimary.Player.MP > Form2.config.mpMinCastValue) && (castingPossible(charDATA.MemberNumber)) && !IsHealing() && playerRegen_Span[charDATA.MemberNumber].Minutes >= Form2.config.autoRegen_Minutes)
 							{
 								await Regen_Player(charDATA.MemberNumber);
 							}
-							if ((autoRefreshEnabled[charDATA.MemberNumber]) && CanCastSpell(refresh_spells[Form2.config.autoRefresh_Spell]) && (instancePrimary.Player.MP > Form2.config.mpMinCastValue) && (castingPossible(charDATA.MemberNumber)) && instancePrimary.Player.Status != 33 && playerRefresh_Span[charDATA.MemberNumber].Minutes >= Form2.config.autoRefresh_Minutes)
+							if ((autoRefreshEnabled[charDATA.MemberNumber]) && CanCastSpell(refresh_spells[Form2.config.autoRefresh_Spell]) && (instancePrimary.Player.MP > Form2.config.mpMinCastValue) && (castingPossible(charDATA.MemberNumber)) && !IsHealing() && playerRefresh_Span[charDATA.MemberNumber].Minutes >= Form2.config.autoRefresh_Minutes)
 							{
 								await Refresh_Player(charDATA.MemberNumber);
 							}
-							if (CheckIfAutoStormspellEnabled(charDATA.MemberNumber) && (instancePrimary.Player.MP > Form2.config.mpMinCastValue) && (castingPossible(charDATA.MemberNumber)) && instancePrimary.Player.Status != 33 && SpellReadyToCast(PTstormspell.Name) && HasAcquiredSpell(PTstormspell.Name) && HasRequiredJobLevel(PTstormspell.Name) == true && playerStormspellSpan[charDATA.MemberNumber].Minutes >= Form2.config.autoStormspellMinutes)
+							if (CheckIfAutoStormspellEnabled(charDATA.MemberNumber) && (instancePrimary.Player.MP > Form2.config.mpMinCastValue) && (castingPossible(charDATA.MemberNumber)) && !IsHealing() && SpellReadyToCast(PTstormspell.Name) && HasAcquiredSpell(PTstormspell.Name) && HasRequiredJobLevel(PTstormspell.Name) == true && playerStormspellSpan[charDATA.MemberNumber].Minutes >= Form2.config.autoStormspellMinutes)
 							{
 								await StormSpellPlayer(charDATA.MemberNumber, PTstormspell.Name);
 							}
@@ -8412,15 +8415,20 @@
 			}
 		}
 
-    private void Unpause()
-    {
-      pauseButton.Text = "Pause";
-      pauseButton.ForeColor = Color.Black;
-      enableActions = true;
-      pauseActions = false;
-    }
+		private bool IsHealing()
+		{
+			return instancePrimary.Player.Status == (uint)EntityStatus.Healing;
+		}
 
-    private async Task UseItem(string name)
+		private void Unpause()
+		{
+			pauseButton.Text = "Pause";
+			pauseButton.ForeColor = Color.Black;
+			enableActions = true;
+			pauseActions = false;
+		}
+
+		private async Task UseItem(string name)
 		{
 			if (!(await casting.WaitAsync(15000)))
 			{
