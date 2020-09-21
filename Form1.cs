@@ -2701,14 +2701,17 @@
 		{
 			try
 			{
-				var charBuffs = activeBuffs.FirstOrDefault(x => 
-					x.CharacterName.ToLower() == characterName.ToLower());
-
-				if (charBuffs != null && charBuffs.CharacterBuffs != null)
+				lock (activeBuffs)
 				{
-					var currentBuffs = charBuffs.CharacterBuffs.Split(',');
-					var modifiedBuffs = currentBuffs.Where(x => x != debuffID.ToString());
-					charBuffs.CharacterBuffs = string.Join(",", modifiedBuffs);
+					var charBuffs = activeBuffs.FirstOrDefault(x =>
+						x.CharacterName.ToLower() == characterName.ToLower());
+
+					if (charBuffs != null && charBuffs.CharacterBuffs != null)
+					{
+						var currentBuffs = charBuffs.CharacterBuffs.Split(',');
+						var modifiedBuffs = currentBuffs.Where(x => x != debuffID.ToString());
+						charBuffs.CharacterBuffs = string.Join(",", modifiedBuffs);
+					}
 				}
 			}
 			catch (InvalidOperationException)
@@ -5809,21 +5812,14 @@
 							}
 							else if (commands[1] == "buffs" && commands.Count() == 4)
 							{
-								if (casting.Wait(5000))
+								lock (activeBuffs)
 								{
-									try
+									activeBuffs.RemoveAll(buf => buf.CharacterName == commands[2]);
+									activeBuffs.Add(new BuffStorage
 									{
-										activeBuffs.RemoveAll(buf => buf.CharacterName == commands[2]);
-										activeBuffs.Add(new BuffStorage
-										{
-											CharacterName = commands[2],
-											CharacterBuffs = commands[3]
-										});
-									}
-									finally
-									{
-										casting.Release();
-									}
+										CharacterName = commands[2],
+										CharacterBuffs = commands[3]
+									});
 								}
 							}
 						}
