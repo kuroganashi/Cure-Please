@@ -974,6 +974,14 @@ namespace CurePlease
 
 			return spell?.CastTime ?? 3f;
     }
+
+		public static int GetMpCost(string name)
+    {
+			var spell = spells.FirstOrDefault(x =>
+				x.Name.ToLower() == name.ToLower());
+
+			return spell?.MpCost ?? 99999;
+		}
 	}
 
 	public class SpellInfo
