@@ -5848,9 +5848,8 @@
 					currentAction.Text = spellCommand;
 				}));
 
-				instancePrimary.ThirdParty.SendString(spellCommand);
+				await SendPrimaryCommand(spellCommand, 10);
 				Log.Debug("Sent command {0}", spellCommand);
-				var timer = Stopwatch.StartNew();
 
 				// There is a small delay, depending on latency and game lag, between when
 				// we send the command and the actual spell casting begins. If we check the 
@@ -5858,22 +5857,25 @@
 				// circuit our mechanism. To prevent this, we wait until the cast percent is
 				// something other than 0 or 1 (e.g. 0.12) before entering the wait loop.
 
-				while (
-					instancePrimary.CastBar.Percent == 0 ||
-					instancePrimary.CastBar.Percent == 1)
+				var timer = Stopwatch.StartNew();
+				Log.Verbose("Waiting for cast bar to start...");
+				while (instancePrimary.CastBar.Percent == 1)
 				{
 					// But sometimes the command fails. This can happen if the user manually casts
 					// a spell or uses a JA or item at the same time, or for other unexpected reasons. 
 					// If we wait for the spell indefinitely, our program will hang. To prevent this, 
 					// we'll timeout after N seconds.
-					Log.Verbose("Waiting for recast bar to start...");
-					await Task.Delay(50);
 
-					// Abort if wait is too long...
-					if (timer.ElapsedMilliseconds >= 5000)
+					await Task.Delay(25);
+					if (timer.ElapsedMilliseconds >= 1000)
 					{
 						break;
 					}
+				}
+
+				if (instanceMonitored.CastBar.Percent == 1)
+				{
+					return false;
 				}
 
 				// At this point, we know the game has started casting the spell we told it
@@ -5896,19 +5898,16 @@
 					if (percent >= 1) break;
 
 					// Delay to handle animation lag
-					if (cancellationToken.IsCancellationRequested) break;
+					if (cancellationToken.IsCancellationRequested)
+					{
+						await Task.Delay(500);
+						break;
+					}
 				}
 
 				Log.Debug("Spell finished at {0} percent.", percent);
-
-				if (timer.ElapsedMilliseconds < 3500)
-				{
-					// All spells take at least 3 seconds...
-					var delay = 3500 - timer.ElapsedMilliseconds;
-					Log.Debug("Waiting {0} for minimum delay...", delay);
-					await Task.Delay((int)delay);
-				}
-
+				var delay = (int)(3200 - timer.ElapsedMilliseconds);
+				if (delay > 0) await Task.Delay(delay);
 				return true;
 			}
 			finally
@@ -5921,7 +5920,6 @@
 
 				spellCommand = "";
 				Log.Debug("Casting complete.");
-				await Task.Delay(500);
 				casting.Release();
 			}
 		}
