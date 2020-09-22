@@ -6042,8 +6042,15 @@
 				{
 					if (enableActions)
 					{
-						Debug.WriteLine("Running action loop...");
-						await RunActionLoop();
+						try
+						{
+							Debug.WriteLine("Running action loop...");
+							await RunActionLoop();
+						}
+						catch (Exception ex)
+						{
+							File.AppendAllText("errors.log", $"{ex}\r\n");
+						}
 					}
 					else
 					{
@@ -6056,6 +6063,7 @@
 			{
 				IsBackground = true
 			};
+
 			actions.Start();
 		}
 
