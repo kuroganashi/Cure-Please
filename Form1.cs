@@ -16,6 +16,7 @@
 	using System.Xml.Serialization;
 	using CurePlease.Properties;
 	using EliteMMO.API;
+	using Serilog;
 
 	public partial class Form1 : Form
 	{
@@ -3210,8 +3211,7 @@
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine("Error casting spell.");
-				Debug.WriteLine(ex.ToString());
+				Log.Error(ex, "Error casting spell.");
 				return false;
 			}
 		}
@@ -5826,8 +5826,7 @@
 					}
 					catch (Exception ex)
 					{
-						Debug.WriteLine("Error processing addon data.");
-						Debug.WriteLine(ex.ToString());
+						Log.Error(ex, "Error processing addon data.");
 					}
 				}
 
@@ -5932,6 +5931,7 @@
 				}));
 
 				instancePrimary.ThirdParty.SendString(spellCommand);
+				Log.Debug("Sent command {0}", spellCommand);
 				var timer = Stopwatch.StartNew();
 
 				// There is a small delay, depending on latency and game lag, between when
@@ -5948,7 +5948,7 @@
 					// a spell or uses a JA or item at the same time, or for other unexpected reasons. 
 					// If we wait for the spell indefinitely, our program will hang. To prevent this, 
 					// we'll timeout after N seconds.
-					Debug.WriteLine("Waiting for casting to start...");
+					Log.Verbose("Waiting for recast bar to start...");
 					await Task.Delay(50);
 
 					// Abort if wait is too long...
@@ -5971,29 +5971,24 @@
 				{
 					// Check casting percent...
 					percent = instancePrimary.CastBar.Percent;
-					Debug.WriteLine($"Casting percent: {percent}; attempt {++attempts}");
+					Log.Verbose($"Casting percent: {0}; attempt {1}", percent, ++attempts);
 					await Task.Delay(200);
 
 					// Stop if spell casting is complete.
-					if (percent >= 1)
-					{
-						Debug.WriteLine("Spell finished at 100%.");
-						break;
-					}
+					if (percent >= 1) break;
 
 					// Delay to handle animation lag
-					if (cancellationToken.IsCancellationRequested)
-					{
-						Debug.WriteLine("Spell finished early.");
-						break;
-					}
+					if (cancellationToken.IsCancellationRequested) break;
 				}
 
-				// All spells take at least 3 seconds...
-				while (timer.ElapsedMilliseconds < 3500)
+				Log.Debug("Spell finished at {0} percent.", percent);
+
+				if (timer.ElapsedMilliseconds < 3500)
 				{
-					Debug.WriteLine("Waiting a minimum of 3.5 seconds...");
-					await Task.Delay(100);
+					// All spells take at least 3 seconds...
+					var delay = 3500 - timer.ElapsedMilliseconds;
+					Log.Debug("Waiting {0} for minimum delay...", delay);
+					await Task.Delay((int)delay);
 				}
 
 				return true;
@@ -6007,7 +6002,7 @@
 				}));
 
 				spellCommand = "";
-				Debug.WriteLine("Completed casting...");
+				Log.Debug("Casting complete.");
 				await Task.Delay(500);
 				casting.Release();
 			}
@@ -6034,7 +6029,7 @@
 
 		private void StartActionLoop()
 		{
-			Debug.WriteLine("Starting action loop...");
+			Log.Verbose("Starting action loop...");
 
 			var actions = new Thread(async () =>
 			{
@@ -6044,17 +6039,17 @@
 					{
 						try
 						{
-							Debug.WriteLine("Running action loop...");
+							Log.Verbose("Running action loop...");
 							await RunActionLoop();
 						}
 						catch (Exception ex)
 						{
-							File.AppendAllText("errors.log", $"{ex}\r\n");
+							Log.Error(ex, "Error during action loop.");
 						}
 					}
 					else
 					{
-						Debug.WriteLine("Skipping action loop...");
+						Log.Verbose("Skipping action loop...");
 					}
 
 					await Task.Delay(250);
@@ -6449,9 +6444,16 @@
 			if (plParty > 0)
 			{
 				var needsCuraga = instanceMonitored.Party.GetPartyMembers()
+					.Where(x => GetDistanceFromPl(x) < 21f && x.CurrentHP > 0)
 					.Where(x => GetMemberPartyNumber(x.MemberNumber) == plParty)
-					.Where(x => x.Active > 0 && x.CurrentHP > 0 && x.CurrentHPP <= Form2.config.curagaCurePercentage)
+					.Where(x => x.CurrentHPP <= Form2.config.curagaCurePercentage)
 					.OrderBy(x => x.CurrentHPP);
+
+				foreach (var member in needsCuraga)
+				{
+					Log.Debug("Checking curaga cures...");
+					Log.Debug($"Checking {member.Name} for cure; hpp: {member.CurrentHPP}");
+				}
 
 				if (needsCuraga.Count() >= Form2.config.curagaRequiredMembers)
 				{
@@ -6466,23 +6468,38 @@
 				}
 			}
 
-			var needsCure = instanceMonitored.Party.GetPartyMembers().Where(p => p.Active > 0 && p.CurrentHP > 0).OrderBy(p => p.CurrentHPP);
-			var monitoredCures = needsCure.Where(x => x.Name.ToLower() == instanceMonitored.Player.Name.ToLower());
-			var priorityCures = needsCure.Where(x => highPriorityBoxes[x.MemberNumber].Checked);
+			var priorityCures = instanceMonitored.Party.GetPartyMembers()
+				.Where(x => GetDistanceFromPl(x) < 21f && x.CurrentHP > 0)
+				.Where(x => highPriorityBoxes[x.MemberNumber].Checked)
+				.OrderBy(x => x.CurrentHPP);
+
+			foreach (var member in priorityCures)
+			{
+				Log.Debug("Checking priority cures...");
+				Log.Debug($"Checking {member.Name} for cure; hpp: {member.CurrentHPP}");
+			}
+
+			var needsCure = instanceMonitored.Party.GetPartyMembers()
+				.Where(x => GetDistanceFromPl(x) < 21f && x.CurrentHP > 0)
+				.OrderBy(x => x.CurrentHPP);
+
+			foreach (var member in needsCure)
+			{
+				Log.Debug("Checking regular cures...");
+				Log.Debug($"Checking {member.Name} for cure; hpp: {member.CurrentHPP}");
+			}
 
 			var nextCureTarget =
 				priorityCures.FirstOrDefault(x => x.CurrentHPP <= Form2.config.priorityCurePercentage) ??
-				monitoredCures.FirstOrDefault(x => x.CurrentHPP <= Form2.config.monitoredCurePercentage) ??
-				needsCure.FirstOrDefault(x => x.CurrentHPP <= Form2.config.curePercentage) ??
-				needsCure.FirstOrDefault(x => x.CurrentHPP < 100);
+				needsCure.FirstOrDefault(x => x.CurrentHPP <= Form2.config.curePercentage);
 
 			if (nextCureTarget != null)
 			{
-				Debug.WriteLine($"Next cure: {nextCureTarget.Name}; hpp: {nextCureTarget.CurrentHPP}");
+				Log.Debug($"Next cure: {nextCureTarget.Name}; hpp: {nextCureTarget.CurrentHPP}");
 
 				if (nextCureTarget.CurrentHPP > 90 && Form2.config.PrioritiseOverLowerTier)
 				{
-					Debug.WriteLine("Executing debuffs before low tier cures.");
+					Log.Debug("Executing debuffs before low tier cures.");
 					if (await RunDebuffChecker())
 					{
 						return;
@@ -6495,10 +6512,13 @@
 				{
 					return;
 				}
+
+				Log.Debug("Cure not required. Skipping...");
 			}
 
 			if (await RunDebuffChecker())
 			{
+				Log.Debug("Executing debuff check again...");
 				return;
 			}
 
@@ -7452,6 +7472,11 @@
 			}
 		}
 
+		private float GetDistanceFromPl(EliteAPI.PartyMember x)
+		{
+			return instancePrimary.Entity?.GetEntity((int)x.TargetIndex)?.Distance ?? -1f;
+		}
+
 		private bool HasAnyBuff(int player, params short[] buffs)
 		{
 			EliteAPI inst = instancePrimary;
@@ -7506,9 +7531,14 @@
 				return false;
 			}
 
+			var timer = Stopwatch.StartNew();
 			while (instancePrimary.CastBar.Percent < 1)
 			{
 				await Task.Delay(100);
+				if (timer.ElapsedMilliseconds > 10000)
+				{
+					break;
+				}
 			}
 
 			try
@@ -7534,9 +7564,14 @@
 				return false;
 			}
 
+			var timer = Stopwatch.StartNew();
 			while (instancePrimary.CastBar.Percent < 1)
 			{
 				await Task.Delay(100);
+				if (timer.ElapsedMilliseconds > 10000)
+				{
+					break;
+				}
 			}
 
 			try
