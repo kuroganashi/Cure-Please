@@ -68,8 +68,6 @@
 		private readonly UdpClient listener;
 		private Form settings;
 		private Form2 form2 = new CurePlease.Form2();
-		private string spellCommand = "";
-		private float spellCastTime = 0f;
 		private int currentSCHCharges = 0;
 		private string debug_MSG_show = string.Empty;
 		private int lastCommand = 0;
@@ -3150,16 +3148,13 @@
 				// the spell casting early if in-game fastcast or quick magic procs. 
 				if (castTokenSource == null)
 				{
+					var ok = false;
 					castTokenSource = new CancellationTokenSource();
-					spellCastTime = Spells.GetCastTimeSeconds(spellName) * 1000;
-					spellCommand = $"/ma \"{actualSpellName}\" {partyMemberName}";
-					await CastSpellInternal(castTokenSource.Token);
-
-					// Once casting has completed, we must dispose of and nullify the
-					// cancellation token source so that the next spell cast can continue.
+					var spellCommand = $"/ma \"{actualSpellName}\" {partyMemberName}";
+					ok = await CastSpellInternal(spellCommand, castTokenSource.Token);
 					castTokenSource.Dispose();
 					castTokenSource = null;
-					return true;
+					return ok;
 				}
 
 				return false;
@@ -5845,95 +5840,97 @@
 
 		private CancellationTokenSource castTokenSource;
 
-		private async Task<bool> CastSpellInternal(CancellationToken cancellationToken)
+		private async Task<bool> CastSpellInternal(string spellCommand, CancellationToken cancellationToken)
 		{
-			if (!(await casting.WaitAsync(15000)))
+			if (await casting.WaitAsync(500))
+			{
+				try
+				{
+					return await CastSpellInternal2(spellCommand, cancellationToken);
+				}
+				finally
+				{
+					casting.Release();
+				}
+			}
+
+			return false;
+		}
+
+		private async Task<bool> CastSpellInternal2(string spellCommand, CancellationToken cancellationToken)
+		{
+			Invoke(new Action(() =>
+			{
+				castingLockLabel.Text = "Casting is LOCKED";
+				currentAction.Text = spellCommand;
+			}));
+
+			await SendPrimaryCommand(spellCommand, 10);
+			Log.Debug("Sent command {0}", spellCommand);
+
+			// There is a small delay, depending on latency and game lag, between when
+			// we send the command and the actual spell casting begins. If we check the 
+			// cast percent before casting begins, it will return 100% which will short-
+			// circuit our mechanism. To prevent this, we wait until the cast percent is
+			// something other than 0 or 1 (e.g. 0.12) before entering the wait loop.
+			var timer = Stopwatch.StartNew();
+			Log.Verbose("Waiting for cast bar to start...");
+			while (instancePrimary.CastBar.Percent == 1)
+			{
+				// But sometimes the command fails. This can happen if the user manually casts
+				// a spell or uses a JA or item at the same time, or for other unexpected reasons. 
+				// If we wait for the spell indefinitely, our program will hang. To prevent this, 
+				// we'll timeout after N seconds.
+				await Task.Delay(25);
+				if (timer.ElapsedMilliseconds >= 1000)
+				{
+					break;
+				}
+			}
+
+			if (instanceMonitored.CastBar.Percent == 1)
 			{
 				return false;
 			}
 
-			try
+			// At this point, we know the game has started casting the spell we told it
+			// to, so we can monitor the cast percent until it hits 1 (spell is 100% done).
+			// Alternately, we'll stop if the cancel token is set by the in-game addon
+			// due to fastcast / quick magic or the spell being interrupted.
+			var attempts = 0;
+			var percent = 0f;
+
+			timer.Restart();
+			while (timer.ElapsedMilliseconds < 12000)
 			{
-				Invoke(new Action(() =>
+				percent = instancePrimary.CastBar.Percent;
+				Log.Verbose($"Casting percent: {0}; attempt {1}", percent, ++attempts);
+				await Task.Delay(200);
+
+				if (percent >= 1)
 				{
-					castingLockLabel.Text = "Casting is LOCKED";
-					currentAction.Text = spellCommand;
-				}));
-
-				await SendPrimaryCommand(spellCommand, 10);
-				Log.Debug("Sent command {0}", spellCommand);
-
-				// There is a small delay, depending on latency and game lag, between when
-				// we send the command and the actual spell casting begins. If we check the 
-				// cast percent before casting begins, it will return 100% which will short-
-				// circuit our mechanism. To prevent this, we wait until the cast percent is
-				// something other than 0 or 1 (e.g. 0.12) before entering the wait loop.
-
-				var timer = Stopwatch.StartNew();
-				Log.Verbose("Waiting for cast bar to start...");
-				while (instancePrimary.CastBar.Percent == 1)
-				{
-					// But sometimes the command fails. This can happen if the user manually casts
-					// a spell or uses a JA or item at the same time, or for other unexpected reasons. 
-					// If we wait for the spell indefinitely, our program will hang. To prevent this, 
-					// we'll timeout after N seconds.
-
-					await Task.Delay(25);
-					if (timer.ElapsedMilliseconds >= 1000)
-					{
-						break;
-					}
+					Log.Verbose("Spell completed normally.");
+					break;
 				}
-
-				if (instanceMonitored.CastBar.Percent == 1)
+				else if (cancellationToken.IsCancellationRequested)
 				{
-					return false;
+					Log.Verbose("Spell completed early.");
+					await Task.Delay(1000);
+					break;
 				}
-
-				// At this point, we know the game has started casting the spell we told it
-				// to, so we can monitor the cast percent until it hits 1 (spell is 100% done).
-				// Alternately, we'll stop if the cancel token is set by the in-game addon
-				// due to fastcast / quick magic or the spell being interrupted.
-
-				var attempts = 0;
-				var percent = 0f;
-
-				timer.Restart();
-				while (timer.ElapsedMilliseconds < 12000)
-				{
-					// Check casting percent...
-					percent = instancePrimary.CastBar.Percent;
-					Log.Verbose($"Casting percent: {0}; attempt {1}", percent, ++attempts);
-					await Task.Delay(200);
-
-					// Stop if spell casting is complete.
-					if (percent >= 1) break;
-
-					// Delay to handle animation lag
-					if (cancellationToken.IsCancellationRequested)
-					{
-						await Task.Delay(1000);
-						break;
-					}
-				}
-
-				Log.Debug("Spell finished at {0} percent.", percent);
-				var delay = (int)(3200 - timer.ElapsedMilliseconds);
-				if (delay > 0) await Task.Delay(delay);
-				return true;
 			}
-			finally
+
+			Log.Debug("Spell completed at {0} percent.", percent);
+			var delay = (int)(3200 - timer.ElapsedMilliseconds);
+			if (delay > 0) await Task.Delay(delay);
+
+			Invoke(new Action(() =>
 			{
-				Invoke(new Action(() =>
-				{
-					castingLockLabel.Text = "Casting is UNLOCKED";
-					currentAction.Text = "";
-				}));
+				castingLockLabel.Text = "Casting is UNLOCKED";
+				currentAction.Text = "";
+			}));
 
-				spellCommand = "";
-				Log.Debug("Casting complete.");
-				casting.Release();
-			}
+			return true;
 		}
 
 		private void CustomCommand_Tracker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
