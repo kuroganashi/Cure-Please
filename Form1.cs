@@ -5912,7 +5912,7 @@
 					// Delay to handle animation lag
 					if (cancellationToken.IsCancellationRequested)
 					{
-						await Task.Delay(500);
+						await Task.Delay(1000);
 						break;
 					}
 				}
