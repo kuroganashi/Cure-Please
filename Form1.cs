@@ -5874,23 +5874,24 @@
 			// circuit our mechanism. To prevent this, we wait until the cast percent is
 			// something other than 0 or 1 (e.g. 0.12) before entering the wait loop.
 			var timer = Stopwatch.StartNew();
-			Log.Verbose("Waiting for cast bar to start...");
-			while (instancePrimary.CastBar.Percent == 1)
+			var percent = instancePrimary.CastBar.Percent;
+			Log.Verbose("Waiting for casting to start...");
+			while (percent == 0 || percent == 1)
 			{
 				// But sometimes the command fails. This can happen if the user manually casts
 				// a spell or uses a JA or item at the same time, or for other unexpected reasons. 
 				// If we wait for the spell indefinitely, our program will hang. To prevent this, 
 				// we'll timeout after N seconds.
-				await Task.Delay(25);
-				if (timer.ElapsedMilliseconds >= 1000)
+				if (timer.ElapsedMilliseconds >= 5000)
 				{
-					break;
+					Log.Verbose("Casting never started.");
+					Log.Verbose("Maybe unable to cast at this time.");
+					return false;
 				}
-			}
 
-			if (instanceMonitored.CastBar.Percent == 1)
-			{
-				return false;
+				await Task.Delay(100);
+				percent = instancePrimary.CastBar.Percent;
+				Log.Verbose($"Waiting; percent={percent}");
 			}
 
 			// At this point, we know the game has started casting the spell we told it
@@ -5898,13 +5899,13 @@
 			// Alternately, we'll stop if the cancel token is set by the in-game addon
 			// due to fastcast / quick magic or the spell being interrupted.
 			var attempts = 0;
-			var percent = 0f;
 
 			timer.Restart();
 			while (timer.ElapsedMilliseconds < 12000)
 			{
+				attempts++;
 				percent = instancePrimary.CastBar.Percent;
-				Log.Verbose($"Casting percent: {0}; attempt {1}", percent, ++attempts);
+				Log.Verbose($"Casting percent: {percent}; attempt {attempts}");
 				await Task.Delay(200);
 
 				if (percent >= 1)
@@ -5915,14 +5916,14 @@
 				else if (cancellationToken.IsCancellationRequested)
 				{
 					Log.Verbose("Spell completed early.");
-					await Task.Delay(1000);
+					await Task.Delay(3000);
 					break;
 				}
 			}
 
 			Log.Debug("Spell completed at {0} percent.", percent);
-			var delay = (int)(3200 - timer.ElapsedMilliseconds);
-			if (delay > 0) await Task.Delay(delay);
+			//var delay = (int)(3200 - timer.ElapsedMilliseconds);
+			//if (delay > 0) await Task.Delay(delay);
 
 			Invoke(new Action(() =>
 			{
@@ -5964,17 +5965,12 @@
 					{
 						try
 						{
-							Log.Verbose("Running action loop...");
 							await RunActionLoop();
 						}
 						catch (Exception ex)
 						{
-							Log.Error(ex, "Error during action loop.");
+							Log.Error(ex, "Error running action loop.");
 						}
-					}
-					else
-					{
-						Log.Verbose("Skipping action loop...");
 					}
 
 					await Task.Delay(250);
