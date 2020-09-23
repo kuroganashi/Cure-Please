@@ -5916,7 +5916,7 @@
 				else if (cancellationToken.IsCancellationRequested)
 				{
 					Log.Verbose("Spell completed early.");
-					await Task.Delay(3000);
+					await Task.Delay(500);
 					break;
 				}
 			}
