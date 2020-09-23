@@ -2057,13 +2057,13 @@
 				{
 					return "Cure V";
 				}
-				else if (CanCastSpell("Cure IV") && Form2.config.Undercure)
-				{
-					return "Cure IV";
-				}
 				else if (CanCastSpell("Cure VI") && (Form2.config.Overcure && !Form2.config.OvercureOnHighPriority || Form2.config.OvercureOnHighPriority && priority))
 				{
 					return "Cure VI";
+				}
+				else if (CanCastSpell("Cure IV") && Form2.config.Undercure)
+				{
+					return "Cure IV";
 				}
 				else
 				{
@@ -2076,13 +2076,13 @@
 				{
 					return "Cure IV";
 				}
-				else if (CanCastSpell("Cure III") && Form2.config.Undercure)
-				{
-					return "Cure III";
-				}
 				else if (CanCastSpell("Cure V") && (Form2.config.Overcure && Form2.config.OvercureOnHighPriority != true || Form2.config.OvercureOnHighPriority && priority == true))
 				{
 					return "Cure V";
+				}
+				else if (CanCastSpell("Cure III") && Form2.config.Undercure)
+				{
+					return "Cure III";
 				}
 				else
 				{
@@ -2114,13 +2114,13 @@
 				{
 					return "Cure II";
 				}
-				else if (CanCastSpell("Cure") && Form2.config.Undercure)
-				{
-					return "Cure";
-				}
 				else if (CanCastSpell("Cure III") && (Form2.config.Overcure && Form2.config.OvercureOnHighPriority != true || Form2.config.OvercureOnHighPriority && priority == true))
 				{
 					return "Cure III";
+				}
+				else if (CanCastSpell("Cure") && Form2.config.Undercure)
+				{
+					return "Cure";
 				}
 				else
 				{
@@ -2201,13 +2201,13 @@
 				{
 					return "Curaga II";
 				}
-				else if (CanCastSpell("Curaga") && Form2.config.Undercure)
-				{
-					return "Curaga";
-				}
 				else if (CanCastSpell("Curaga III") && Form2.config.Overcure)
 				{
 					return "Curaga III";
+				}
+				else if (CanCastSpell("Curaga") && Form2.config.Undercure)
+				{
+					return "Curaga";
 				}
 				else
 				{
@@ -2740,7 +2740,7 @@
 					}
 				}
 
-				if (Form2.config.cure5enabled && hpLoss >= Form2.config.cure5amount)
+				else if (Form2.config.cure5enabled && hpLoss >= Form2.config.cure5amount)
 				{
 					var cureSpell = CureTiers("Cure V", isPriority);
 					if (cureSpell != "false")
@@ -2752,7 +2752,7 @@
 					}
 				}
 
-				if (Form2.config.cure4enabled && hpLoss >= Form2.config.cure4amount)
+				else if (Form2.config.cure4enabled && hpLoss >= Form2.config.cure4amount)
 				{
 					var cureSpell = CureTiers("Cure IV", isPriority);
 					if (cureSpell != "false")
@@ -2764,7 +2764,7 @@
 					}
 				}
 
-				if (Form2.config.cure3enabled && hpLoss >= Form2.config.cure3amount)
+				else if (Form2.config.cure3enabled && hpLoss >= Form2.config.cure3amount)
 				{
 					var cureSpell = CureTiers("Cure III", isPriority);
 					if (cureSpell != "false")
@@ -2776,7 +2776,7 @@
 					}
 				}
 
-				if (Form2.config.cure2enabled && hpLoss >= Form2.config.cure2amount)
+				else if (Form2.config.cure2enabled && hpLoss >= Form2.config.cure2amount)
 				{
 					var cureSpell = CureTiers("Cure II", isPriority);
 					if (cureSpell != "false")
@@ -2788,7 +2788,7 @@
 					}
 				}
 
-				if (Form2.config.cure1enabled && hpLoss >= Form2.config.cure1amount)
+				else if (Form2.config.cure1enabled && hpLoss >= Form2.config.cure1amount)
 				{
 					var cureSpell = CureTiers("Cure", isPriority);
 					if (cureSpell != "false")
@@ -2918,16 +2918,16 @@
 			return
 				await DoDebuffRemoval(member, debuffs, Form2.config.naCurse, false, Buffs.Doom, "Cursna") ||
 				await DoDebuffRemoval(member, debuffs, Form2.config.naCurse, true, Buffs.Curse, "Cursna") ||
-				await DoDebuffRemoval(member, debuffs, Form2.config.na_MaxHpDown, true, Buffs.MaxHPDown, "Erase") ||
-				await DoDebuffRemoval(member, debuffs, Form2.config.wakeSleepEnabled, true, Buffs.Sleep, wakeSleepSpellName) ||
 				await DoDebuffRemoval(member, debuffs, Form2.config.naPetrification, true, Buffs.Petrification, "Stona") ||
+				await DoDebuffRemoval(member, debuffs, Form2.config.wakeSleepEnabled, true, Buffs.Sleep, wakeSleepSpellName) ||
+				await DoDebuffRemoval(member, debuffs, Form2.config.na_MaxHpDown, true, Buffs.MaxHPDown, "Erase") ||
 				await DoDebuffRemoval(member, debuffs, Form2.config.naSilence, true, Buffs.Silence, "Silena") ||
-				await DoDebuffRemoval(member, debuffs, Form2.config.naParalysis, true, Buffs.Paralysis, "Paralyna") ||
 				await DoDebuffRemoval(member, debuffs, Form2.config.naPlague, true, Buffs.Plague, "Viruna") ||
 				await DoDebuffRemoval(member, debuffs, Form2.config.naDisease, true, Buffs.Disease, "Viruna") ||
-				await DoDebuffRemoval(member, debuffs, Form2.config.Esuna && HasAnyBuff(0, Buffs.AfflatusMisery), true, Buffs.Amnesia, "Esuna") ||
+				await DoDebuffRemoval(member, debuffs, Form2.config.naParalysis, true, Buffs.Paralysis, "Paralyna") ||
 				await DoDebuffRemoval(member, debuffs, Form2.config.na_DefenseDown, true, Buffs.DefenseDown, "Erase") ||
 				await DoDebuffRemoval(member, debuffs, Form2.config.na_MagicDefenseDown, true, Buffs.MagicDefDown, "Erase") ||
+				await DoDebuffRemoval(member, debuffs, Form2.config.Esuna && HasAnyBuff(0, Buffs.AfflatusMisery), true, Buffs.Amnesia, "Esuna") ||
 				await DoDebuffRemoval(member, debuffs, Form2.config.na_Threnody, true, Buffs.Threnody, "Erase") ||
 				await DoDebuffRemoval(member, debuffs, Form2.config.naPoison, true, Buffs.Poison, "Poisona") ||
 				await DoDebuffRemoval(member, debuffs, Form2.config.na_Dia, true, Buffs.Dia, "Erase") ||
@@ -3065,11 +3065,34 @@
 		{
 			var spell = "";
 			var hpLoss = member.CurrentHP * 100 / member.CurrentHPP - member.CurrentHP;
-			if (Form2.config.curaga5enabled & hpLoss >= Form2.config.curaga5Amount && CanCastSpell("Curaga V")) spell = "Curaga V";
-			else if (Form2.config.curaga4enabled & hpLoss >= Form2.config.curaga4Amount && CanCastSpell("Curaga IV")) spell = "Curaga IV";
-			else if (Form2.config.curaga3enabled & hpLoss >= Form2.config.curaga3Amount && CanCastSpell("Curaga III")) spell = "Curaga III";
-			else if (Form2.config.curaga2enabled & hpLoss >= Form2.config.curaga2Amount && CanCastSpell("Curaga II")) spell = "Curaga II";
-			else if (Form2.config.curagaEnabled & hpLoss >= Form2.config.curagaAmount && CanCastSpell("Curaga")) spell = "Curaga";
+			if (Form2.config.curaga5enabled & hpLoss >= Form2.config.curaga5Amount)
+			{
+				if (CanCastSpell("Curaga V")) spell = "Curaga V";
+				else if (CanCastSpell("Curaga IV") && Form2.config.Undercure) spell = "Curaga IV";
+			}
+			else if (Form2.config.curaga4enabled & hpLoss >= Form2.config.curaga4Amount && CanCastSpell("Curaga IV"))
+			{
+				if (CanCastSpell("Curaga IV")) spell = "Curaga IV";
+				else if (CanCastSpell("Curaga V") && Form2.config.Overcure) spell = "Curaga V";
+				else if (CanCastSpell("Curaga III") && Form2.config.Undercure) spell = "Curaga III";
+			}
+			else if (Form2.config.curaga3enabled & hpLoss >= Form2.config.curaga3Amount && CanCastSpell("Curaga III"))
+			{
+				if (CanCastSpell("Curaga III")) spell = "Curaga III";
+				else if (CanCastSpell("Curaga IV") && Form2.config.Overcure) spell = "Curaga IV";
+				else if (CanCastSpell("Curaga II") && Form2.config.Undercure) spell = "Curaga II";
+			}
+			else if (Form2.config.curaga2enabled & hpLoss >= Form2.config.curaga2Amount && CanCastSpell("Curaga II"))
+			{
+				if (CanCastSpell("Curaga II")) spell = "Curaga II";
+				else if (CanCastSpell("Curaga III") && Form2.config.Overcure) spell = "Curaga III";
+				else if (CanCastSpell("Curaga") && Form2.config.Undercure) spell = "Curaga";
+			}
+			else if (Form2.config.curagaEnabled & hpLoss >= Form2.config.curagaAmount && CanCastSpell("Curaga"))
+			{
+				if (CanCastSpell("Curaga")) spell = "Curaga";
+				else if (CanCastSpell("Curaga II") && Form2.config.Overcure) spell = "Curaga II";
+			}
 
 			if (!string.IsNullOrWhiteSpace(spell))
 			{
@@ -6361,9 +6384,9 @@
 			if (plParty > 0)
 			{
 				var needsCuraga = instanceMonitored.Party.GetPartyMembers()
-					.Where(x => GetDistanceFromPl(x) < 21f && x.CurrentHP > 0)
 					.Where(x => GetMemberPartyNumber(x.MemberNumber) == plParty)
 					.Where(x => x.CurrentHPP <= Form2.config.curagaCurePercentage)
+					.Where(x => GetDistanceFromPl(x) < 21f && x.CurrentHP > 0)
 					.Where(x => enabledBoxes[x.MemberNumber].Checked)
 					.Where(x => x.Active == 1)
 					.OrderBy(x => x.CurrentHPP);
@@ -6391,28 +6414,18 @@
 			#region Cure player with lowest hp
 			var priorityCures = instanceMonitored.Party.GetPartyMembers()
 					.Where(x => GetDistanceFromPl(x) < 21f && x.CurrentHP > 0)
+					.Where(x => x.CurrentHPP <= Form2.config.priorityCurePercentage)
 					.Where(x => highPriorityBoxes[x.MemberNumber].Checked)
 					.Where(x => enabledBoxes[x.MemberNumber].Checked)
 					.Where(x => x.Active == 1)
 					.OrderBy(x => x.CurrentHPP);
 
-			foreach (var member in priorityCures)
-			{
-				Log.Debug("Checking priority cures...");
-				Log.Debug($"Checking {member.Name} for cure; hpp: {member.CurrentHPP}");
-			}
-
 			var regularCures = instanceMonitored.Party.GetPartyMembers()
 				.Where(x => GetDistanceFromPl(x) < 21f && x.CurrentHP > 0)
+				.Where(x => x.CurrentHPP <= Form2.config.curePercentage)
 				.Where(x => enabledBoxes[x.MemberNumber].Checked)
 				.Where(x => x.Active == 1)
 				.OrderBy(x => x.CurrentHPP);
-
-			foreach (var member in regularCures)
-			{
-				Log.Debug("Checking regular cures...");
-				Log.Debug($"Checking {member.Name} for cure; hpp: {member.CurrentHPP}");
-			}
 
 			var nextCureTarget =
 				priorityCures.FirstOrDefault(x => x.CurrentHPP <= Form2.config.priorityCurePercentage) ??
@@ -6420,11 +6433,9 @@
 
 			if (nextCureTarget != null)
 			{
-				Log.Debug($"Next cure: {nextCureTarget.Name}; hpp: {nextCureTarget.CurrentHPP}");
-
+				Log.Debug($"Curing {nextCureTarget.Name} at {nextCureTarget.CurrentHPP}%");
 				if (nextCureTarget.CurrentHPP > 90 && Form2.config.PrioritiseOverLowerTier)
 				{
-					Log.Debug("Executing debuffs before cures...");
 					if (await RunDebuffChecker()) return;
 				}
 
@@ -6433,7 +6444,10 @@
 				{
 					return;
 				}
+
+				Log.Debug($"Skipped {nextCureTarget.Name} at {nextCureTarget.CurrentHPP}%.");
 			}
+
 			#endregion
 
 			#region Check debuffs
