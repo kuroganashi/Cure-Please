@@ -6948,37 +6948,90 @@
 				if (await CastSpell("<me>", "Klimaform")) return;
 			}
 
+			DateTime lastTemper = defaultDate;
 			if ((Form2.config.plTemper) && (!HasAllBuffs(0, Buffs.MultiStrikes)))
 			{
-				if (await CastSpell("<me>", "TemperII")) return;
-				if (await CastSpell("<me>", "Temper")) return;
+				if (DateTime.Now.Subtract(lastTemper).TotalSeconds >= 30)
+				{
+					var temperUp = false;
+					if (Form2.config.plTemper_Level == 2)
+					{
+						temperUp = await CastSpell("<me>", "TemperII");
+					}
+					else if (Form2.config.plTemper_Level == 1)
+					{
+						temperUp = await CastSpell("<me>", "Temper");
+					}
+
+					if (temperUp)
+					{
+						lastTemper = DateTime.Now;
+						return;
+					}
+				}
 			}
 
+			DateTime lastHaste = defaultDate;
 			if ((Form2.config.plHaste) && (!HasAllBuffs(0, Buffs.Haste)))
 			{
-				if (await CastSpell("<me>", "Haste II")) return;
-				if (await CastSpell("<me>", "Haste")) return;
+				if (DateTime.Now.Subtract(lastHaste).TotalSeconds >= 30)
+				{
+					var hasteUp = false;
+					if (Form2.config.plHaste_Level == 2)
+					{
+						hasteUp = await CastSpell("<me>", "Haste II");
+					}
+					else if (Form2.config.plHaste_Level == 1)
+					{
+						hasteUp = await CastSpell("<me>", "Haste");
+					}
+
+					if (hasteUp)
+					{
+						lastHaste = DateTime.Now;
+						return;
+					}
+				}
 			}
 
+			DateTime lastSpikes = defaultDate;
 			if ((Form2.config.plSpikes) && ActiveSpikes() == false)
 			{
-				if ((Form2.config.plSpikes_Spell == 0) && CanCastSpell("Blaze Spikes"))
+				if (DateTime.Now.Subtract(lastSpikes).TotalSeconds >= 30)
 				{
-					if (await CastSpell("<me>", "Blaze Spikes")) return;
-				}
-				else if ((Form2.config.plSpikes_Spell == 1) && CanCastSpell("Ice Spikes"))
-				{
-					if (await CastSpell("<me>", "Ice Spikes")) return;
-				}
-				else if ((Form2.config.plSpikes_Spell == 2) && CanCastSpell("Shock Spikes"))
-				{
-					if (await CastSpell("<me>", "Shock Spikes")) return;
+					var spikesUp = false;
+					if ((Form2.config.plSpikes_Spell == 0) && CanCastSpell("Blaze Spikes"))
+					{
+						spikesUp = await CastSpell("<me>", "Blaze Spikes");
+					}
+					else if ((Form2.config.plSpikes_Spell == 1) && CanCastSpell("Ice Spikes"))
+					{
+						spikesUp = await CastSpell("<me>", "Ice Spikes");
+					}
+					else if ((Form2.config.plSpikes_Spell == 2) && CanCastSpell("Shock Spikes"))
+					{
+						spikesUp = await CastSpell("<me>", "Shock Spikes");
+					}
+
+					if (spikesUp)
+					{
+						lastSpikes = DateTime.Now;
+						return;
+					}
 				}
 			}
 
-			if ((Form2.config.plAuspice) && (!HasAllBuffs(0, Buffs.Auspice)) && CanCastSpell("Auspice"))
+			DateTime lastAuspice = defaultDate;
+			if (Form2.config.plAuspice && !HasAllBuffs(0, Buffs.Auspice))
 			{
-				if (await CastSpell("<me>", "Auspice")) return;
+				if (DateTime.Now.Subtract(lastAuspice).TotalSeconds >= 30)
+				{
+					if (await CastSpell("<me>", "Auspice"))
+					{
+						lastAuspice = DateTime.Now;
+						return;
+					}
+				}
 			}
 			#endregion
 
