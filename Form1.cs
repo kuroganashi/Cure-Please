@@ -6530,7 +6530,7 @@
 				}
 			}
 
-			if ((Form2.config.plProtect) && (!HasAllBuffs(0, Buffs.Protect)))
+			if ((Form2.config.plProtect || Form2.config.plProtectra) && !HasAllBuffs(0, Buffs.Protect))
 			{
 				if (await CastSpell("<me>", "Protectra V")) return;
 				if (await CastSpell("<me>", "Protectra IV")) return;
@@ -6559,7 +6559,7 @@
 				}
 			}
 
-			if ((Form2.config.plShell) && (!HasAllBuffs(0, Buffs.Shell)))
+			if ((Form2.config.plShell || Form2.config.plShellra) && !HasAllBuffs(0, Buffs.Shell))
 			{
 				if (await CastSpell("<me>", "Shellra V")) return;
 				if (await CastSpell("<me>", "Shellra IV")) return;
