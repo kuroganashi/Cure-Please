@@ -6286,8 +6286,8 @@
 
 			#region Pause if knocked out
 			if (Form2.config.pauseOnKO &&
-						(instancePrimary.Player.Status == 2 ||
-						 instancePrimary.Player.Status == 3))
+						(instancePrimary.Player.Status == (int)EntityStatus.Dead ||
+						 instancePrimary.Player.Status == (int)EntityStatus.DeadEngaged))
 			{
 				Pause("Paused!");
 				activeBuffs.Clear();
@@ -6340,12 +6340,8 @@
 			await ConvertIfNecessary();
 
 			HandleLowMpSituations();
-			if (waitingForMp)
-			{
-				return;
-			}
+			if (waitingForMp) return;
 
-			await RemoveCriticalDebuffsFromPL();
 			await ApplyPrecastAbilities(songsActive);
 			#endregion
 
@@ -7557,25 +7553,26 @@
 
 		private async Task RemoveCriticalDebuffsFromPL()
 		{
+			var itemName = "";
+
 			if (HasAllBuffs(0, Buffs.Silence) && Form2.config.plSilenceItemEnabled)
 			{
-				var itemId = GetItemId(plSilenceitemName);
-				var inventoryCount = GetInventoryItemCount(instancePrimary, itemId);
-				var tempItemCount = GetTempItemCount(instancePrimary, itemId);
-				if (inventoryCount + tempItemCount > 0)
-				{
-					await UseItem(plSilenceitemName);
-				}
+				itemName = plSilenceitemName;
 			}
 
 			else if ((HasAllBuffs(0, Buffs.Doom) && Form2.config.plDoomEnabled))
 			{
-				var itemId = GetItemId(plDoomItemName);
+				itemName = plDoomItemName;
+			}
+
+			if (!string.IsNullOrWhiteSpace(itemName))
+			{
+				var itemId = GetItemId(itemName);
 				var inventoryCount = GetInventoryItemCount(instancePrimary, itemId);
 				var tempItemCount = GetTempItemCount(instancePrimary, itemId);
 				if (inventoryCount + tempItemCount > 0)
 				{
-					await UseItem(plDoomItemName);
+					await UseItem(itemName);
 				}
 			}
 		}
