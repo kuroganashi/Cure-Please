@@ -5703,25 +5703,18 @@
 							{
 								if (commands[2] == "start" || commands[2] == "unpause")
 								{
-									Invoke((MethodInvoker)(() =>
-									{
-										Unpause();
-										song_casting = 0;
-										forceSongRecast = true;
-									}));
+									Unpause();
+									song_casting = 0;
+									forceSongRecast = true;
 								}
 								if (commands[2] == "stop" || commands[2] == "pause")
 								{
-									Invoke((MethodInvoker)(() =>
+									Pause("Paused!");
+									activeBuffs.Clear();
+									if (Form2.config.FFXIDefaultAutoFollow == false)
 									{
-										Pause("Paused!");
-										activeBuffs.Clear();
-										if (Form2.config.FFXIDefaultAutoFollow == false)
-										{
-											instancePrimary.AutoFollow.IsAutoFollowing = false;
-										}
-
-									}));
+										instancePrimary.AutoFollow.IsAutoFollowing = false;
+									}
 								}
 								if (commands[2] == "toggle")
 								{
