@@ -3059,6 +3059,62 @@
 			return false;
 		}
 
+		private async Task<bool> RemoveDebuff(EliteAPI.PartyMember member, short buffId)
+		{
+			var partyOnlySpells = new string[] { "Erase", "Esuna" };
+			if (string.IsNullOrWhiteSpace(member?.Name)) return false;
+
+			var primaryParty = GetPlPartyNumber();
+			var memberParty = GetMemberPartyNumber(member.MemberNumber);
+			var sameParty = primaryParty == memberParty;
+
+			var spell = "";
+			switch (buffId)
+			{
+				case Buffs.Poison: spell = "Poisona"; break;
+				case Buffs.Petrification: spell = "Stona"; break;
+				case Buffs.Silence: spell = "Silena"; break;
+				case Buffs.Plague: spell = "Viruna"; break;
+				case Buffs.Disease: spell = "Viruna"; break;
+				case Buffs.Blindness: spell = "Blindna"; break;
+				case Buffs.Paralysis: spell = "Paralyna"; break;
+				case Buffs.Doom: spell = "Cursna"; break;
+				case Buffs.Curse: spell = "Cursna"; break;
+				default:
+
+					spell = "Erase";
+					if (buffId == Buffs.Amnesia && Form2.config.Esuna)
+					{
+						if (HasAnyBuff(0, Buffs.AfflatusMisery))
+						{
+							spell = "Esuna";
+						}
+					}
+
+					break;
+			};
+
+			var hasDebuff = activeBuffs
+				.Where(x => x.CharacterName.ToLower() == member.Name.ToLower())
+				.SelectMany(x => x.CharacterBuffs.Split(','))
+				.Select(x => short.Parse(x.Trim()))?
+				.Contains(buffId) ?? false;
+
+			if (hasDebuff && !string.IsNullOrWhiteSpace(spell))
+			{
+				if (partyOnlySpells.Contains(spell) && !sameParty) return false;
+				if (await CastSpell(member.Name, spell))
+				{
+					if (buffId != Buffs.Doom)
+						ClearDebuff(member.Name, buffId);
+
+					return true;
+				}
+			}
+
+			return false;
+		}
+
 		private async Task<bool> CuragaCalculatorAsync(EliteAPI.PartyMember member)
 		{
 			var spell = "";
@@ -5872,7 +5928,7 @@
 				// a spell or uses a JA or item at the same time, or for other unexpected reasons. 
 				// If we wait for the spell indefinitely, our program will hang. To prevent this, 
 				// we'll timeout after N seconds.
-				if (timer.ElapsedMilliseconds >= 5000)
+				if (timer.ElapsedMilliseconds >= 1000)
 				{
 					Log.Verbose("Casting never started.");
 					Log.Verbose("Maybe unable to cast at this time.");
@@ -5905,14 +5961,17 @@
 				}
 				else if (cancellationToken.IsCancellationRequested)
 				{
+					await Task.Delay(3500);
 					Log.Verbose("Spell completed early.");
 					break;
 				}
 			}
 
+			var ms = timer.ElapsedMilliseconds;
+			var delay = ms > 3500 ? 0 : 3500 - ms;
+			await Task.Delay((int)delay);
+			
 			Log.Debug("Spell completed at {0} percent.", percent);
-			//var delay = (int)(3200 - timer.ElapsedMilliseconds);
-			//if (delay > 0) await Task.Delay(delay);
 
 			Invoke(new Action(() =>
 			{
@@ -6325,6 +6384,19 @@
 					await Task.Delay(5000);
 					Unpause();
 				}
+			}
+			#endregion
+
+			#region Remove critical party debuffs
+			var needsDebuff = instanceMonitored.Party.GetPartyMembers()
+				.Where(x => x.Active > 0 && IsEnabled(x) && GetDistanceFromPl(x) < 21f)
+				.OrderBy(x => highPriorityBoxes[x.MemberNumber].Checked ? 0 : 1);
+
+			foreach (var member in instanceMonitored.Party.GetPartyMembers())
+			{
+				if (await RemoveDebuff(member, Buffs.Doom)) return;
+				if (await RemoveDebuff(member, Buffs.Curse)) return;
+				if (await RemoveDebuff(member, Buffs.Petrification)) return;
 			}
 			#endregion
 
@@ -7341,6 +7413,34 @@
 				}
 			}
 			#endregion
+		}
+
+		private bool IsEnabled(EliteAPI.PartyMember member)
+		{
+			var n = member.MemberNumber;
+
+			switch (n)
+			{
+				case 0: return player0enabled.Checked;
+				case 1: return player1enabled.Checked;
+				case 2: return player2enabled.Checked;
+				case 3: return player3enabled.Checked;
+				case 4: return player4enabled.Checked;
+				case 5: return player5enabled.Checked;
+				case 6: return player6enabled.Checked;
+				case 7: return player7enabled.Checked;
+				case 8: return player8enabled.Checked;
+				case 9: return player9enabled.Checked;
+				case 10: return player10enabled.Checked;
+				case 11: return player11enabled.Checked;
+				case 12: return player12enabled.Checked;
+				case 13: return player13enabled.Checked;
+				case 14: return player14enabled.Checked;
+				case 15: return player15enabled.Checked;
+				case 16: return player16enabled.Checked;
+				case 17: return player17enabled.Checked;
+				default: return false;
+			}
 		}
 
 		private bool IsTrust(EliteAPI.PartyMember member)
