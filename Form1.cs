@@ -5676,29 +5676,19 @@
 							{
 								if (commands[2] == "blocked")
 								{
-									Invoke((MethodInvoker)(() =>
-									{
-										castingLockLabel.Text = "PACKET: Casting is LOCKED";
-									}));
+									SetLockLabel("PACKET: Casting is LOCKED");
 								}
 								else if (commands[2] == "interrupted")
 								{
 									Thread.Sleep(1000);
 									castTokenSource?.Cancel();
-									Invoke((MethodInvoker)(() =>
-									{
-										castingLockLabel.Text = "PACKET: Casting is INTERRUPTED";
-									}));
+									SetLockLabel("PACKET: Casting is INTERRUPTED");
 								}
 								else if (commands[2] == "finished")
 								{
 									if (castingLockLabel.Text == "PACKET: Casting is LOCKED")
 									{
-										Invoke((MethodInvoker)(() =>
-										{
-											castingLockLabel.Text = "PACKET: Casting is soon to be AVAILABLE!";
-										}));
-
+										SetLockLabel("PACKET: Casting is soon to be AVAILABLE!");
 										Thread.Sleep(3000);
 										castTokenSource?.Cancel();
 									}
