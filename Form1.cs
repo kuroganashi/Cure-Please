@@ -5697,6 +5697,7 @@
 							else if (commands[1] == "confirmed")
 							{
 								AddOnStatus.BackColor = Color.ForestGreen;
+								SetCurrentAction("Addon status confirmed.");
 							}
 							else if (commands[1] == "command")
 							{
