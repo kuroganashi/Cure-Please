@@ -5691,11 +5691,13 @@
 								}
 								else if (commands[2] == "finished")
 								{
-									castTokenSource?.Cancel();
 									Invoke((MethodInvoker)(() =>
 									{
 										castingLockLabel.Text = "PACKET: Casting is soon to be AVAILABLE!";
 									}));
+
+									Thread.Sleep(3000);
+									castTokenSource?.Cancel();
 								}
 							}
 							else if (commands[1] == "confirmed")
@@ -5916,7 +5918,6 @@
 				else if (cancellationToken.IsCancellationRequested)
 				{
 					Log.Verbose("Spell completed early.");
-					await Task.Delay(500);
 					break;
 				}
 			}
