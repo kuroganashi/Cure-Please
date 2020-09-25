@@ -121,7 +121,8 @@
 		public int isAddonLoaded = 0;
 		public int firstTimePause = 0;
 		private bool enableActions = false;
-		private readonly SemaphoreSlim casting = new SemaphoreSlim(1, 1);
+		//private readonly SemaphoreSlim casting = new SemaphoreSlim(1, 1);
+		private readonly AutoResetEvent castingLock = new AutoResetEvent(true);
 
 		public List<string> tempItemZones = new List<string>
 		{
@@ -1756,10 +1757,15 @@
 
 		private void Pause(string label)
 		{
+			pauseActions = true;
+			enableActions = false;
+			castTokenSource?.Cancel();
+			castingLock.Set();
+
+			SetCurrentAction("");
+			SetLockLabel("Casting is UNLOCKED");
 			Invoke((MethodInvoker)(() =>
 			{
-				pauseActions = true;
-				enableActions = false;
 				pauseButton.Text = label;
 				pauseButton.ForeColor = Color.Red;
 			}));
@@ -5885,7 +5891,7 @@
 
 		private async Task<bool> CastSpellInternal(string spellCommand, CancellationToken cancellationToken)
 		{
-			if (await casting.WaitAsync(500))
+			if (castingLock.WaitOne(1000))
 			{
 				try
 				{
@@ -5893,7 +5899,7 @@
 				}
 				finally
 				{
-					casting.Release();
+					castingLock.Set();
 				}
 			}
 
@@ -5920,8 +5926,13 @@
 				percent = instancePrimary.CastBar.Percent;
 				Log.Verbose("Waiting for casting to start...");
 
-				while ((percent <= 0 || percent >= 1) && !cancellationToken.IsCancellationRequested)
+				while (percent <= 0 || percent >= 1)
 				{
+					if (cancellationToken.IsCancellationRequested)
+					{
+						break;
+					}
+					
 					if (timer.ElapsedMilliseconds >= 1000)
 					{
 						Log.Verbose("Casting never started.");
@@ -5946,13 +5957,11 @@
 
 			if (!cancellationToken.IsCancellationRequested)
 			{
-				var attempts = 0;
 				timer.Restart();
 				while (timer.ElapsedMilliseconds < 12000)
 				{
-					attempts++;
 					percent = instancePrimary.CastBar.Percent;
-					Log.Verbose($"Casting percent: {percent}; attempt {attempts}");
+					Log.Verbose($"Casting percent: {percent}");
 					await Task.Delay(200);
 
 					if (percent >= 1)
@@ -5968,18 +5977,13 @@
 				}
 
 				var ms = timer.ElapsedMilliseconds;
-				var delay = ms > 2500 ? 0 : 2500 - ms;
+				var delay = ms > 3000 ? 0 : 3000 - ms;
 				await Task.Delay((int)delay);
 			}
 
 			Log.Debug("Spell completed at {0} percent.", percent);
-
-			Invoke(new Action(() =>
-			{
-				castingLockLabel.Text = "Casting is UNLOCKED";
-				currentAction.Text = "";
-			}));
-
+			SetLockLabel("Casting is UNLOCKED");
+			SetCurrentAction("");
 			return true;
 		}
 
@@ -7503,7 +7507,7 @@
 
 		private async Task<bool> UseItem(string name)
 		{
-			if (await casting.WaitAsync(500))
+			if (castingLock.WaitOne(1000))
 			{
 				await WaitForCastingToFinish2();
 
@@ -7518,7 +7522,7 @@
 				}
 				finally
 				{
-					casting.Release();
+					castingLock.Set();
 				}
 			}
 
@@ -7542,7 +7546,7 @@
 		{
 			if (!CanUseJobAbility(name)) return false;
 
-			if (await casting.WaitAsync(500))
+			if (castingLock.WaitOne(1000))
 			{
 				await WaitForCastingToFinish2();
 
@@ -7557,7 +7561,7 @@
 				}
 				finally
 				{
-					casting.Release();
+					castingLock.Set();
 				}
 			}
 
