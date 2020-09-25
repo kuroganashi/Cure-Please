@@ -5736,18 +5736,15 @@
 								}
 								else if (commands[2] == "interrupted")
 								{
+									SetLockLabel("PACKET: Casting is INTERRUPTED");
 									Thread.Sleep(1000);
 									castTokenSource?.Cancel();
-									SetLockLabel("PACKET: Casting is INTERRUPTED");
 								}
 								else if (commands[2] == "finished")
 								{
-									if (castingLockLabel.Text == "PACKET: Casting is LOCKED")
-									{
-										SetLockLabel("PACKET: Casting is soon to be AVAILABLE!");
-										Thread.Sleep(3000);
-										castTokenSource?.Cancel();
-									}
+									SetLockLabel("PACKET: Casting is soon to be AVAILABLE!");
+									Thread.Sleep(3000);
+									castTokenSource?.Cancel();
 								}
 							}
 							else if (commands[1] == "confirmed")
@@ -5911,33 +5908,37 @@
 				currentAction.Text = spellCommand;
 			}));
 
-			await SendPrimaryCommand(spellCommand, 10);
-			Log.Debug("Sent command {0}", spellCommand);
-
-			// There is a small delay, depending on latency and game lag, between when
-			// we send the command and the actual spell casting begins. If we check the 
-			// cast percent before casting begins, it will return 100% which will short-
-			// circuit our mechanism. To prevent this, we wait until the cast percent is
-			// something other than 0 or 1 (e.g. 0.12) before entering the wait loop.
 			var timer = Stopwatch.StartNew();
 			var percent = instancePrimary.CastBar.Percent;
-			Log.Verbose("Waiting for casting to start...");
-			while (percent == 0 || percent == 1)
+
+			for (var i = 0; i < 3; i++)
 			{
-				// But sometimes the command fails. This can happen if the user manually casts
-				// a spell or uses a JA or item at the same time, or for other unexpected reasons. 
-				// If we wait for the spell indefinitely, our program will hang. To prevent this, 
-				// we'll timeout after N seconds.
-				if (timer.ElapsedMilliseconds >= 1000)
+				await SendPrimaryCommand(spellCommand, 10);
+				Log.Debug("Sent command {0}", spellCommand);
+
+				timer.Restart();
+				percent = instancePrimary.CastBar.Percent;
+				Log.Verbose("Waiting for casting to start...");
+
+				while (percent <= 0 || percent >= 1)
 				{
-					Log.Verbose("Casting never started.");
-					Log.Verbose("Maybe unable to cast at this time.");
-					return false;
+					if (timer.ElapsedMilliseconds >= 1000)
+					{
+						Log.Verbose("Casting never started.");
+						Log.Verbose("Maybe unable to cast at this time.");
+						break;
+					}
+
+					Log.Verbose($"Waiting; percent={percent}");
+					if (cancellationToken.IsCancellationRequested) break;
+					percent = instancePrimary.CastBar.Percent;
+					await Task.Delay(50);
 				}
 
-				await Task.Delay(100);
+				if (cancellationToken.IsCancellationRequested) break;
 				percent = instancePrimary.CastBar.Percent;
-				Log.Verbose($"Waiting; percent={percent}");
+				if (percent > 0) break;
+				await Task.Delay(500);
 			}
 
 			// At this point, we know the game has started casting the spell we told it
@@ -5961,16 +5962,15 @@
 				}
 				else if (cancellationToken.IsCancellationRequested)
 				{
-					await Task.Delay(3500);
 					Log.Verbose("Spell completed early.");
 					break;
 				}
 			}
 
 			var ms = timer.ElapsedMilliseconds;
-			var delay = ms > 3500 ? 0 : 3500 - ms;
+			var delay = ms > 2500 ? 0 : 2500 - ms;
 			await Task.Delay((int)delay);
-			
+
 			Log.Debug("Spell completed at {0} percent.", percent);
 
 			Invoke(new Action(() =>
