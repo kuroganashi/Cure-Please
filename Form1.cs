@@ -5911,7 +5911,7 @@
 			var timer = Stopwatch.StartNew();
 			var percent = instancePrimary.CastBar.Percent;
 
-			for (var i = 0; i < 3; i++)
+			for (var i = 0; i < 3 && !cancellationToken.IsCancellationRequested; i++)
 			{
 				await SendPrimaryCommand(spellCommand, 10);
 				Log.Debug("Sent command {0}", spellCommand);
@@ -5920,7 +5920,7 @@
 				percent = instancePrimary.CastBar.Percent;
 				Log.Verbose("Waiting for casting to start...");
 
-				while (percent <= 0 || percent >= 1)
+				while ((percent <= 0 || percent >= 1) && !cancellationToken.IsCancellationRequested)
 				{
 					if (timer.ElapsedMilliseconds >= 1000)
 					{
@@ -5930,12 +5930,10 @@
 					}
 
 					Log.Verbose($"Waiting; percent={percent}");
-					if (cancellationToken.IsCancellationRequested) break;
 					percent = instancePrimary.CastBar.Percent;
 					await Task.Delay(50);
 				}
 
-				if (cancellationToken.IsCancellationRequested) break;
 				percent = instancePrimary.CastBar.Percent;
 				if (percent > 0) break;
 				await Task.Delay(500);
@@ -5945,31 +5943,34 @@
 			// to, so we can monitor the cast percent until it hits 1 (spell is 100% done).
 			// Alternately, we'll stop if the cancel token is set by the in-game addon
 			// due to fastcast / quick magic or the spell being interrupted.
-			var attempts = 0;
 
-			timer.Restart();
-			while (timer.ElapsedMilliseconds < 12000)
+			if (!cancellationToken.IsCancellationRequested)
 			{
-				attempts++;
-				percent = instancePrimary.CastBar.Percent;
-				Log.Verbose($"Casting percent: {percent}; attempt {attempts}");
-				await Task.Delay(200);
+				var attempts = 0;
+				timer.Restart();
+				while (timer.ElapsedMilliseconds < 12000)
+				{
+					attempts++;
+					percent = instancePrimary.CastBar.Percent;
+					Log.Verbose($"Casting percent: {percent}; attempt {attempts}");
+					await Task.Delay(200);
 
-				if (percent >= 1)
-				{
-					Log.Verbose("Spell completed normally.");
-					break;
+					if (percent >= 1)
+					{
+						Log.Verbose("Spell completed normally.");
+						break;
+					}
+					else if (cancellationToken.IsCancellationRequested)
+					{
+						Log.Verbose("Spell completed early.");
+						break;
+					}
 				}
-				else if (cancellationToken.IsCancellationRequested)
-				{
-					Log.Verbose("Spell completed early.");
-					break;
-				}
+
+				var ms = timer.ElapsedMilliseconds;
+				var delay = ms > 2500 ? 0 : 2500 - ms;
+				await Task.Delay((int)delay);
 			}
-
-			var ms = timer.ElapsedMilliseconds;
-			var delay = ms > 2500 ? 0 : 2500 - ms;
-			await Task.Delay((int)delay);
 
 			Log.Debug("Spell completed at {0} percent.", percent);
 
