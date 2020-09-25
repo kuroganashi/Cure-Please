@@ -1762,6 +1762,35 @@
 			castTokenSource?.Cancel();
 			castingLock.Set();
 
+			for (var i=0; i < 18; i++)
+      {
+				playerHaste[i] = defaultDate;
+				playerHaste_II[i] = defaultDate;
+				playerFlurry[i] = defaultDate;
+				playerFlurry_II[i] = defaultDate;
+				playerRefresh[i] = defaultDate;
+				playerRegen[i] = defaultDate;
+				playerProtect[i] = defaultDate;
+				playerShell[i] = defaultDate;
+				playerPhalanx_II[i] = defaultDate;
+				playerStormspell[i] = defaultDate;
+				playerAdloquium[i] = defaultDate;
+			}
+
+			for (var i = 0; i < 6; i++)
+			{
+				playerPianissimo1_1[i] = defaultDate;
+				playerPianissimo1_2[i] = defaultDate;
+				playerPianissimo2_1[i] = defaultDate;
+				playerPianissimo2_2[i] = defaultDate;
+			}
+
+			playerSong1[0] = defaultDate;
+			playerSong2[0] = defaultDate;
+			playerSong3[0] = defaultDate;
+			playerSong4[0] = defaultDate;
+			lastSongCast[0] = defaultDate;
+
 			SetCurrentAction("");
 			SetLockLabel("Casting is UNLOCKED");
 			Invoke((MethodInvoker)(() =>
