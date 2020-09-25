@@ -5908,11 +5908,8 @@
 
 		private async Task<bool> CastSpellInternal2(string spellCommand, CancellationToken cancellationToken)
 		{
-			Invoke(new Action(() =>
-			{
-				castingLockLabel.Text = "Casting is LOCKED";
-				currentAction.Text = spellCommand;
-			}));
+			SetCurrentAction(spellCommand);
+			SetLockLabel("Casting is LOCKED");
 
 			var timer = Stopwatch.StartNew();
 			var percent = instancePrimary.CastBar.Percent;
@@ -5930,9 +5927,10 @@
 				{
 					if (cancellationToken.IsCancellationRequested)
 					{
+						Log.Verbose("Casting finished early.");
 						break;
 					}
-					
+
 					if (timer.ElapsedMilliseconds >= 1000)
 					{
 						Log.Verbose("Casting never started.");
@@ -5977,7 +5975,7 @@
 				}
 
 				var ms = timer.ElapsedMilliseconds;
-				var delay = ms > 3000 ? 0 : 3000 - ms;
+				var delay = ms > 2500 ? 0 : 2500 - ms;
 				await Task.Delay((int)delay);
 			}
 
@@ -7547,10 +7545,9 @@
 
 			if (castingLock.WaitOne(1000))
 			{
-				await WaitForCastingToFinish2();
-
 				try
 				{
+					await WaitForCastingToFinish2();
 					SetLockLabel("Casting LOCKED");
 					SetCurrentAction($"Using ability: {name}");
 					await SendPrimaryCommand($"/ja \"{name}\" {target}", 2500);
