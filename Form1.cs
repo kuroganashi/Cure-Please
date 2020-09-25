@@ -6392,19 +6392,6 @@
 			}
 			#endregion
 
-			#region Remove critical party debuffs
-			var needsDebuff = instanceMonitored.Party.GetPartyMembers()
-				.Where(x => x.Active > 0 && IsEnabled(x) && GetDistanceFromPl(x) < 21f)
-				.OrderBy(x => highPriorityBoxes[x.MemberNumber].Checked ? 0 : 1);
-
-			foreach (var member in instanceMonitored.Party.GetPartyMembers())
-			{
-				if (await RemoveDebuff(member, Buffs.Doom)) return;
-				if (await RemoveDebuff(member, Buffs.Curse)) return;
-				if (await RemoveDebuff(member, Buffs.Petrification)) return;
-			}
-			#endregion
-
 			#region Skip if terrored, etc.
 			if (HasAnyBuff(0, Buffs.Terror, Buffs.Petrification, Buffs.Mute, Buffs.Stun))
 			{
@@ -6489,9 +6476,21 @@
 			if (nextCureTarget != null)
 			{
 				Log.Debug($"Curing {nextCureTarget.Name} at {nextCureTarget.CurrentHPP}%");
-				if (nextCureTarget.CurrentHPP > 90 && Form2.config.PrioritiseOverLowerTier)
+
+				if (nextCureTarget.CurrentHPP > 75 && Form2.config.PrioritiseOverLowerTier)
 				{
-					if (await RunDebuffChecker()) return;
+					var needsDebuff = instanceMonitored.Party.GetPartyMembers()
+						.Where(x => x.Active > 0 && IsEnabled(x) && GetDistanceFromPl(x) < 21f)
+						.OrderBy(x => highPriorityBoxes[x.MemberNumber].Checked ? 0 : 1);
+
+					foreach (var member in instanceMonitored.Party.GetPartyMembers())
+					{
+						if (await RemoveDebuff(member, Buffs.Doom)) return;
+						if (await RemoveDebuff(member, Buffs.Curse)) return;
+						if (await RemoveDebuff(member, Buffs.Petrification)) return;
+						if (await RemoveDebuff(member, Buffs.Silence)) return;
+						if (await RemoveDebuff(member, Buffs.Paralysis)) return;
+					}
 				}
 
 				var isPriority = priorityCures.Contains(nextCureTarget);
