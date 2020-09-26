@@ -235,6 +235,8 @@ namespace CurePlease
 			this.AddOnStatus = new System.Windows.Forms.Button();
 			this.EclipticTimer = new System.Windows.Forms.Timer(this.components);
 			this.CustomCommand_Tracker = new System.ComponentModel.BackgroundWorker();
+			this.debugLog = new System.Windows.Forms.ListBox();
+			this.label1 = new System.Windows.Forms.Label();
 			this.party0.SuspendLayout();
 			this.playerOptions.SuspendLayout();
 			this.party2.SuspendLayout();
@@ -2267,10 +2269,11 @@ namespace CurePlease
 			// castingLockLabel
 			// 
 			this.castingLockLabel.AutoSize = true;
-			this.castingLockLabel.Location = new System.Drawing.Point(79, 16);
+			this.castingLockLabel.Location = new System.Drawing.Point(23, 16);
 			this.castingLockLabel.Name = "castingLockLabel";
-			this.castingLockLabel.Size = new System.Drawing.Size(0, 13);
+			this.castingLockLabel.Size = new System.Drawing.Size(156, 13);
 			this.castingLockLabel.TabIndex = 28;
+			this.castingLockLabel.Text = "Casting lock status unavailable.";
 			// 
 			// Follow_BGW
 			// 
@@ -2378,13 +2381,32 @@ namespace CurePlease
 			this.CustomCommand_Tracker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.CustomCommand_Tracker_DoWork);
 			this.CustomCommand_Tracker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.CustomCommand_Tracker_RunWorkerCompleted);
 			// 
+			// debugLog
+			// 
+			this.debugLog.FormattingEnabled = true;
+			this.debugLog.Location = new System.Drawing.Point(667, 36);
+			this.debugLog.Name = "debugLog";
+			this.debugLog.Size = new System.Drawing.Size(459, 329);
+			this.debugLog.TabIndex = 34;
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(667, 15);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(74, 13);
+			this.label1.TabIndex = 35;
+			this.label1.Text = "Debug Output";
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.BackColor = System.Drawing.SystemColors.ActiveBorder;
-			this.ClientSize = new System.Drawing.Size(664, 382);
+			this.ClientSize = new System.Drawing.Size(1138, 382);
+			this.Controls.Add(this.label1);
+			this.Controls.Add(this.debugLog);
 			this.Controls.Add(this.AddOnStatus);
 			this.Controls.Add(this.AboutButton);
 			this.Controls.Add(this.PartyBuffsButton);
@@ -2641,5 +2663,7 @@ namespace CurePlease
         private Button AddOnStatus;
         private Timer EclipticTimer;
         private System.ComponentModel.BackgroundWorker CustomCommand_Tracker;
-    }
+    private ListBox debugLog;
+    private Label label1;
+  }
 }

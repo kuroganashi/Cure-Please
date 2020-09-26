@@ -29,7 +29,9 @@
 			Log.Logger = new LoggerConfiguration()
 				.MinimumLevel.Debug()
 				.MinimumLevel.Override("CurePlease", LogEventLevel.Verbose)
+				.WriteTo.Sink(new UiLogSink(), LogEventLevel.Verbose)
 				.WriteTo.File($"logs\\debug.{guid}.log", 
+					restrictedToMinimumLevel: LogEventLevel.Information,
 					flushToDiskInterval: TimeSpan.FromSeconds(2),
 					shared: true)
 				.WriteTo.Debug()
