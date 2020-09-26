@@ -4079,6 +4079,7 @@
 
 		private static async Task SendPrimaryCommand(string command, int delay = 200)
 		{
+			Log.Debug($"Sent command {command}");
 			instancePrimary.ThirdParty.SendString(command);
 			await Task.Delay(delay);
 		}
@@ -5915,8 +5916,7 @@
 
 			for (var i = 0; i < 3 && !cancellationToken.IsCancellationRequested; i++)
 			{
-				await SendPrimaryCommand(spellCommand, 10);
-				Log.Debug("Sent command {0}", spellCommand);
+				await SendPrimaryCommand(spellCommand, 10);				
 
 				timer.Restart();
 				percent = instancePrimary.CastBar.Percent;
