@@ -1,8 +1,8 @@
 ﻿namespace CurePlease
 {
-	using System;
-	using System.IO;
-	using System.Windows.Forms;
+  using System;
+  using System.IO;
+  using System.Windows.Forms;
   using Serilog;
   using Serilog.Events;
 
