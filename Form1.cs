@@ -203,1309 +203,1309 @@
 			currentAction.Text = string.Empty;
 			var position = 0;
 
-      #region PopulateSpellInfo
-      bardSongs.Add(new SongData
-      {
-        SongType = "Blank",
-        SongName = "Blank",
-        SongPosition = position,
-        BuffId = 0
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Minne",
-        SongName = "Knight's Minne",
-        SongPosition = position,
-        BuffId = 197
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Minne",
-        SongName = "Knight's Minne II",
-        SongPosition = position,
-        BuffId = 197
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Minne",
-        SongName = "Knight's Minne III",
-        SongPosition = position,
-        BuffId = 197
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Minne",
-        SongName = "Knight's Minne IV",
-        SongPosition = position,
-        BuffId = 197
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Minne",
-        SongName = "Knight's Minne V",
-        SongPosition = position,
-        BuffId = 197
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Blank",
-        SongName = "Blank",
-        SongPosition = position,
-        BuffId = 0
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Minuet",
-        SongName = "Valor Minuet",
-        SongPosition = position,
-        BuffId = 198
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Minuet",
-        SongName = "Valor Minuet II",
-        SongPosition = position,
-        BuffId = 198
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Minuet",
-        SongName = "Valor Minuet III",
-        SongPosition = position,
-        BuffId = 198
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Minuet",
-        SongName = "Valor Minuet IV",
-        SongPosition = position,
-        BuffId = 198
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Minuet",
-        SongName = "Valor Minuet V",
-        SongPosition = position,
-        BuffId = 198
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Blank",
-        SongName = "Blank",
-        SongPosition = position,
-        BuffId = 0
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Paeon",
-        SongName = "Army's Paeon",
-        SongPosition = position,
-        BuffId = 195
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Paeon",
-        SongName = "Army's Paeon II",
-        SongPosition = position,
-        BuffId = 195
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Paeon",
-        SongName = "Army's Paeon III",
-        SongPosition = position,
-        BuffId = 195
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Paeon",
-        SongName = "Army's Paeon IV",
-        SongPosition = position,
-        BuffId = 195
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Paeon",
-        SongName = "Army's Paeon V",
-        SongPosition = position,
-        BuffId = 195
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Paeon",
-        SongName = "Army's Paeon VI",
-        SongPosition = position,
-        BuffId = 195
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Blank",
-        SongName = "Blank",
-        SongPosition = position,
-        BuffId = 0
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Madrigal",
-        SongName = "Sword Madrigal",
-        SongPosition = position,
-        BuffId = 199
-      });
-      position++;
-      bardSongs.Add(new SongData
-      {
-        SongType = "Madrigal",
-        SongName = "Blade Madrigal",
-        SongPosition = position,
-        BuffId = 199
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Blank",
-        SongName = "Blank",
-        SongPosition = position,
-        BuffId = 0
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Prelude",
-        SongName = "Hunter's Prelude",
-        SongPosition = position,
-        BuffId = 200
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Prelude",
-        SongName = "Archer's Prelude",
-        SongPosition = position,
-        BuffId = 200
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Blank",
-        SongName = "Blank",
-        SongPosition = position,
-        BuffId = 0
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Etude",
-        SongName = "Sinewy Etude",
-        SongPosition = position,
-        BuffId = 215
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Etude",
-        SongName = "Dextrous Etude",
-        SongPosition = position,
-        BuffId = 215
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Etude",
-        SongName = "Vivacious Etude",
-        SongPosition = position,
-        BuffId = 215
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Etude",
-        SongName = "Quick Etude",
-        SongPosition = position,
-        BuffId = 215
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Etude",
-        SongName = "Learned Etude",
-        SongPosition = position,
-        BuffId = 215
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Etude",
-        SongName = "Spirited Etude",
-        SongPosition = position,
-        BuffId = 215
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Etude",
-        SongName = "Enchanting Etude",
-        SongPosition = position,
-        BuffId = 215
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Etude",
-        SongName = "Herculean Etude",
-        SongPosition = position,
-        BuffId = 215
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Etude",
-        SongName = "Uncanny Etude",
-        SongPosition = position,
-        BuffId = 215
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Etude",
-        SongName = "Vital Etude",
-        SongPosition = position,
-        BuffId = 215
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Etude",
-        SongName = "Swift Etude",
-        SongPosition = position,
-        BuffId = 215
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Etude",
-        SongName = "Sage Etude",
-        SongPosition = position,
-        BuffId = 215
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Etude",
-        SongName = "Logical Etude",
-        SongPosition = position,
-        BuffId = 215
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Etude",
-        SongName = "Bewitching Etude",
-        SongPosition = position,
-        BuffId = 215
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Blank",
-        SongName = "Blank",
-        SongPosition = position,
-        BuffId = 0
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Mambo",
-        SongName = "Sheepfoe Mambo",
-        SongPosition = position,
-        BuffId = 201
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Mambo",
-        SongName = "Dragonfoe Mambo",
-        SongPosition = position,
-        BuffId = 201
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Blank",
-        SongName = "Blank",
-        SongPosition = position,
-        BuffId = 0
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Ballad",
-        SongName = "Mage's Ballad",
-        SongPosition = position,
-        BuffId = 196
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Ballad",
-        SongName = "Mage's Ballad II",
-        SongPosition = position,
-        BuffId = 196
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Ballad",
-        SongName = "Mage's Ballad III",
-        SongPosition = position,
-        BuffId = 196
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Blank",
-        SongName = "Blank",
-        SongPosition = position,
-        BuffId = 0
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "March",
-        SongName = "Advancing March",
-        SongPosition = position,
-        BuffId = 214
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "March",
-        SongName = "Victory March",
-        SongPosition = position,
-        BuffId = 214
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "March",
-        SongName = "Honor March",
-        SongPosition = position,
-        BuffId = 214
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Blank",
-        SongName = "Blank",
-        SongPosition = position,
-        BuffId = 0
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Carol",
-        SongName = "Fire Carol",
-        SongPosition = position
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Carol",
-        SongName = "Fire Carol II",
-        SongPosition = position,
-        BuffId = 216
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Carol",
-        SongName = "Ice Carol",
-        SongPosition = position,
-        BuffId = 216
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Carol",
-        SongName = "Ice Carol II",
-        SongPosition = position,
-        BuffId = 216
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Carol",
-        SongName = " Wind Carol",
-        SongPosition = position,
-        BuffId = 216
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Carol",
-        SongName = "Wind Carol II",
-        SongPosition = position,
-        BuffId = 216
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Carol",
-        SongName = "Earth Carol",
-        SongPosition = position,
-        BuffId = 216
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Carol",
-        SongName = "Earth Carol II",
-        SongPosition = position,
-        BuffId = 216
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Carol",
-        SongName = "Lightning Carol",
-        SongPosition = position,
-        BuffId = 216
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Carol",
-        SongName = "Lightning Carol II",
-        SongPosition = position,
-        BuffId = 216
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Carol",
-        SongName = "Water Carol",
-        SongPosition = position,
-        BuffId = 216
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Carol",
-        SongName = "Water Carol II",
-        SongPosition = position,
-        BuffId = 216
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Carol",
-        SongName = "Light Carol",
-        SongPosition = position,
-        BuffId = 216
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Carol",
-        SongName = "Light Carol II",
-        SongPosition = position,
-        BuffId = 216
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Carol",
-        SongName = "Dark Carol",
-        SongPosition = position,
-        BuffId = 216
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Carol",
-        SongName = "Dark Carol II",
-        SongPosition = position,
-        BuffId = 216
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Blank",
-        SongName = "Blank",
-        SongPosition = position,
-        BuffId = 0
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Hymnus",
-        SongName = "Godess's Hymnus",
-        SongPosition = position,
-        BuffId = 218
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Blank",
-        SongName = "Blank",
-        SongPosition = position,
-        BuffId = 0
-      });
-      position++;
-
-      bardSongs.Add(new SongData
-      {
-        SongType = "Scherzo",
-        SongName = "Sentinel's Scherzo",
-        SongPosition = position,
-        BuffId = 222
-      });
-      position++;
-
-      var geo_position = 0;
-
-      geoSpells.Add(new GeoData
-      {
-        IndiSpell = "Indi-Voidance",
-        GeoSpell = "Geo-Voidance",
-        Position = geo_position,
-      });
-      geo_position++;
-
-      geoSpells.Add(new GeoData
-      {
-        IndiSpell = "Indi-Precision",
-        GeoSpell = "Geo-Precision",
-        Position = geo_position,
-      });
-      geo_position++;
-
-      geoSpells.Add(new GeoData
-      {
-        IndiSpell = "Indi-Regen",
-        GeoSpell = "Geo-Regen",
-        Position = geo_position,
-      });
-      geo_position++;
-
-      geoSpells.Add(new GeoData
-      {
-        IndiSpell = "Indi-Haste",
-        GeoSpell = "Geo-Haste",
-        Position = geo_position,
-      });
-      geo_position++;
-
-      geoSpells.Add(new GeoData
-      {
-        IndiSpell = "Indi-Attunement",
-        GeoSpell = "Geo-Attunement",
-        Position = geo_position,
-      });
-      geo_position++;
-
-      geoSpells.Add(new GeoData
-      {
-        IndiSpell = "Indi-Focus",
-        GeoSpell = "Geo-Focus",
-        Position = geo_position,
-      });
-      geo_position++;
-
-      geoSpells.Add(new GeoData
-      {
-        IndiSpell = "Indi-Barrier",
-        GeoSpell = "Geo-Barrier",
-        Position = geo_position,
-      });
-      geo_position++;
-
-      geoSpells.Add(new GeoData
-      {
-        IndiSpell = "Indi-Refresh",
-        GeoSpell = "Geo-Refresh",
-        Position = geo_position,
-      });
-      geo_position++;
-
-      geoSpells.Add(new GeoData
-      {
-        IndiSpell = "Indi-CHR",
-        GeoSpell = "Geo-CHR",
-        Position = geo_position,
-      });
-      geo_position++;
-
-      geoSpells.Add(new GeoData
-      {
-        IndiSpell = "Indi-MND",
-        GeoSpell = "Geo-MND",
-        Position = geo_position,
-      });
-      geo_position++;
-
-      geoSpells.Add(new GeoData
-      {
-        IndiSpell = "Indi-Fury",
-        GeoSpell = "Geo-Fury",
-        Position = geo_position,
-      });
-      geo_position++;
-
-      geoSpells.Add(new GeoData
-      {
-        IndiSpell = "Indi-INT",
-        GeoSpell = "Geo-INT",
-        Position = geo_position,
-      });
-      geo_position++;
-
-      geoSpells.Add(new GeoData
-      {
-        IndiSpell = "Indi-AGI",
-        GeoSpell = "Geo-AGI",
-        Position = geo_position,
-      });
-      geo_position++;
-
-      geoSpells.Add(new GeoData
-      {
-        IndiSpell = "Indi-Fend",
-        GeoSpell = "Geo-Fend",
-        Position = geo_position,
-      });
-      geo_position++;
-
-      geoSpells.Add(new GeoData
-      {
-        IndiSpell = "Indi-VIT",
-        GeoSpell = "Geo-VIT",
-        Position = geo_position,
-      });
-      geo_position++;
-
-      geoSpells.Add(new GeoData
-      {
-        IndiSpell = "Indi-DEX",
-        GeoSpell = "Geo-DEX",
-        Position = geo_position,
-      });
-      geo_position++;
-
-      geoSpells.Add(new GeoData
-      {
-        IndiSpell = "Indi-Acumen",
-        GeoSpell = "Geo-Acumen",
-        Position = geo_position,
-      });
-      geo_position++;
-
-      geoSpells.Add(new GeoData
-      {
-        IndiSpell = "Indi-STR",
-        GeoSpell = "Geo-STR",
-        Position = geo_position,
-      });
-      geo_position++;
-
-      geoSpells.Add(new GeoData
-      {
-        IndiSpell = "Indi-Poison",
-        GeoSpell = "Geo-Poison",
-        Position = geo_position,
-      });
-      geo_position++;
-
-      geoSpells.Add(new GeoData
-      {
-        IndiSpell = "Indi-Slow",
-        GeoSpell = "Geo-Slow",
-        Position = geo_position,
-      });
-      geo_position++;
-
-      geoSpells.Add(new GeoData
-      {
-        IndiSpell = "Indi-Torpor",
-        GeoSpell = "Geo-Torpor",
-        Position = geo_position,
-      });
-      geo_position++;
-
-      geoSpells.Add(new GeoData
-      {
-        IndiSpell = "Indi-Slip",
-        GeoSpell = "Geo-Slip",
-        Position = geo_position,
-      });
-      geo_position++;
-
-      geoSpells.Add(new GeoData
-      {
-        IndiSpell = "Indi-Languor",
-        GeoSpell = "Geo-Languor",
-        Position = geo_position,
-      });
-      geo_position++;
-
-      geoSpells.Add(new GeoData
-      {
-        IndiSpell = "Indi-Paralysis",
-        GeoSpell = "Geo-Paralysis",
-        Position = geo_position,
-      });
-      geo_position++;
-
-      geoSpells.Add(new GeoData
-      {
-        IndiSpell = "Indi-Vex",
-        GeoSpell = "Geo-Vex",
-        Position = geo_position,
-      });
-      geo_position++;
-
-      geoSpells.Add(new GeoData
-      {
-        IndiSpell = "Indi-Frailty",
-        GeoSpell = "Geo-Frailty",
-        Position = geo_position,
-      });
-      geo_position++;
-
-      geoSpells.Add(new GeoData
-      {
-        IndiSpell = "Indi-Wilt",
-        GeoSpell = "Geo-Wilt",
-        Position = geo_position,
-      });
-      geo_position++;
-
-      geoSpells.Add(new GeoData
-      {
-        IndiSpell = "Indi-Malaise",
-        GeoSpell = "Geo-Malaise",
-        Position = geo_position,
-      });
-      geo_position++;
-
-      geoSpells.Add(new GeoData
-      {
-        IndiSpell = "Indi-Gravity",
-        GeoSpell = "Geo-Gravity",
-        Position = geo_position,
-      });
-      geo_position++;
-
-      geoSpells.Add(new GeoData
-      {
-        IndiSpell = "Indi-Fade",
-        GeoSpell = "Geo-Fade",
-        Position = geo_position,
-      });
-      geo_position++;
-
-      barSpells.Add(new SpellsData
-      {
-        Name = "Barfire",
-        Type = 1,
-        Position = 0,
-        BuffId = Buffs.Barfire,
-      });
-      barSpells.Add(new SpellsData
-      {
-        Name = "Barfira",
-        Type = 1,
-        Position = 0,
-        BuffId = Buffs.Barfire,
-        AoeVersion = true,
-      });
-      barSpells.Add(new SpellsData
-      {
-        Name = "Barstone",
-        Type = 1,
-        Position = 1,
-        BuffId = Buffs.Barstone,
-      });
-      barSpells.Add(new SpellsData
-      {
-        Name = "Barstonra",
-        Type = 1,
-        Position = 1,
-        BuffId = Buffs.Barstone,
-        AoeVersion = true,
-      });
-      barSpells.Add(new SpellsData
-      {
-        Name = "Barwater",
-        Type = 1,
-        Position = 2,
-        BuffId = Buffs.Barwater,
-      });
-      barSpells.Add(new SpellsData
-      {
-        Name = "Barwatera",
-        Type = 1,
-        Position = 2,
-        BuffId = Buffs.Barwater,
-        AoeVersion = true,
-      });
-      barSpells.Add(new SpellsData
-      {
-        Name = "Baraero",
-        Type = 1,
-        Position = 3,
-        BuffId = Buffs.Baraero
-      });
-      barSpells.Add(new SpellsData
-      {
-        Name = "Baraera",
-        Type = 1,
-        Position = 3,
-        BuffId = Buffs.Baraero,
-        AoeVersion = true,
-      });
-      barSpells.Add(new SpellsData
-      {
-        Name = "Barblizzard",
-        Type = 1,
-        Position = 4,
-        BuffId = Buffs.Barblind
-      });
-      barSpells.Add(new SpellsData
-      {
-        Name = "Barblizzara",
-        Type = 1,
-        Position = 4,
-        BuffId = Buffs.Barblizzard,
-        AoeVersion = true,
-      });
-      barSpells.Add(new SpellsData
-      {
-        Name = "Barthunder",
-        Type = 1,
-        Position = 5,
-        BuffId = Buffs.Barthunder
-      });
-      barSpells.Add(new SpellsData
-      {
-        Name = "Barthundra",
-        Type = 1,
-        Position = 5,
-        BuffId = Buffs.Barthunder,
-        AoeVersion = true,
-      });
-
-      barSpells.Add(new SpellsData
-      {
-        Name = "Baramnesia",
-        Type = 2,
-        Position = 0,
-        BuffId = Buffs.Baramnesia,
-      });
-      barSpells.Add(new SpellsData
-      {
-        Name = "Baramnesra",
-        Type = 2,
-        Position = 0,
-        BuffId = Buffs.Baramnesia,
-        AoeVersion = true,
-      });
-      barSpells.Add(new SpellsData
-      {
-        Name = "Barvirus",
-        Type = 2,
-        Position = 1,
-        BuffId = Buffs.Barvirus
-      });
-      barSpells.Add(new SpellsData
-      {
-        Name = "Barvira",
-        Type = 2,
-        Position = 1,
-        BuffId = Buffs.Barvirus,
-        AoeVersion = true,
-      });
-      barSpells.Add(new SpellsData
-      {
-        Name = "Barparalyze",
-        Type = 2,
-        Position = 2,
-        BuffId = Buffs.Barparalyze
-      });
-      barSpells.Add(new SpellsData
-      {
-        Name = "Barparalyzra",
-        Type = 2,
-        Position = 2,
-        BuffId = Buffs.Barparalyze,
-        AoeVersion = true,
-      });
-      barSpells.Add(new SpellsData
-      {
-        Name = "Barsilence",
-        Type = 2,
-        Position = 3,
-        BuffId = Buffs.Barsilence
-      });
-      barSpells.Add(new SpellsData
-      {
-        Name = "Barsilencera",
-        Type = 2,
-        Position = 3,
-        BuffId = Buffs.Barsilence,
-        AoeVersion = true,
-      });
-      barSpells.Add(new SpellsData
-      {
-        Name = "Barpetrify",
-        Type = 2,
-        Position = 4,
-        BuffId = Buffs.Barpetrify
-      });
-      barSpells.Add(new SpellsData
-      {
-        Name = "Barpetra",
-        Type = 2,
-        Position = 4,
-        BuffId = Buffs.Barpetrify,
-        AoeVersion = true,
-      });
-      barSpells.Add(new SpellsData
-      {
-        Name = "Barpoison",
-        Type = 2,
-        Position = 5,
-        BuffId = Buffs.Barpoison
-      });
-      barSpells.Add(new SpellsData
-      {
-        Name = "Barpoisonra",
-        Type = 2,
-        Position = 5,
-        BuffId = Buffs.Barpoison,
-        AoeVersion = true,
-      });
-      barSpells.Add(new SpellsData
-      {
-        Name = "Barblind",
-        Type = 2,
-        Position = 6,
-        BuffId = Buffs.Barblind
-      });
-      barSpells.Add(new SpellsData
-      {
-        Name = "Barblindra",
-        Type = 2,
-        Position = 6,
-        BuffId = Buffs.Barblind,
-        AoeVersion = true,
-      });
-      barSpells.Add(new SpellsData
-      {
-        Name = "Barsleep",
-        Type = 2,
-        Position = 7,
-        BuffId = Buffs.Barsleep
-      });
-      barSpells.Add(new SpellsData
-      {
-        Name = "Barsleepra",
-        Type = 2,
-        Position = 7,
-        BuffId = Buffs.Barsleep,
-        AoeVersion = true,
-      });
-
-      enSpells.Add(new SpellsData
-      {
-        Name = "Enfire",
-        Type = 1,
-        Position = 0,
-        BuffId = Buffs.Enfire
-      });
-      enSpells.Add(new SpellsData
-      {
-        Name = "Enstone",
-        Type = 1,
-        Position = 1,
-        BuffId = Buffs.Enstone
-      });
-      enSpells.Add(new SpellsData
-      {
-        Name = "Enwater",
-        Type = 1,
-        Position = 2,
-        BuffId = Buffs.Enwater
-      });
-      enSpells.Add(new SpellsData
-      {
-        Name = "Enaero",
-        Type = 1,
-        Position = 3,
-        BuffId = Buffs.Enaero
-      });
-      enSpells.Add(new SpellsData
-      {
-        Name = "Enblizzard",
-        Type = 1,
-        Position = 4,
-        BuffId = Buffs.Enblizzard
-      });
-      enSpells.Add(new SpellsData
-      {
-        Name = "Enthunder",
-        Type = 1,
-        Position = 5,
-        BuffId = Buffs.Enthunder
-      });
-
-      enSpells.Add(new SpellsData
-      {
-        Name = "Enfire II",
-        Type = 1,
-        Position = 6,
-        BuffId = Buffs.EnfireII
-      });
-      enSpells.Add(new SpellsData
-      {
-        Name = "Enstone II",
-        Type = 1,
-        Position = 7,
-        BuffId = Buffs.EnfireII
-      });
-      enSpells.Add(new SpellsData
-      {
-        Name = "Enwater II",
-        Type = 1,
-        Position = 8,
-        BuffId = Buffs.EnwaterII
-      });
-      enSpells.Add(new SpellsData
-      {
-        Name = "Enaero II",
-        Type = 1,
-        Position = 9,
-        BuffId = Buffs.EnaeroII
-      });
-      enSpells.Add(new SpellsData
-      {
-        Name = "Enblizzard II",
-        Type = 1,
-        Position = 10,
-        BuffId = Buffs.EnblizzardII
-      });
-      enSpells.Add(new SpellsData
-      {
-        Name = "Enthunder II",
-        Type = 1,
-        Position = 11,
-        BuffId = Buffs.EnthunderII
-      });
-
-      stormSpells.Add(new SpellsData
-      {
-        Name = "Firestorm",
-        Type = 1,
-        Position = 0,
-        BuffId = Buffs.Firestorm
-      });
-      stormSpells.Add(new SpellsData
-      {
-        Name = "Sandstorm",
-        Type = 1,
-        Position = 1,
-        BuffId = Buffs.Sandstorm
-      });
-      stormSpells.Add(new SpellsData
-      {
-        Name = "Rainstorm",
-        Type = 1,
-        Position = 2,
-        BuffId = Buffs.Rainstorm
-      });
-      stormSpells.Add(new SpellsData
-      {
-        Name = "Windstorm",
-        Type = 1,
-        Position = 3,
-        BuffId = Buffs.Windstorm
-      });
-      stormSpells.Add(new SpellsData
-      {
-        Name = "Hailstorm",
-        Type = 1,
-        Position = 4,
-        BuffId = Buffs.Hailstorm
-      });
-      stormSpells.Add(new SpellsData
-      {
-        Name = "Thunderstorm",
-        Type = 1,
-        Position = 5,
-        BuffId = Buffs.Thunderstorm
-      });
-      stormSpells.Add(new SpellsData
-      {
-        Name = "Voidstorm",
-        Type = 1,
-        Position = 6,
-        BuffId = Buffs.Voidstorm
-      });
-      stormSpells.Add(new SpellsData
-      {
-        Name = "Aurorastorm",
-        Type = 1,
-        Position = 7,
-        BuffId = Buffs.Aurorastorm
-      });
-
-      stormSpells.Add(new SpellsData
-      {
-        Name = "Firestorm II",
-        Type = 1,
-        Position = 8,
-        BuffId = Buffs.Firestorm2
-      });
-      stormSpells.Add(new SpellsData
-      {
-        Name = "Sandstorm II",
-        Type = 1,
-        Position = 9,
-        BuffId = Buffs.Sandstorm2
-      });
-      stormSpells.Add(new SpellsData
-      {
-        Name = "Rainstorm II",
-        Type = 1,
-        Position = 10,
-        BuffId = Buffs.Rainstorm2
-      });
-      stormSpells.Add(new SpellsData
-      {
-        Name = "Windstorm II",
-        Type = 1,
-        Position = 11,
-        BuffId = Buffs.Windstorm2
-      });
-      stormSpells.Add(new SpellsData
-      {
-        Name = "Hailstorm II",
-        Type = 1,
-        Position = 12,
-        BuffId = Buffs.Hailstorm2
-      });
-      stormSpells.Add(new SpellsData
-      {
-        Name = "Thunderstorm II",
-        Type = 1,
-        Position = 13,
-        BuffId = Buffs.Thunderstorm2
-      });
-      stormSpells.Add(new SpellsData
-      {
-        Name = "Voidstorm II",
-        Type = 1,
-        Position = 14,
-        BuffId = Buffs.Voidstorm2
-      });
-      stormSpells.Add(new SpellsData
-      {
-        Name = "Aurorastorm II",
-        Type = 1,
-        Position = 15,
-        BuffId = Buffs.Aurorastorm2
-      }); 
-      #endregion
-
-      var pol = Process.GetProcessesByName("pol").Union(Process.GetProcessesByName("xiloader")).Union(Process.GetProcessesByName("edenxi"));
+			#region PopulateSpellInfo
+			bardSongs.Add(new SongData
+			{
+				SongType = "Blank",
+				SongName = "Blank",
+				SongPosition = position,
+				BuffId = 0
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Minne",
+				SongName = "Knight's Minne",
+				SongPosition = position,
+				BuffId = 197
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Minne",
+				SongName = "Knight's Minne II",
+				SongPosition = position,
+				BuffId = 197
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Minne",
+				SongName = "Knight's Minne III",
+				SongPosition = position,
+				BuffId = 197
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Minne",
+				SongName = "Knight's Minne IV",
+				SongPosition = position,
+				BuffId = 197
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Minne",
+				SongName = "Knight's Minne V",
+				SongPosition = position,
+				BuffId = 197
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Blank",
+				SongName = "Blank",
+				SongPosition = position,
+				BuffId = 0
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Minuet",
+				SongName = "Valor Minuet",
+				SongPosition = position,
+				BuffId = 198
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Minuet",
+				SongName = "Valor Minuet II",
+				SongPosition = position,
+				BuffId = 198
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Minuet",
+				SongName = "Valor Minuet III",
+				SongPosition = position,
+				BuffId = 198
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Minuet",
+				SongName = "Valor Minuet IV",
+				SongPosition = position,
+				BuffId = 198
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Minuet",
+				SongName = "Valor Minuet V",
+				SongPosition = position,
+				BuffId = 198
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Blank",
+				SongName = "Blank",
+				SongPosition = position,
+				BuffId = 0
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Paeon",
+				SongName = "Army's Paeon",
+				SongPosition = position,
+				BuffId = 195
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Paeon",
+				SongName = "Army's Paeon II",
+				SongPosition = position,
+				BuffId = 195
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Paeon",
+				SongName = "Army's Paeon III",
+				SongPosition = position,
+				BuffId = 195
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Paeon",
+				SongName = "Army's Paeon IV",
+				SongPosition = position,
+				BuffId = 195
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Paeon",
+				SongName = "Army's Paeon V",
+				SongPosition = position,
+				BuffId = 195
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Paeon",
+				SongName = "Army's Paeon VI",
+				SongPosition = position,
+				BuffId = 195
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Blank",
+				SongName = "Blank",
+				SongPosition = position,
+				BuffId = 0
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Madrigal",
+				SongName = "Sword Madrigal",
+				SongPosition = position,
+				BuffId = 199
+			});
+			position++;
+			bardSongs.Add(new SongData
+			{
+				SongType = "Madrigal",
+				SongName = "Blade Madrigal",
+				SongPosition = position,
+				BuffId = 199
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Blank",
+				SongName = "Blank",
+				SongPosition = position,
+				BuffId = 0
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Prelude",
+				SongName = "Hunter's Prelude",
+				SongPosition = position,
+				BuffId = 200
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Prelude",
+				SongName = "Archer's Prelude",
+				SongPosition = position,
+				BuffId = 200
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Blank",
+				SongName = "Blank",
+				SongPosition = position,
+				BuffId = 0
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Etude",
+				SongName = "Sinewy Etude",
+				SongPosition = position,
+				BuffId = 215
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Etude",
+				SongName = "Dextrous Etude",
+				SongPosition = position,
+				BuffId = 215
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Etude",
+				SongName = "Vivacious Etude",
+				SongPosition = position,
+				BuffId = 215
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Etude",
+				SongName = "Quick Etude",
+				SongPosition = position,
+				BuffId = 215
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Etude",
+				SongName = "Learned Etude",
+				SongPosition = position,
+				BuffId = 215
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Etude",
+				SongName = "Spirited Etude",
+				SongPosition = position,
+				BuffId = 215
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Etude",
+				SongName = "Enchanting Etude",
+				SongPosition = position,
+				BuffId = 215
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Etude",
+				SongName = "Herculean Etude",
+				SongPosition = position,
+				BuffId = 215
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Etude",
+				SongName = "Uncanny Etude",
+				SongPosition = position,
+				BuffId = 215
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Etude",
+				SongName = "Vital Etude",
+				SongPosition = position,
+				BuffId = 215
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Etude",
+				SongName = "Swift Etude",
+				SongPosition = position,
+				BuffId = 215
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Etude",
+				SongName = "Sage Etude",
+				SongPosition = position,
+				BuffId = 215
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Etude",
+				SongName = "Logical Etude",
+				SongPosition = position,
+				BuffId = 215
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Etude",
+				SongName = "Bewitching Etude",
+				SongPosition = position,
+				BuffId = 215
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Blank",
+				SongName = "Blank",
+				SongPosition = position,
+				BuffId = 0
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Mambo",
+				SongName = "Sheepfoe Mambo",
+				SongPosition = position,
+				BuffId = 201
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Mambo",
+				SongName = "Dragonfoe Mambo",
+				SongPosition = position,
+				BuffId = 201
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Blank",
+				SongName = "Blank",
+				SongPosition = position,
+				BuffId = 0
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Ballad",
+				SongName = "Mage's Ballad",
+				SongPosition = position,
+				BuffId = 196
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Ballad",
+				SongName = "Mage's Ballad II",
+				SongPosition = position,
+				BuffId = 196
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Ballad",
+				SongName = "Mage's Ballad III",
+				SongPosition = position,
+				BuffId = 196
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Blank",
+				SongName = "Blank",
+				SongPosition = position,
+				BuffId = 0
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "March",
+				SongName = "Advancing March",
+				SongPosition = position,
+				BuffId = 214
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "March",
+				SongName = "Victory March",
+				SongPosition = position,
+				BuffId = 214
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "March",
+				SongName = "Honor March",
+				SongPosition = position,
+				BuffId = 214
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Blank",
+				SongName = "Blank",
+				SongPosition = position,
+				BuffId = 0
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Carol",
+				SongName = "Fire Carol",
+				SongPosition = position
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Carol",
+				SongName = "Fire Carol II",
+				SongPosition = position,
+				BuffId = 216
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Carol",
+				SongName = "Ice Carol",
+				SongPosition = position,
+				BuffId = 216
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Carol",
+				SongName = "Ice Carol II",
+				SongPosition = position,
+				BuffId = 216
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Carol",
+				SongName = " Wind Carol",
+				SongPosition = position,
+				BuffId = 216
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Carol",
+				SongName = "Wind Carol II",
+				SongPosition = position,
+				BuffId = 216
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Carol",
+				SongName = "Earth Carol",
+				SongPosition = position,
+				BuffId = 216
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Carol",
+				SongName = "Earth Carol II",
+				SongPosition = position,
+				BuffId = 216
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Carol",
+				SongName = "Lightning Carol",
+				SongPosition = position,
+				BuffId = 216
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Carol",
+				SongName = "Lightning Carol II",
+				SongPosition = position,
+				BuffId = 216
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Carol",
+				SongName = "Water Carol",
+				SongPosition = position,
+				BuffId = 216
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Carol",
+				SongName = "Water Carol II",
+				SongPosition = position,
+				BuffId = 216
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Carol",
+				SongName = "Light Carol",
+				SongPosition = position,
+				BuffId = 216
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Carol",
+				SongName = "Light Carol II",
+				SongPosition = position,
+				BuffId = 216
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Carol",
+				SongName = "Dark Carol",
+				SongPosition = position,
+				BuffId = 216
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Carol",
+				SongName = "Dark Carol II",
+				SongPosition = position,
+				BuffId = 216
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Blank",
+				SongName = "Blank",
+				SongPosition = position,
+				BuffId = 0
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Hymnus",
+				SongName = "Godess's Hymnus",
+				SongPosition = position,
+				BuffId = 218
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Blank",
+				SongName = "Blank",
+				SongPosition = position,
+				BuffId = 0
+			});
+			position++;
+
+			bardSongs.Add(new SongData
+			{
+				SongType = "Scherzo",
+				SongName = "Sentinel's Scherzo",
+				SongPosition = position,
+				BuffId = 222
+			});
+			position++;
+
+			var geo_position = 0;
+
+			geoSpells.Add(new GeoData
+			{
+				IndiSpell = "Indi-Voidance",
+				GeoSpell = "Geo-Voidance",
+				Position = geo_position,
+			});
+			geo_position++;
+
+			geoSpells.Add(new GeoData
+			{
+				IndiSpell = "Indi-Precision",
+				GeoSpell = "Geo-Precision",
+				Position = geo_position,
+			});
+			geo_position++;
+
+			geoSpells.Add(new GeoData
+			{
+				IndiSpell = "Indi-Regen",
+				GeoSpell = "Geo-Regen",
+				Position = geo_position,
+			});
+			geo_position++;
+
+			geoSpells.Add(new GeoData
+			{
+				IndiSpell = "Indi-Haste",
+				GeoSpell = "Geo-Haste",
+				Position = geo_position,
+			});
+			geo_position++;
+
+			geoSpells.Add(new GeoData
+			{
+				IndiSpell = "Indi-Attunement",
+				GeoSpell = "Geo-Attunement",
+				Position = geo_position,
+			});
+			geo_position++;
+
+			geoSpells.Add(new GeoData
+			{
+				IndiSpell = "Indi-Focus",
+				GeoSpell = "Geo-Focus",
+				Position = geo_position,
+			});
+			geo_position++;
+
+			geoSpells.Add(new GeoData
+			{
+				IndiSpell = "Indi-Barrier",
+				GeoSpell = "Geo-Barrier",
+				Position = geo_position,
+			});
+			geo_position++;
+
+			geoSpells.Add(new GeoData
+			{
+				IndiSpell = "Indi-Refresh",
+				GeoSpell = "Geo-Refresh",
+				Position = geo_position,
+			});
+			geo_position++;
+
+			geoSpells.Add(new GeoData
+			{
+				IndiSpell = "Indi-CHR",
+				GeoSpell = "Geo-CHR",
+				Position = geo_position,
+			});
+			geo_position++;
+
+			geoSpells.Add(new GeoData
+			{
+				IndiSpell = "Indi-MND",
+				GeoSpell = "Geo-MND",
+				Position = geo_position,
+			});
+			geo_position++;
+
+			geoSpells.Add(new GeoData
+			{
+				IndiSpell = "Indi-Fury",
+				GeoSpell = "Geo-Fury",
+				Position = geo_position,
+			});
+			geo_position++;
+
+			geoSpells.Add(new GeoData
+			{
+				IndiSpell = "Indi-INT",
+				GeoSpell = "Geo-INT",
+				Position = geo_position,
+			});
+			geo_position++;
+
+			geoSpells.Add(new GeoData
+			{
+				IndiSpell = "Indi-AGI",
+				GeoSpell = "Geo-AGI",
+				Position = geo_position,
+			});
+			geo_position++;
+
+			geoSpells.Add(new GeoData
+			{
+				IndiSpell = "Indi-Fend",
+				GeoSpell = "Geo-Fend",
+				Position = geo_position,
+			});
+			geo_position++;
+
+			geoSpells.Add(new GeoData
+			{
+				IndiSpell = "Indi-VIT",
+				GeoSpell = "Geo-VIT",
+				Position = geo_position,
+			});
+			geo_position++;
+
+			geoSpells.Add(new GeoData
+			{
+				IndiSpell = "Indi-DEX",
+				GeoSpell = "Geo-DEX",
+				Position = geo_position,
+			});
+			geo_position++;
+
+			geoSpells.Add(new GeoData
+			{
+				IndiSpell = "Indi-Acumen",
+				GeoSpell = "Geo-Acumen",
+				Position = geo_position,
+			});
+			geo_position++;
+
+			geoSpells.Add(new GeoData
+			{
+				IndiSpell = "Indi-STR",
+				GeoSpell = "Geo-STR",
+				Position = geo_position,
+			});
+			geo_position++;
+
+			geoSpells.Add(new GeoData
+			{
+				IndiSpell = "Indi-Poison",
+				GeoSpell = "Geo-Poison",
+				Position = geo_position,
+			});
+			geo_position++;
+
+			geoSpells.Add(new GeoData
+			{
+				IndiSpell = "Indi-Slow",
+				GeoSpell = "Geo-Slow",
+				Position = geo_position,
+			});
+			geo_position++;
+
+			geoSpells.Add(new GeoData
+			{
+				IndiSpell = "Indi-Torpor",
+				GeoSpell = "Geo-Torpor",
+				Position = geo_position,
+			});
+			geo_position++;
+
+			geoSpells.Add(new GeoData
+			{
+				IndiSpell = "Indi-Slip",
+				GeoSpell = "Geo-Slip",
+				Position = geo_position,
+			});
+			geo_position++;
+
+			geoSpells.Add(new GeoData
+			{
+				IndiSpell = "Indi-Languor",
+				GeoSpell = "Geo-Languor",
+				Position = geo_position,
+			});
+			geo_position++;
+
+			geoSpells.Add(new GeoData
+			{
+				IndiSpell = "Indi-Paralysis",
+				GeoSpell = "Geo-Paralysis",
+				Position = geo_position,
+			});
+			geo_position++;
+
+			geoSpells.Add(new GeoData
+			{
+				IndiSpell = "Indi-Vex",
+				GeoSpell = "Geo-Vex",
+				Position = geo_position,
+			});
+			geo_position++;
+
+			geoSpells.Add(new GeoData
+			{
+				IndiSpell = "Indi-Frailty",
+				GeoSpell = "Geo-Frailty",
+				Position = geo_position,
+			});
+			geo_position++;
+
+			geoSpells.Add(new GeoData
+			{
+				IndiSpell = "Indi-Wilt",
+				GeoSpell = "Geo-Wilt",
+				Position = geo_position,
+			});
+			geo_position++;
+
+			geoSpells.Add(new GeoData
+			{
+				IndiSpell = "Indi-Malaise",
+				GeoSpell = "Geo-Malaise",
+				Position = geo_position,
+			});
+			geo_position++;
+
+			geoSpells.Add(new GeoData
+			{
+				IndiSpell = "Indi-Gravity",
+				GeoSpell = "Geo-Gravity",
+				Position = geo_position,
+			});
+			geo_position++;
+
+			geoSpells.Add(new GeoData
+			{
+				IndiSpell = "Indi-Fade",
+				GeoSpell = "Geo-Fade",
+				Position = geo_position,
+			});
+			geo_position++;
+
+			barSpells.Add(new SpellsData
+			{
+				Name = "Barfire",
+				Type = 1,
+				Position = 0,
+				BuffId = Buffs.Barfire,
+			});
+			barSpells.Add(new SpellsData
+			{
+				Name = "Barfira",
+				Type = 1,
+				Position = 0,
+				BuffId = Buffs.Barfire,
+				AoeVersion = true,
+			});
+			barSpells.Add(new SpellsData
+			{
+				Name = "Barstone",
+				Type = 1,
+				Position = 1,
+				BuffId = Buffs.Barstone,
+			});
+			barSpells.Add(new SpellsData
+			{
+				Name = "Barstonra",
+				Type = 1,
+				Position = 1,
+				BuffId = Buffs.Barstone,
+				AoeVersion = true,
+			});
+			barSpells.Add(new SpellsData
+			{
+				Name = "Barwater",
+				Type = 1,
+				Position = 2,
+				BuffId = Buffs.Barwater,
+			});
+			barSpells.Add(new SpellsData
+			{
+				Name = "Barwatera",
+				Type = 1,
+				Position = 2,
+				BuffId = Buffs.Barwater,
+				AoeVersion = true,
+			});
+			barSpells.Add(new SpellsData
+			{
+				Name = "Baraero",
+				Type = 1,
+				Position = 3,
+				BuffId = Buffs.Baraero
+			});
+			barSpells.Add(new SpellsData
+			{
+				Name = "Baraera",
+				Type = 1,
+				Position = 3,
+				BuffId = Buffs.Baraero,
+				AoeVersion = true,
+			});
+			barSpells.Add(new SpellsData
+			{
+				Name = "Barblizzard",
+				Type = 1,
+				Position = 4,
+				BuffId = Buffs.Barblind
+			});
+			barSpells.Add(new SpellsData
+			{
+				Name = "Barblizzara",
+				Type = 1,
+				Position = 4,
+				BuffId = Buffs.Barblizzard,
+				AoeVersion = true,
+			});
+			barSpells.Add(new SpellsData
+			{
+				Name = "Barthunder",
+				Type = 1,
+				Position = 5,
+				BuffId = Buffs.Barthunder
+			});
+			barSpells.Add(new SpellsData
+			{
+				Name = "Barthundra",
+				Type = 1,
+				Position = 5,
+				BuffId = Buffs.Barthunder,
+				AoeVersion = true,
+			});
+
+			barSpells.Add(new SpellsData
+			{
+				Name = "Baramnesia",
+				Type = 2,
+				Position = 0,
+				BuffId = Buffs.Baramnesia,
+			});
+			barSpells.Add(new SpellsData
+			{
+				Name = "Baramnesra",
+				Type = 2,
+				Position = 0,
+				BuffId = Buffs.Baramnesia,
+				AoeVersion = true,
+			});
+			barSpells.Add(new SpellsData
+			{
+				Name = "Barvirus",
+				Type = 2,
+				Position = 1,
+				BuffId = Buffs.Barvirus
+			});
+			barSpells.Add(new SpellsData
+			{
+				Name = "Barvira",
+				Type = 2,
+				Position = 1,
+				BuffId = Buffs.Barvirus,
+				AoeVersion = true,
+			});
+			barSpells.Add(new SpellsData
+			{
+				Name = "Barparalyze",
+				Type = 2,
+				Position = 2,
+				BuffId = Buffs.Barparalyze
+			});
+			barSpells.Add(new SpellsData
+			{
+				Name = "Barparalyzra",
+				Type = 2,
+				Position = 2,
+				BuffId = Buffs.Barparalyze,
+				AoeVersion = true,
+			});
+			barSpells.Add(new SpellsData
+			{
+				Name = "Barsilence",
+				Type = 2,
+				Position = 3,
+				BuffId = Buffs.Barsilence
+			});
+			barSpells.Add(new SpellsData
+			{
+				Name = "Barsilencera",
+				Type = 2,
+				Position = 3,
+				BuffId = Buffs.Barsilence,
+				AoeVersion = true,
+			});
+			barSpells.Add(new SpellsData
+			{
+				Name = "Barpetrify",
+				Type = 2,
+				Position = 4,
+				BuffId = Buffs.Barpetrify
+			});
+			barSpells.Add(new SpellsData
+			{
+				Name = "Barpetra",
+				Type = 2,
+				Position = 4,
+				BuffId = Buffs.Barpetrify,
+				AoeVersion = true,
+			});
+			barSpells.Add(new SpellsData
+			{
+				Name = "Barpoison",
+				Type = 2,
+				Position = 5,
+				BuffId = Buffs.Barpoison
+			});
+			barSpells.Add(new SpellsData
+			{
+				Name = "Barpoisonra",
+				Type = 2,
+				Position = 5,
+				BuffId = Buffs.Barpoison,
+				AoeVersion = true,
+			});
+			barSpells.Add(new SpellsData
+			{
+				Name = "Barblind",
+				Type = 2,
+				Position = 6,
+				BuffId = Buffs.Barblind
+			});
+			barSpells.Add(new SpellsData
+			{
+				Name = "Barblindra",
+				Type = 2,
+				Position = 6,
+				BuffId = Buffs.Barblind,
+				AoeVersion = true,
+			});
+			barSpells.Add(new SpellsData
+			{
+				Name = "Barsleep",
+				Type = 2,
+				Position = 7,
+				BuffId = Buffs.Barsleep
+			});
+			barSpells.Add(new SpellsData
+			{
+				Name = "Barsleepra",
+				Type = 2,
+				Position = 7,
+				BuffId = Buffs.Barsleep,
+				AoeVersion = true,
+			});
+
+			enSpells.Add(new SpellsData
+			{
+				Name = "Enfire",
+				Type = 1,
+				Position = 0,
+				BuffId = Buffs.Enfire
+			});
+			enSpells.Add(new SpellsData
+			{
+				Name = "Enstone",
+				Type = 1,
+				Position = 1,
+				BuffId = Buffs.Enstone
+			});
+			enSpells.Add(new SpellsData
+			{
+				Name = "Enwater",
+				Type = 1,
+				Position = 2,
+				BuffId = Buffs.Enwater
+			});
+			enSpells.Add(new SpellsData
+			{
+				Name = "Enaero",
+				Type = 1,
+				Position = 3,
+				BuffId = Buffs.Enaero
+			});
+			enSpells.Add(new SpellsData
+			{
+				Name = "Enblizzard",
+				Type = 1,
+				Position = 4,
+				BuffId = Buffs.Enblizzard
+			});
+			enSpells.Add(new SpellsData
+			{
+				Name = "Enthunder",
+				Type = 1,
+				Position = 5,
+				BuffId = Buffs.Enthunder
+			});
+
+			enSpells.Add(new SpellsData
+			{
+				Name = "Enfire II",
+				Type = 1,
+				Position = 6,
+				BuffId = Buffs.EnfireII
+			});
+			enSpells.Add(new SpellsData
+			{
+				Name = "Enstone II",
+				Type = 1,
+				Position = 7,
+				BuffId = Buffs.EnfireII
+			});
+			enSpells.Add(new SpellsData
+			{
+				Name = "Enwater II",
+				Type = 1,
+				Position = 8,
+				BuffId = Buffs.EnwaterII
+			});
+			enSpells.Add(new SpellsData
+			{
+				Name = "Enaero II",
+				Type = 1,
+				Position = 9,
+				BuffId = Buffs.EnaeroII
+			});
+			enSpells.Add(new SpellsData
+			{
+				Name = "Enblizzard II",
+				Type = 1,
+				Position = 10,
+				BuffId = Buffs.EnblizzardII
+			});
+			enSpells.Add(new SpellsData
+			{
+				Name = "Enthunder II",
+				Type = 1,
+				Position = 11,
+				BuffId = Buffs.EnthunderII
+			});
+
+			stormSpells.Add(new SpellsData
+			{
+				Name = "Firestorm",
+				Type = 1,
+				Position = 0,
+				BuffId = Buffs.Firestorm
+			});
+			stormSpells.Add(new SpellsData
+			{
+				Name = "Sandstorm",
+				Type = 1,
+				Position = 1,
+				BuffId = Buffs.Sandstorm
+			});
+			stormSpells.Add(new SpellsData
+			{
+				Name = "Rainstorm",
+				Type = 1,
+				Position = 2,
+				BuffId = Buffs.Rainstorm
+			});
+			stormSpells.Add(new SpellsData
+			{
+				Name = "Windstorm",
+				Type = 1,
+				Position = 3,
+				BuffId = Buffs.Windstorm
+			});
+			stormSpells.Add(new SpellsData
+			{
+				Name = "Hailstorm",
+				Type = 1,
+				Position = 4,
+				BuffId = Buffs.Hailstorm
+			});
+			stormSpells.Add(new SpellsData
+			{
+				Name = "Thunderstorm",
+				Type = 1,
+				Position = 5,
+				BuffId = Buffs.Thunderstorm
+			});
+			stormSpells.Add(new SpellsData
+			{
+				Name = "Voidstorm",
+				Type = 1,
+				Position = 6,
+				BuffId = Buffs.Voidstorm
+			});
+			stormSpells.Add(new SpellsData
+			{
+				Name = "Aurorastorm",
+				Type = 1,
+				Position = 7,
+				BuffId = Buffs.Aurorastorm
+			});
+
+			stormSpells.Add(new SpellsData
+			{
+				Name = "Firestorm II",
+				Type = 1,
+				Position = 8,
+				BuffId = Buffs.Firestorm2
+			});
+			stormSpells.Add(new SpellsData
+			{
+				Name = "Sandstorm II",
+				Type = 1,
+				Position = 9,
+				BuffId = Buffs.Sandstorm2
+			});
+			stormSpells.Add(new SpellsData
+			{
+				Name = "Rainstorm II",
+				Type = 1,
+				Position = 10,
+				BuffId = Buffs.Rainstorm2
+			});
+			stormSpells.Add(new SpellsData
+			{
+				Name = "Windstorm II",
+				Type = 1,
+				Position = 11,
+				BuffId = Buffs.Windstorm2
+			});
+			stormSpells.Add(new SpellsData
+			{
+				Name = "Hailstorm II",
+				Type = 1,
+				Position = 12,
+				BuffId = Buffs.Hailstorm2
+			});
+			stormSpells.Add(new SpellsData
+			{
+				Name = "Thunderstorm II",
+				Type = 1,
+				Position = 13,
+				BuffId = Buffs.Thunderstorm2
+			});
+			stormSpells.Add(new SpellsData
+			{
+				Name = "Voidstorm II",
+				Type = 1,
+				Position = 14,
+				BuffId = Buffs.Voidstorm2
+			});
+			stormSpells.Add(new SpellsData
+			{
+				Name = "Aurorastorm II",
+				Type = 1,
+				Position = 15,
+				BuffId = Buffs.Aurorastorm2
+			});
+			#endregion
+
+			var pol = Process.GetProcessesByName("pol").Union(Process.GetProcessesByName("xiloader")).Union(Process.GetProcessesByName("edenxi"));
 
 			if (pol.Count() < 1)
 			{
@@ -1535,12 +1535,12 @@
 			StartActionLoop();
 		}
 
-    private void HookDebugLog()
+		private void HookDebugLog()
 		{
 			// flicker fix
 			debugLog.GetType()
-				.GetProperty("DoubleBuffered", 
-					System.Reflection.BindingFlags.Instance | 
+				.GetProperty("DoubleBuffered",
+					System.Reflection.BindingFlags.Instance |
 					System.Reflection.BindingFlags.NonPublic)
 				.SetValue(debugLog, true, null);
 
@@ -1560,9 +1560,9 @@
 					}));
 				}
 			});
-    }
+		}
 
-    private void PaintBorderlessGroupBox(object sender, PaintEventArgs e)
+		private void PaintBorderlessGroupBox(object sender, PaintEventArgs e)
 		{
 			var box = sender as GroupBox;
 			DrawGroupBox(box, e.Graphics, Color.Black, Color.Gray);
@@ -2758,6 +2758,10 @@
 
 		private async Task<bool> CureCalculator(EliteAPI.PartyMember member, bool isPriority)
 		{
+			if (instanceMonitored.Player.Name == member.Name && member.CurrentHPP >= Form2.config.monitoredCurePercentage) return false;
+			else if (isPriority && member.CurrentHPP >= Form2.config.priorityCurePercentage) return false;
+			else if (member.CurrentHPP >= Form2.config.curePercentage) return false;
+
 			if (member.CurrentHP > 0)
 			{
 				var hpLoss = member.CurrentHP * 100 / member.CurrentHPP - member.CurrentHP;
@@ -5018,8 +5022,8 @@
 				for (var x = 0; x < 2048; x++)
 				{
 					var player = instancePrimary.Entity.GetEntity(x);
-					var luopanTarget = Form2.config.LuopanSpell_Target.ToLower();
-					if (player?.Name.ToLower() == luopanTarget)
+					var luopanTarget = Form2.config.LuopanSpell_Target?.ToLower() ?? "";
+					if (player?.Name?.ToLower() == luopanTarget)
 					{
 						return player.Status == (int)EntityStatus.Engaged;
 					}
@@ -5916,7 +5920,7 @@
 
 			for (var i = 0; i < 3 && !cancellationToken.IsCancellationRequested; i++)
 			{
-				await SendPrimaryCommand(spellCommand, 10);				
+				await SendPrimaryCommand(spellCommand, 10);
 
 				timer.Restart();
 				percent = instancePrimary.CastBar.Percent;
@@ -6492,10 +6496,10 @@
 					Log.Verbose($"Maybe curing {curable.Name} at {curable.CurrentHPP}% at {distance} yalms.");
 					var priority = highPriorityBoxes[curable.MemberNumber].Checked;
 					if (await CureCalculator(curable, priority))
-          {
+					{
 						Log.Debug($"Cured {curable.Name} from {curable.CurrentHPP}%");
 						return;
-          }
+					}
 				}
 			}
 
@@ -7096,12 +7100,15 @@
 						entrustedIndiSpell != "SpellUnknown" &&
 						entrustedIndiSpell != "SpellRecast")
 				{
-					if (await UseJobAbility("Entrust"))
+					if (CanCastSpell(entrustedIndiSpell))
 					{
-						var target = Form2.config.EntrustedSpell_Target;
-						if (string.IsNullOrWhiteSpace(target)) target = "<me>";
-						SetCurrentAction($"Entrust {entrustedIndiSpell} => {target}");
-						if (await CastSpell(target, entrustedIndiSpell)) return;
+						if (await UseJobAbility("Entrust"))
+						{
+							var target = Form2.config.EntrustedSpell_Target;
+							if (string.IsNullOrWhiteSpace(target)) target = "<me>";
+							SetCurrentAction($"Entrust {entrustedIndiSpell} => {target}");
+							if (await CastSpell(target, entrustedIndiSpell)) return;
+						}
 					}
 				}
 
@@ -7110,11 +7117,14 @@
 						regularIndiSpell != "SpellUnknown" &&
 						regularIndiSpell != "SpellRecast")
 				{
-					if (!HasAllBuffs(0, Buffs.ColureActive))
+					if (CanCastSpell(regularIndiSpell))
 					{
-						var target = "<me>";
-						SetCurrentAction($"Entrust {regularIndiSpell} => {target}");
-						if (await CastSpell(target, regularIndiSpell)) return;
+						if (!HasAllBuffs(0, Buffs.ColureActive))
+						{
+							var target = "<me>";
+							SetCurrentAction($"Entrust {regularIndiSpell} => {target}");
+							if (await CastSpell(target, regularIndiSpell)) return;
+						}
 					}
 				}
 
@@ -7122,31 +7132,34 @@
 						geoSpell != "SpellUnknown" &&
 						geoSpell != "SpellRecast")
 				{
-					if (instancePrimary.Player.Pet.HealthPercent < 1 && CanCastGeoSpell())
+					if (CanCastSpell(geoSpell))
 					{
-						if (Form2.config.BlazeOfGlory && GEO_EnemyCheck())
+						if (instancePrimary.Player.Pet.HealthPercent < 1 && CanCastGeoSpell())
 						{
-							if (await UseJobAbility("Blaze of Glory")) return;
-						}
-
-						if (instancePrimary.Resources.GetSpell(geoSpell, 0).ValidTargets == 5)
-						{
-							// party based targeting
-							var target = Form2.config.LuopanSpell_Target;
-							if (string.IsNullOrWhiteSpace(target)) target = "<me>";
-							SetCurrentAction($"Entrust {geoSpell} => {target}");
-							if (await CastSpell(target, geoSpell)) return;
-						}
-						else
-						{
-							// enemy based targeting
-							var targetId = GrabGEOTargetID();
-							if (targetId > 0)
+							if (Form2.config.BlazeOfGlory && GEO_EnemyCheck())
 							{
-								instancePrimary.Target.SetTarget(targetId);
-								await Task.Delay(1000);
+								if (await UseJobAbility("Blaze of Glory")) return;
+							}
 
-								if (await CastSpell("<t>", geoSpell)) return;
+							if (instancePrimary.Resources.GetSpell(geoSpell, 0).ValidTargets == 5)
+							{
+								// party based targeting
+								var target = Form2.config.LuopanSpell_Target;
+								if (string.IsNullOrWhiteSpace(target)) target = "<me>";
+								SetCurrentAction($"Entrust {geoSpell} => {target}");
+								if (await CastSpell(target, geoSpell)) return;
+							}
+							else
+							{
+								// enemy based targeting
+								var targetId = GrabGEOTargetID();
+								if (targetId > 0)
+								{
+									instancePrimary.Target.SetTarget(targetId);
+									await Task.Delay(1000);
+
+									if (await CastSpell("<t>", geoSpell)) return;
+								}
 							}
 						}
 					}
@@ -7154,8 +7167,9 @@
 
 				if (Form2.config.autoTarget)
 				{
-					if (Form2.config.Hate_SpellType == 1) // PARTY BASED HATE SPELL
+					if (Form2.config.Hate_SpellType == 1) 
 					{
+					// party based hate target
 						var enemyID = CheckEngagedStatus_Hate();
 						if (enemyID != 0 && enemyID != lastKnownEstablisherTarget)
 						{
@@ -7168,10 +7182,12 @@
 					}
 					else
 					{
+						// enemy based hate target
 						var enemyID = CheckEngagedStatus_Hate();
 						if (enemyID != 0 && enemyID != lastKnownEstablisherTarget)
 						{
 							instancePrimary.Target.SetTarget(enemyID);
+
 							await Task.Delay(500);
 							if (await CastSpell("<t>", Form2.config.autoTargetSpell))
 							{

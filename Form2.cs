@@ -4242,5 +4242,10 @@
 				na_AgiDown.Enabled = false;
 			}
 		}
-	}
+
+    private void GEOSpell_target_TextChanged(object sender, EventArgs e)
+    {
+
+    }
+  }
 }
