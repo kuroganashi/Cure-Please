@@ -2758,83 +2758,84 @@
 
 		private async Task<bool> CureCalculator(EliteAPI.PartyMember member, bool isPriority)
 		{
+			// skip cure if player hpp is greater than the configured threshold
 			if (instanceMonitored.Player.Name == member.Name && member.CurrentHPP >= Form2.config.monitoredCurePercentage) return false;
 			else if (isPriority && member.CurrentHPP >= Form2.config.priorityCurePercentage) return false;
 			else if (member.CurrentHPP >= Form2.config.curePercentage) return false;
+			else if (member.CurrentHP < 1) return false; // dead player
 
-			if (member.CurrentHP > 0)
+			// Example:
+			// 635hp * 100 = 6500 / 73hpp = 869hp - 635hp = 234 hp lost
+			var hpLoss = member.CurrentHP * 100 / member.CurrentHPP - member.CurrentHP;
+
+			if (Form2.config.cure6enabled && hpLoss >= Form2.config.cure6amount)
 			{
-				var hpLoss = member.CurrentHP * 100 / member.CurrentHPP - member.CurrentHP;
-
-				if (Form2.config.cure6enabled && hpLoss >= Form2.config.cure6amount)
+				var cureSpell = CureTiers("Cure VI", isPriority);
+				if (cureSpell != "false")
 				{
-					var cureSpell = CureTiers("Cure VI", isPriority);
-					if (cureSpell != "false")
+					if (await CastSpell(member.Name, cureSpell))
 					{
-						if (await CastSpell(member.Name, cureSpell))
-						{
-							return true;
-						}
+						return true;
 					}
 				}
+			}
 
-				else if (Form2.config.cure5enabled && hpLoss >= Form2.config.cure5amount)
+			else if (Form2.config.cure5enabled && hpLoss >= Form2.config.cure5amount)
+			{
+				var cureSpell = CureTiers("Cure V", isPriority);
+				if (cureSpell != "false")
 				{
-					var cureSpell = CureTiers("Cure V", isPriority);
-					if (cureSpell != "false")
+					if (await CastSpell(member.Name, cureSpell))
 					{
-						if (await CastSpell(member.Name, cureSpell))
-						{
-							return true;
-						}
+						return true;
 					}
 				}
+			}
 
-				else if (Form2.config.cure4enabled && hpLoss >= Form2.config.cure4amount)
+			else if (Form2.config.cure4enabled && hpLoss >= Form2.config.cure4amount)
+			{
+				var cureSpell = CureTiers("Cure IV", isPriority);
+				if (cureSpell != "false")
 				{
-					var cureSpell = CureTiers("Cure IV", isPriority);
-					if (cureSpell != "false")
+					if (await CastSpell(member.Name, cureSpell))
 					{
-						if (await CastSpell(member.Name, cureSpell))
-						{
-							return true;
-						}
+						return true;
 					}
 				}
+			}
 
-				else if (Form2.config.cure3enabled && hpLoss >= Form2.config.cure3amount)
+			else if (Form2.config.cure3enabled && hpLoss >= Form2.config.cure3amount)
+			{
+				var cureSpell = CureTiers("Cure III", isPriority);
+				if (cureSpell != "false")
 				{
-					var cureSpell = CureTiers("Cure III", isPriority);
-					if (cureSpell != "false")
+					if (await CastSpell(member.Name, cureSpell))
 					{
-						if (await CastSpell(member.Name, cureSpell))
-						{
-							return true;
-						}
+						return true;
 					}
 				}
+			}
 
-				else if (Form2.config.cure2enabled && hpLoss >= Form2.config.cure2amount)
+			else if (Form2.config.cure2enabled && hpLoss >= Form2.config.cure2amount)
+			{
+				var cureSpell = CureTiers("Cure II", isPriority);
+				if (cureSpell != "false")
 				{
-					var cureSpell = CureTiers("Cure II", isPriority);
-					if (cureSpell != "false")
+					if (await CastSpell(member.Name, cureSpell))
 					{
-						if (await CastSpell(member.Name, cureSpell))
-						{
-							return true;
-						}
+						return true;
 					}
 				}
+			}
 
-				else if (Form2.config.cure1enabled && hpLoss >= Form2.config.cure1amount)
+			else if (Form2.config.cure1enabled && hpLoss >= Form2.config.cure1amount)
+			{
+				var cureSpell = CureTiers("Cure", isPriority);
+				if (cureSpell != "false")
 				{
-					var cureSpell = CureTiers("Cure", isPriority);
-					if (cureSpell != "false")
+					if (await CastSpell(member.Name, cureSpell))
 					{
-						if (await CastSpell(member.Name, cureSpell))
-						{
-							return true;
-						}
+						return true;
 					}
 				}
 			}
@@ -7167,9 +7168,9 @@
 
 				if (Form2.config.autoTarget)
 				{
-					if (Form2.config.Hate_SpellType == 1) 
+					if (Form2.config.Hate_SpellType == 1)
 					{
-					// party based hate target
+						// party based hate target
 						var enemyID = CheckEngagedStatus_Hate();
 						if (enemyID != 0 && enemyID != lastKnownEstablisherTarget)
 						{
