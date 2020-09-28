@@ -17,6 +17,7 @@
 	using CurePlease.Properties;
 	using EliteMMO.API;
 	using Serilog;
+	using static EliteMMO.API.EliteAPI;
 
 	public partial class Form1 : Form
 	{
@@ -5835,63 +5836,62 @@
 			AddonReader.RunWorkerAsync();
 		}
 
-		private void FullCircle_Timer_Tick(object sender, EventArgs e)
+		private async void FullCircle_Timer_Tick(object sender, EventArgs e)
 		{
+			if (!Form2.config.FullCircle) return;
+			if (instancePrimary.Player.Pet.HealthPercent < 1) return;
 
-			if (instancePrimary.Player.Pet.HealthPercent >= 1)
+			var petIndex = instancePrimary.Player.PetIndex;
+			var petEntity = instancePrimary.Entity.GetEntity(petIndex);
+			var luopanTargetName = Form2.config.LuopanSpell_Target ?? "";
+			var useLuopanTarget = Form2.config.Fullcircle_GEOTarget;
+			var distance = 0D;
+
+			if (useLuopanTarget && !string.IsNullOrWhiteSpace(luopanTargetName))
 			{
-				var PetsIndex = instancePrimary.Player.PetIndex;
-
-				if (Form2.config.Fullcircle_GEOTarget == true && Form2.config.LuopanSpell_Target != "")
+				XiEntity target = null;
+				for (var x = 0; x < 2048; x++)
 				{
-					var PetsEntity = instancePrimary.Entity.GetEntity(PetsIndex);
-
-					var FullCircle_CharID = 0;
-
-					for (var x = 0; x < 2048; x++)
+					var entity = instancePrimary.Entity.GetEntity(x);
+					if (entity?.Name?.ToLower() == luopanTargetName?.ToLower())
 					{
-						var entity = instancePrimary.Entity.GetEntity(x);
-
-						if (entity.Name != null && entity.Name.ToLower().Equals(Form2.config.LuopanSpell_Target.ToLower()))
-						{
-							FullCircle_CharID = Convert.ToInt32(entity.TargetID);
-							break;
-						}
+						target = entity;
+						break;
 					}
-
-					if (FullCircle_CharID != 0)
-					{
-						var FullCircleEntity = instancePrimary.Entity.GetEntity(FullCircle_CharID);
-
-						var fX = PetsEntity.X - FullCircleEntity.X;
-						var fY = PetsEntity.Y - FullCircleEntity.Y;
-						var fZ = PetsEntity.Z - FullCircleEntity.Z;
-
-						var generatedDistance = (float)Math.Sqrt((fX * fX) + (fY * fY) + (fZ * fZ));
-
-						if (generatedDistance >= 10)
-						{
-							instancePrimary.ThirdParty.SendString("/ja \"Full Circle\" <me>");
-						}
-					}
-
 				}
-				else if (Form2.config.Fullcircle_GEOTarget == false && instanceMonitored.Player.Status == 1)
-				{
-					var SpellCheckedResult = ReturnGeoSpell(Form2.config.GeoSpell_Spell, 2);
-					if (Form2.config.Fullcircle_DisableEnemy != true || (Form2.config.Fullcircle_DisableEnemy == true && instancePrimary.Resources.GetSpell(SpellCheckedResult, 0).ValidTargets == 32))
-					{
-						var PetsEntity = instanceMonitored.Entity.GetEntity(PetsIndex);
 
-						if (PetsEntity.Distance >= 10 && PetsEntity.Distance != 0 && CanUseJobAbility("Full Circle"))
-						{
-							instancePrimary.ThirdParty.SendString("/ja \"Full Circle\" <me>");
-						}
-					}
+				if (target != null)
+				{
+					distance = Math.Sqrt(
+						Math.Pow(target.X - petEntity.X, 2) +
+						Math.Pow(target.Y - petEntity.Y, 2) +
+						Math.Pow(target.Z - petEntity.Z, 2));
 				}
 			}
 
-			FullCircle_Timer.Enabled = false;
+			if (distance < 1 && instanceMonitored.Player.Status == (int)EntityStatus.Engaged)
+			{
+				var player = instanceMonitored.Entity.GetLocalPlayer();
+				var pet = instanceMonitored.Entity.GetEntity(petIndex);
+
+				if (pet != null)
+				{
+					distance = Math.Sqrt(
+						Math.Pow(player.X - pet.X, 2) +
+						Math.Pow(player.Y - pet.Y, 2) +
+						Math.Pow(player.Z - pet.Z, 2));
+				}
+			}
+
+			if (distance > 0)
+			{
+				Log.Debug($"Using full circle.");
+				Log.Debug($"Luopan is {distance} yalms away.");
+				if (await UseJobAbility("Full Circle", "<me>"))
+				{
+					return;
+				}
+			}
 		}
 
 		private void AddOnStatus_Click(object sender, EventArgs e)

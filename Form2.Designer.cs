@@ -7972,6 +7972,11 @@
 			// curePotency
 			// 
 			this.curePotency.Location = new System.Drawing.Point(67, 20);
+			this.curePotency.Maximum = new decimal(new int[] {
+            200,
+            0,
+            0,
+            0});
 			this.curePotency.Name = "curePotency";
 			this.curePotency.Size = new System.Drawing.Size(68, 21);
 			this.curePotency.TabIndex = 24;
