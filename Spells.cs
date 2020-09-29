@@ -977,10 +977,15 @@ namespace CurePlease
 
 		public static int GetMpCost(string name)
     {
-			var spell = spells.FirstOrDefault(x =>
-				x.Name.ToLower() == name.ToLower());
+			foreach (var spell in spells)
+      {
+				if (spell.Name.ToLower() == name.ToLower())
+        {
+					return spell.MpCost;
+        }
+      }
 
-			return spell?.MpCost ?? 99999;
+			return 9999;
 		}
 	}
 
@@ -993,7 +998,7 @@ namespace CurePlease
 		{
 			Name = name;
 			CastTime = castTime;
-			MpCost = MpCost;
+			MpCost = mpCost;
 		}
 	}
 }

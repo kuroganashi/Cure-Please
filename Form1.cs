@@ -2030,12 +2030,35 @@
 
 		public bool CanCastSpell(string spellName)
 		{
-			return
-				IsStandingStill() &&
-				HasRequiredJobLevel(spellName) &&
-				HasAcquiredSpell(spellName) &&
-				SpellReadyToCast(spellName) &&
-				Spells.GetMpCost(spellName) <= instancePrimary.Player.MP;
+			var currentMp = instancePrimary.Player.MP;
+			var requiredMp = Spells.GetMpCost(spellName);
+
+			if (!HasRequiredJobLevel(spellName) ||
+					!HasAcquiredSpell(spellName))
+			{
+				Log.Debug($"Can't cast {spellName}; spell not acquired or job level insufficient");
+				return false;
+			}
+
+			if (!SpellReadyToCast(spellName))
+			{
+				Log.Debug($"Can't cast {spellName}; recast on cooldown");
+				return false;
+			}
+
+			if (requiredMp > currentMp)
+			{
+				Log.Debug($"Can't cast {spellName}; mp required: {requiredMp}; current mp: {currentMp}");
+				return false;
+			}
+
+			if (!IsStandingStill())
+			{
+				Log.Debug($"Can't cast {spellName}; player is moving");
+				return false;
+			}
+
+			return true;
 		}
 
 		public bool CanUseJobAbility(string name)
@@ -3264,6 +3287,17 @@
 			}
 
 			Log.Debug("Casting lock unavailable.");
+			return false;
+		}
+
+		private bool ChatLogContains(string query)
+		{
+			for (var i = 0; i < instancePrimary.Chat.LineCount; i++)
+			{
+				var line = instancePrimary.Chat.GetNextChatLine();
+				if (line.Text.Contains(query)) return true;
+			}
+
 			return false;
 		}
 
@@ -5935,11 +5969,15 @@
 						break;
 					}
 
-					if (timer.ElapsedMilliseconds >= 1000)
+					if (timer.ElapsedMilliseconds >= 2000)
 					{
-						Log.Verbose("Casting never started.");
-						Log.Verbose("Maybe unable to cast at this time.");
-						break;
+						if (ChatLogContains("Unable to cast at this time..."))
+						{
+							Log.Debug("Spell casting failed due to concurrent spells.");
+							break; 
+						}
+
+						return false;
 					}
 
 					Log.Verbose($"Waiting; percent={percent}");
@@ -6494,11 +6532,14 @@
 				var distance = GetDistanceFromPl(curable);
 				if (distance > -1 && distance < 21f)
 				{
-					Log.Verbose($"Maybe curing {curable.Name} at {curable.CurrentHPP}% at {distance} yalms.");
+					var beforeHp = curable.CurrentHP;
+					var beforeHpp = curable.CurrentHPP;
 					var priority = highPriorityBoxes[curable.MemberNumber].Checked;
 					if (await CureCalculator(curable, priority))
 					{
-						Log.Debug($"Cured {curable.Name} from {curable.CurrentHPP}%");
+						var afterHp = curable.CurrentHP;
+						var afterHpp = curable.CurrentHPP;
+						Log.Debug($"Cured {curable.Name} from {beforeHp} ({beforeHpp}%) to {afterHp} ({afterHpp}%)");
 						return;
 					}
 				}
@@ -7099,7 +7140,8 @@
 
 				if (entrustedIndiSpell != "SpellError_Cancel" &&
 						entrustedIndiSpell != "SpellUnknown" &&
-						entrustedIndiSpell != "SpellRecast")
+						entrustedIndiSpell != "SpellRecast" &&
+						entrustedIndiSpell != "SpellNA")
 				{
 					if (CanCastSpell(entrustedIndiSpell))
 					{
@@ -7116,7 +7158,8 @@
 
 				if (regularIndiSpell != "SpellError_Cancel" &&
 						regularIndiSpell != "SpellUnknown" &&
-						regularIndiSpell != "SpellRecast")
+						regularIndiSpell != "SpellRecast" &&
+						regularIndiSpell != "SpellNA")
 				{
 					if (CanCastSpell(regularIndiSpell))
 					{
@@ -7131,11 +7174,12 @@
 
 				if (geoSpell != "SpellError_Cancel" &&
 						geoSpell != "SpellUnknown" &&
-						geoSpell != "SpellRecast")
+						geoSpell != "SpellRecast" &&
+						geoSpell != "SpellNA")
 				{
-					if (CanCastSpell(geoSpell))
+					if (instancePrimary.Player.Pet.HealthPercent < 1 && CanCastGeoSpell())
 					{
-						if (instancePrimary.Player.Pet.HealthPercent < 1 && CanCastGeoSpell())
+						if (CanCastSpell(geoSpell))
 						{
 							if (Form2.config.BlazeOfGlory && GEO_EnemyCheck())
 							{
